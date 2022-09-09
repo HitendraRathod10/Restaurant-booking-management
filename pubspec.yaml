@@ -27,6 +27,22 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  provider: ^6.0.3
+  firebase_auth: ^3.8.0
+  firebase_core: ^1.22.0
+  cloud_firestore: ^3.4.7
+  shared_preferences: ^2.0.15
+  firebase_storage: ^10.3.8
+  path_provider: ^2.0.11
+  permission_handler: ^10.0.0
+  fluttertoast: ^8.0.9
+  flutter_rating_bar: ^4.0.1
+  intl: ^0.17.0
+  google_maps_flutter: ^2.2.0
+  flutter_native_image: ^0.0.6+1
+  file_picker: ^5.0.1
+  url_launcher: ^6.1.5
+
   flutter:
     sdk: flutter
 
@@ -56,6 +72,8 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  assets:
+    - assets/images/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
@@ -73,6 +91,34 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+  fonts:
+    - family: Outfit_Black
+      fonts:
+        - asset: assets/fonts/Outfit-Black.ttf
+    - family: Outfit_Bold
+      fonts:
+        - asset: assets/fonts/Outfit-Bold.ttf
+    - family: Outfit_ExtraBold
+      fonts:
+        - asset: assets/fonts/Outfit-ExtraBold.ttf
+    - family: Outfit_ExtraLight
+      fonts:
+        - asset: assets/fonts/Outfit-ExtraLight.ttf
+    - family: Outfit_Light
+      fonts:
+        - asset: assets/fonts/Outfit-Light.ttf
+    - family: Outfit_Medium
+      fonts:
+        - asset: assets/fonts/Outfit-Medium.ttf
+    - family: Outfit_Regular
+      fonts:
+        - asset: assets/fonts/Outfit-Regular.ttf
+    - family: Outfit_SemiBold
+      fonts:
+        - asset: assets/fonts/Outfit-SemiBold.ttf
+    - family: Outfit_Thin
+      fonts:
+        - asset: assets/fonts/Outfit-Thin.ttf
   # fonts:
   #   - family: Schyler
   #     fonts:
