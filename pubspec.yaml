@@ -36,6 +36,7 @@ dependencies:
   path_provider: ^2.0.11
   permission_handler: ^10.0.0
   fluttertoast: ^8.0.9
+  flutter_easyloading: ^3.0.5
   flutter_rating_bar: ^4.0.1
   intl: ^0.17.0
   google_maps_flutter: ^2.2.0
