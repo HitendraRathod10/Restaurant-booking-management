@@ -7,7 +7,9 @@ import '../../Signup/design/signup_screen_admin.dart';
 import '../../utils/mixin_textformfield.dart';
 
 class ResetPassword extends StatefulWidget {
-  const ResetPassword({Key? key}) : super(key: key);
+  // const ResetPassword({Key? key}) : super(key: key);
+  String? check;
+  ResetPassword({this.check});
 
   @override
   State<ResetPassword> createState() => _ResetPasswordState();
@@ -99,7 +101,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                   const SizedBox(
                     height: 40,
                   ),
-                  Row(
+                  widget.check == "Edit" ? SizedBox() :Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text("Don't Have An Account Yet? "),

@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_booking_management/User/All%20Restaurant%20List/design/all_restaurants_screen.dart';
 import 'package:restaurant_booking_management/User/My%20Booking/design/my_booking_screen.dart';
-import 'package:restaurant_booking_management/User/Profile/design/profile_screen.dart';
+import 'package:restaurant_booking_management/User/Profile/design/profile_screen_user.dart';
 import 'package:restaurant_booking_management/utils/app_font.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -28,7 +28,7 @@ class _HomeScreenUserState extends State<HomeScreenUser> {
       const AllRestaurantsScreen(),
       const MapScreen(),
       const MyBookingScreen(),
-      const ProfileScreen()
+      const ProfileScreenUser()
     ];
   }
 

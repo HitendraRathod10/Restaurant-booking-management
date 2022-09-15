@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:restaurant_booking_management/Admin/Add%20Restaurant/design/add_restaurant_screen.dart';
+import 'package:restaurant_booking_management/Admin/My%20Restaurants/design/my_restaurants_screen.dart';
+import 'package:restaurant_booking_management/Admin/Permission/design/permission_screen_admin.dart';
 import 'package:restaurant_booking_management/Login/design/login_screen.dart';
 import 'package:restaurant_booking_management/utils/app_image.dart';
 import 'package:restaurant_booking_management/utils/dashboard_widget.dart';
@@ -8,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../utils/app_color.dart';
 import '../../../utils/app_font.dart';
+import '../../Profile/design/profile_screen_admin.dart';
 
 class HomeScreenAdmin extends StatefulWidget {
   const HomeScreenAdmin({Key? key}) : super(key: key);
@@ -22,6 +26,7 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
     SharedPreferences prefg = await SharedPreferences.getInstance();
     prefg.setBool("key", true);
   }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -34,7 +39,11 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: AppColor.appColor,
+          backgroundColor: AppColor.appColor.withOpacity(0.9),
+          title: Transform.translate(
+            offset: const Offset(-20.0, 0.0),
+              child: const Text("Home",style: TextStyle(fontFamily: AppFont.semiBold),)
+          ),
         ),
         drawer: Drawer(
         backgroundColor: AppColor.white,
@@ -53,8 +62,10 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                     SizedBox(
                       height: 150,
                       child: DrawerHeader(
+                          margin: const EdgeInsets.fromLTRB(20,18,00,00),
+                          padding: const EdgeInsets.all(0.0),
                           decoration: const BoxDecoration(
-                            color: AppColor.white,
+                            // color: AppColor.red_bg,
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,7 +89,7 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children:  [
                                   const SizedBox(height: 5),
-                                  Text('${data['fullName']}',style: TextStyle(fontSize: 18,fontFamily: AppFont.regular),overflow: TextOverflow.ellipsis),
+                                  Text('${data['fullName']}',style: const TextStyle(fontSize: 18,fontFamily: AppFont.regular),overflow: TextOverflow.ellipsis),
                                   Text('${FirebaseAuth.instance.currentUser?.email}',style: const TextStyle(color: AppColor.blackColor,fontFamily: AppFont.regular),overflow: TextOverflow.ellipsis),
                                 ],
                               ),
@@ -86,7 +97,7 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                           )
                       ),
                     ),
-                    Divider(height: 1,color: AppColor.greyDivider,),
+                    const Divider(height: 1,color: AppColor.greyDivider,),
                     SizedBox(
                       height: 40,
                       child: ListTile(
@@ -101,10 +112,7 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                       leading: const Icon(Icons.person),
                       title: const Text('Profile',style: TextStyle(fontFamily: AppFont.medium)),
                       onTap: () {
-                        Navigator.pop(context);
-                        // Get.to(const EmployeeProfileScreen(),
-                        //     duration: const Duration(seconds: 1),
-                        //     transition: Transition.rightToLeftWithFade);
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>const ProfileScreenAdmin()));
                       },
                     ),
                     const Divider(height: 1,color: AppColor.greyDivider,),
@@ -114,8 +122,8 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                       onTap: ()  async {
                         SharedPreferences prefg = await SharedPreferences.getInstance();
                         prefg.clear();
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
                         FirebaseAuth.instance.signOut();
+                        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>LoginScreen()), (route) => false);
                       },
                     ),
                   ],
@@ -129,15 +137,45 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
             children: [
               Padding(
                 padding: const EdgeInsets.fromLTRB(100, 10, 10, 00),
-                child: dashboardDetailsWidget("${AppImage.home}", "My Restaurants", "description", AppColor.lightOrange),
+                child: InkWell(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>MyRestaurantsScreen()));
+                  },
+                    child: dashboardDetailsWidget(
+                        AppImage.r1,
+                        "My Restaurants",
+                        "",
+                        AppColor.lightOrange
+                    )
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(10, 20, 100, 00),
-                child: dashboardDetailsWidget("${AppImage.home}", "My Restaurants", "description", AppColor.lightGreen.withOpacity(0.4)),
+                child: InkWell(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>AddRestaurantScreen()));
+                    },
+                    child: dashboardDetailsWidget(
+                        AppImage.addRestaurant,
+                        "Add Restaurants",
+                        "",
+                        AppColor.lightGreen.withOpacity(0.4)
+                    )
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(100, 20, 10, 00),
-                child: dashboardDetailsWidget("${AppImage.home}", "My Restaurants", "description", AppColor.lightBlue.withOpacity(0.4)),
+                child: InkWell(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>PermissionScreenAdmin()));
+                    },
+                    child: dashboardDetailsWidget(
+                        AppImage.yesnoThree,
+                        "Permission",
+                        "",
+                        AppColor.lightBlue.withOpacity(0.4)
+                    )
+                ),
               )
             ],
           ),

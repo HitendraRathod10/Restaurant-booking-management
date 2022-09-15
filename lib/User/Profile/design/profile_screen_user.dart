@@ -1,21 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant_booking_management/Admin/Profile/design/edit_profile_screen_admin.dart';
+import 'package:restaurant_booking_management/User/Profile/design/edit_profile_screen_user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../../Admin/Home/design/home_screen_admin.dart';
 import '../../../Login/design/login_screen.dart';
 import '../../../utils/app_color.dart';
 import '../../../utils/app_font.dart';
-import '../../Home/design/home_screen_admin.dart';
+import '../../Home/design/home_screen_user.dart';
 
-class ProfileScreenAdmin extends StatefulWidget {
-  const ProfileScreenAdmin({Key? key}) : super(key: key);
+class ProfileScreenUser extends StatefulWidget {
+  const ProfileScreenUser({Key? key}) : super(key: key);
 
   @override
-  State<ProfileScreenAdmin> createState() => _ProfileScreenAdminState();
+  State<ProfileScreenUser> createState() => _ProfileScreenUserState();
 }
 
-class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
+class _ProfileScreenUserState extends State<ProfileScreenUser> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -30,7 +31,14 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
                 }
                 else if (!snapshot.hasData || !snapshot.data!.exists) {
                   debugPrint('Document does not exist');
-                  return const Center(child: CircularProgressIndicator());
+                  return Column(
+                    children: [
+                      Container(
+                        height: MediaQuery.of(context).size.height/2.5,
+                      ),
+                      CircularProgressIndicator(),
+                    ],
+                  );
                 } else if(snapshot.requireData.exists){
                   Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
                   return Column(
@@ -40,8 +48,8 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
                             Container(
                               height: MediaQuery.of(context).size.height/3,
                               decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.only(bottomRight: Radius.circular(60),bottomLeft: Radius.circular(60)),
-                                // color: AppColor.appColor.withOpacity(0.2),
+                                  borderRadius: const BorderRadius.only(bottomRight: Radius.circular(60),bottomLeft: Radius.circular(60)),
+                                  // color: AppColor.appColor.withOpacity(0.2),
                                   gradient: LinearGradient(
                                       begin: Alignment.centerRight,
                                       end: Alignment.centerLeft,
@@ -98,8 +106,8 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
                                 top: 20,
                                 child: GestureDetector(
                                   onTap: (){
-                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>EditProfileScreenAdmin()));
-                                    // Get.to(const EmployeeProfileScreen());
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>EditProfileScreenUser()));
+                                    // Get.to(const EmployeeProfileScreenUser());
                                   },
                                   child: Container(
                                       padding: const EdgeInsets.all(10),
@@ -110,12 +118,12 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
                                       child: const Icon(Icons.edit,color: AppColor.white,)),
                                 )
                             ),
-                            Positioned(
+                            /*Positioned(
                                 left: 10,
                                 top: 20,
                                 child: GestureDetector(
                                   onTap: (){
-                                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreenAdmin()), (route) => false);
+                                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreenUser()), (route) => false);
                                   },
                                   child: Container(
                                       padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -125,7 +133,7 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
                                       ),
                                       child: const Icon(Icons.arrow_back_ios_rounded,color: AppColor.white,)),
                                 )
-                            )
+                            )*/
                           ]
                       ),
                       Container(
@@ -240,8 +248,8 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
                             height: 50,
                             width: 90,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              // color: AppColor.lightBlue
+                                borderRadius: BorderRadius.circular(10),
+                                // color: AppColor.lightBlue
                                 gradient: LinearGradient(
                                     begin: Alignment.centerRight,
                                     end: Alignment.centerLeft,
@@ -262,9 +270,23 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
                     ],
                   );
                 } else if (snapshot.connectionState == ConnectionState.done) {
-                  return const Center(child: CircularProgressIndicator(),);
+                  return Column(
+                    children: [
+                      Container(
+                        height: MediaQuery.of(context).size.height/2.5,
+                      ),
+                      CircularProgressIndicator(),
+                    ],
+                  );
                 } else{
-                  return const Center(child: CircularProgressIndicator(),);
+                  return Column(
+                    children: [
+                      Container(
+                        height: MediaQuery.of(context).size.height/2.5,
+                      ),
+                      CircularProgressIndicator(),
+                    ],
+                  );
                 }
               }
           ),

@@ -9,7 +9,12 @@ Widget dashboardDetailsWidget(
   return Card(
       elevation: 5,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(topRight: Radius.circular(20),bottomRight: Radius.circular(20)),
+        borderRadius: BorderRadius.only(
+            // topRight: Radius.circular(20),
+            // bottomRight: Radius.circular(20),
+          topLeft: Radius.circular(70),
+          bottomLeft: Radius.circular(70)
+        ),
       ),
 
       child: Container(
@@ -17,7 +22,12 @@ Widget dashboardDetailsWidget(
         height: 150,
         decoration:  BoxDecoration(
           color: color,
-          borderRadius: const BorderRadius.only(topRight: Radius.circular(20),bottomRight: Radius.circular(20)),
+          borderRadius: const BorderRadius.only(
+              // topRight: Radius.circular(20),
+             // bottomRight: Radius.circular(20),
+              topLeft: Radius.circular(70),
+              bottomLeft: Radius.circular(70)
+          ),
           // gradient:  LinearGradient(
           //   colors: [
           //     Colors.white,
@@ -45,7 +55,7 @@ Widget dashboardDetailsWidget(
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
-                    top: 5,),
+                    top: 15,),
                   child: Text(title,
                       style: const TextStyle(
                           fontSize: 16, fontFamily: AppFont.medium),
