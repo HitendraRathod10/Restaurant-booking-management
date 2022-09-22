@@ -1,28 +1,27 @@
 import 'package:flutter/material.dart';
-import '../../../utils/app_color.dart';
-import '../../../utils/app_font.dart';
-import '../../../utils/app_image.dart';
+import 'package:restaurant_booking_management/utils/app_color.dart';
+import 'package:restaurant_booking_management/utils/app_font.dart';
 
-class PermissionScreenAdmin extends StatefulWidget {
-  const PermissionScreenAdmin({Key? key}) : super(key: key);
+class MyBookingStatusScreen extends StatefulWidget {
+  const MyBookingStatusScreen({Key? key}) : super(key: key);
 
   @override
-  State<PermissionScreenAdmin> createState() => _PermissionScreenAdminState();
+  State<MyBookingStatusScreen> createState() => _MyBookingStatusScreenState();
 }
 
-class _PermissionScreenAdminState extends State<PermissionScreenAdmin> {
+class _MyBookingStatusScreenState extends State<MyBookingStatusScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          backgroundColor: AppColor.appColor.withOpacity(0.9),
-          title: Text("Permission Screen"),
+          automaticallyImplyLeading: false,
+          title: const Text("My booking"),
         ),
         body: ListView.builder(
-            itemCount: 10,
-            itemBuilder: (context,index){
+          itemCount: 10,
+          itemBuilder: (context,index){
               return SizedBox(
                 // height: 92,
                 child: Card(
@@ -39,7 +38,7 @@ class _PermissionScreenAdminState extends State<PermissionScreenAdmin> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text("Hitendra Rathod",
+                            const Text("Kshitij Restaurant",
                               style: TextStyle(
                                   fontSize: 25,
                                   fontFamily: AppFont.semiBold
@@ -51,19 +50,19 @@ class _PermissionScreenAdminState extends State<PermissionScreenAdmin> {
                             Row(
                               children: const [
                                 Text("Sep 21,2022",
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      fontFamily: AppFont.regular
-                                  ),
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: AppFont.regular
+                                ),
                                 ),
                                 SizedBox(
                                   width: 10,
                                 ),
                                 Text("20:30",
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      fontFamily: AppFont.regular
-                                  ),
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: AppFont.regular
+                                ),
                                 ),
                               ],
                             ),
@@ -71,29 +70,31 @@ class _PermissionScreenAdminState extends State<PermissionScreenAdmin> {
                               height: 07,
                             ),
                             const Text("5 Persons",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  fontFamily: AppFont.regular
-                              ),
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontFamily: AppFont.regular
+                            ),
                             )
                           ],
                         ),
                         const Spacer(),
-                        Image.asset(
-                          AppImage.greenYes,
-                          height: 30,
-                          width: 30,
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Image.asset(
-                          AppImage.redNo,
-                          height: 30,
-                          width: 30,
-                        ),
-                        // Icon(Icons.check_circle_outline,color: Colors.green,),
-                        // Icon(Icons.cancel_outlined,color: Colors.red,)
+                        Container(
+                          padding: const EdgeInsets.all(07),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(05),
+                            border: Border.all(
+                              width: 1,
+                              color: Colors.grey.shade600,
+                            ),
+                          ),
+                          child: Text("Pending",
+                          style: TextStyle(
+                            color: Colors.grey.shade600,
+                            fontFamily: AppFont.regular,
+                            fontSize: 20
+                          ),
+                          ),
+                        )
                       ],
                     ),
                   ),

@@ -58,17 +58,20 @@ class _EditProfileScreenUserState extends State<EditProfileScreenUser> {
                           // const SizedBox(height: 5),
                           TextFieldMixin().textFieldWidget(
                             labelText: 'FullName',
+                            labelStyle: TextStyle(color: AppColor.appColor),
                             controller: fullNameController..text = data['fullName'],
                           ),
                           const SizedBox(height: 10),
                           TextFieldMixin().textFieldWidget(
                             labelText: 'Email',
+                            labelStyle: TextStyle(color: AppColor.appColor),
                             controller: emailController..text = data['email'],
                             readOnly: true,
                           ),
                           const SizedBox(height: 10),
                           TextFieldMixin().textFieldWidget(
                             labelText: 'Phone',
+                            labelStyle: TextStyle(color: AppColor.appColor),
                             controller: phoneController..text = data['phone'],
                             keyboardType: TextInputType.phone,
                           ),

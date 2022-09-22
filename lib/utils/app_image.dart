@@ -24,4 +24,16 @@ class AppImage{
   static const yesnoTwo="assets/images/yesnoTwo.png";
   static const yesnoThree="assets/images/yesnoThree.png";
   static const r1="assets/images/r1.png";
+  static const dish="assets/images/dish.png";
+  static const dishTwo="assets/images/dishTwo.png";
+  static const colorDish="assets/images/colorDish.png";
+  static const rest1="assets/images/rest1.jpeg";
+  static const rest2="assets/images/rest2.jpeg";
+  static const website="assets/images/website.png";
+  static const profile="assets/images/profile.png";
+  static const userOutline="assets/images/userOutline.png";
+  static const yesGreen="assets/images/yesGreen.png";
+  static const noRed="assets/images/noRed.png";
+  static const greenYes="assets/images/greenYes.png";
+  static const redNo="assets/images/redNo.png";
 }

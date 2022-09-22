@@ -51,24 +51,27 @@ class _EditProfileScreenAdminState extends State<EditProfileScreenAdmin> {
                   children: [
                     const SizedBox(height: 20),
                     Container(
-                      margin: const EdgeInsets.only(top:5),
+                      margin: const EdgeInsets.only(top:00),
                       padding: const EdgeInsets.all(10),
                       child: Column(
                         children: [
                           // const SizedBox(height: 5),
                           TextFieldMixin().textFieldWidget(
                             labelText: 'FullName',
+                            labelStyle: TextStyle(color: AppColor.appColor),
                             controller: fullNameController..text = data['fullName'],
                           ),
                           const SizedBox(height: 10),
                           TextFieldMixin().textFieldWidget(
                             labelText: 'Email',
+                            labelStyle: TextStyle(color: AppColor.appColor),
                             controller: emailController..text = data['email'],
                             readOnly: true,
                           ),
                           const SizedBox(height: 10),
                           TextFieldMixin().textFieldWidget(
                             labelText: 'Phone',
+                            labelStyle: TextStyle(color: AppColor.appColor),
                             controller: phoneController..text = data['phone'],
                             keyboardType: TextInputType.phone,
                           ),
