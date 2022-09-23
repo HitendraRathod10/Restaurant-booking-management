@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -15,21 +16,23 @@ class _MapScreenState extends State<MapScreen> {
 
   late GoogleMapController mapController;
   final Set<Marker> markers = {};
+  final firebase = FirebaseFirestore.instance;
 
   @override
   void initState() {
     super.initState();
     // FirebaseCollection().shopCollection.get().then((value) {
-    //   for(int i=0;i<value.docs.length;i++){
-    //     markers.add(Marker(markerId: MarkerId(value.docs[i].id),
-    //         infoWindow:  InfoWindow(title: value.docs[i]['shopName']),
-    //         position: LatLng(double.parse(value.docs[i]["latitude"]),double.parse(value.docs[i]["longitude"])),
-    //         icon: BitmapDescriptor.defaultMarkerWithHue(
-    //           BitmapDescriptor.hueRed,
-    //         )),
-    //     );
-    //   }
-    // });
+    firebase.collection('All Restaurants').get().then((value) {
+      for(int i=0;i<value.docs.length;i++){
+        markers.add(Marker(markerId: MarkerId(value.docs[i].id),
+            infoWindow:  InfoWindow(title: value.docs[i]['name']),
+            position: LatLng(double.parse(value.docs[i]["latitude"]),double.parse(value.docs[i]["longitude"])),
+            icon: BitmapDescriptor.defaultMarkerWithHue(
+              BitmapDescriptor.hueRed,
+            )),
+        );
+      }
+    });
   }
 
   void _onMapCreated(GoogleMapController controller) {
@@ -43,7 +46,7 @@ class _MapScreenState extends State<MapScreen> {
           appBar: AppBar(
             centerTitle: true,
             automaticallyImplyLeading: false,
-            title: Text("Map Screen"),
+            title: const Text("Map Screen"),
           ),
           body: FutureBuilder<LocationData?>(
               future: CurrentLocation.instance.currentLocation(),

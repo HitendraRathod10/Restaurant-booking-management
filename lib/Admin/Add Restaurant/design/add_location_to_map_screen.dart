@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:restaurant_booking_management/utils/app_color.dart';
+import 'package:restaurant_booking_management/utils/mixin_toast.dart';
 
 import '../provider/current_location.dart';
 
@@ -64,6 +66,11 @@ class _AddLocationToMapScreenState extends State<AddLocationToMapScreen> {
                         // const SnackBar(content: Text("hello",style: TextStyle(color: Colors.white))
                         //     ,backgroundColor: Colors.red);
                         Future.delayed(const Duration(milliseconds: 2000), () {
+                          showToast(
+                            toastMessage: "Location added successfully.",
+                            backgroundColor: AppColor.appColor,
+                            textColor: AppColor.white
+                          );
                           setState(() {
                             Navigator.pop(context,latLng);
                           });

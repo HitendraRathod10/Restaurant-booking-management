@@ -125,7 +125,7 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
                     builder: (context, snapshot,_) {
                       return Row(
                         children: [
-                          snapshot.barberFile == null ?
+                          snapshot.restaurantImageFile == null ?
                           InkWell(
                             onTap: (){
                               snapshot.selectBarberImage(context);
@@ -140,7 +140,7 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
                             ),
                           ) :
                           Image.file(
-                              snapshot.barberFile!,
+                              snapshot.restaurantImageFile!,
                               height: 120,
                               width: MediaQuery.of(context).size.height/3.9,
                               fit: BoxFit.fitWidth
