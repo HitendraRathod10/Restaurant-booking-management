@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_booking_management/Admin/Add%20Restaurant/provider/add_restaurant_provider.dart';
+import 'package:restaurant_booking_management/Admin/My%20Restaurants/provider/update_restaurant_details_provider.dart';
 import 'package:restaurant_booking_management/Login/provider/login_provider.dart';
 import 'package:restaurant_booking_management/Login/provider/reset_password_provider.dart';
 import 'package:restaurant_booking_management/Signup/provider/signup_provider.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => LoginProvider()),
         ChangeNotifierProvider(create: (context) => ResetPasswordProvider()),
         ChangeNotifierProvider(create: (context) => AddRestaurantProvider()),
+        ChangeNotifierProvider(create: (context) => UpdateRestaurantDetailsProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

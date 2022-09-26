@@ -58,7 +58,7 @@ class _MyRestaurantsScreenState extends State<MyRestaurantsScreen> {
                     children: <Widget>[
                       InkWell(
                         onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>MyRestaurantOverview()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>MyRestaurantOverview(doc: snapshot.data!.docChanges[index].doc,)));
                         },
                         child: Card(
                           color: Colors.white.withOpacity(1.0),

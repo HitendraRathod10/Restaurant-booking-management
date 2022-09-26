@@ -1,11 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:restaurant_booking_management/Admin/My%20Restaurants/design/update_restaurant_details.dart';
 import 'package:restaurant_booking_management/utils/app_font.dart';
 
 import '../../../utils/app_color.dart';
 
 class MyRestaurantOverview extends StatefulWidget {
-  const MyRestaurantOverview({Key? key}) : super(key: key);
+  DocumentSnapshot? doc;
+  MyRestaurantOverview({required this.doc});
+  // const MyRestaurantOverview({Key? key}) : super(key: key);
 
   @override
   State<MyRestaurantOverview> createState() => _MyRestaurantOverviewState();
@@ -74,6 +78,22 @@ class _MyRestaurantOverviewState extends State<MyRestaurantOverview> {
     );
   }
 
+  final Set<Marker> markers = {};
+  late GoogleMapController mapController;
+  var latitudeDouble;
+  var longitudeDouble;
+  void _onMapCreated(GoogleMapController controller) {
+    mapController = controller;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    latitudeDouble = double.parse(widget.doc!.get("latitude"));
+    longitudeDouble = double.parse(widget.doc!.get("longitude"));
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -121,7 +141,7 @@ class _MyRestaurantOverviewState extends State<MyRestaurantOverview> {
               onSelected: (value) {
                 // if value 1 show dialog
                 if (value == 1) {
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>UpdateRestaurantDetails()));
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>UpdateRestaurantDetails(id: widget.doc!.id,)));
                   // _showDialog(context);
                   // if value 2 show dialog
                 } else if (value == 2) {
@@ -150,7 +170,7 @@ class _MyRestaurantOverviewState extends State<MyRestaurantOverview> {
                       Container(
                           padding: const EdgeInsets.only(top: 10,bottom: 10),
                           margin: const EdgeInsets.only(left: 10,right: 10),
-                          child: Text("Restaurant Name")),
+                          child: Text("${widget.doc!.get("name")}")),
                     ],
                   ),
                 ),
@@ -170,7 +190,7 @@ class _MyRestaurantOverviewState extends State<MyRestaurantOverview> {
                       Container(
                           padding: const EdgeInsets.only(top: 10,bottom: 10),
                           margin: const EdgeInsets.only(left: 10,right: 10),
-                          child: Text("Food")),
+                          child: Text("${widget.doc!.get("food")}")),
                     ],
                   ),
                 ),
@@ -190,7 +210,7 @@ class _MyRestaurantOverviewState extends State<MyRestaurantOverview> {
                       Container(
                           padding: const EdgeInsets.only(top: 10,bottom: 10),
                           margin: const EdgeInsets.only(left: 10,right: 10),
-                          child: Text("Phone no.")),
+                          child: Text("${widget.doc!.get("phone")}")),
                     ],
                   ),
                 ),
@@ -210,7 +230,7 @@ class _MyRestaurantOverviewState extends State<MyRestaurantOverview> {
                       Container(
                           padding: const EdgeInsets.only(top: 10,bottom: 10),
                           margin: const EdgeInsets.only(left: 10,right: 10),
-                          child: Text("Email ID")),
+                          child: Text("${widget.doc!.get("email")}")),
                     ],
                   ),
                 ),
@@ -230,7 +250,7 @@ class _MyRestaurantOverviewState extends State<MyRestaurantOverview> {
                       Container(
                           padding: const EdgeInsets.only(top: 10,bottom: 10),
                           margin: const EdgeInsets.only(left: 10,right: 10),
-                          child: Text("Area")),
+                          child: Text("${widget.doc!.get("area")}")),
                     ],
                   ),
                 ),
@@ -250,7 +270,7 @@ class _MyRestaurantOverviewState extends State<MyRestaurantOverview> {
                       Container(
                           padding: const EdgeInsets.only(top: 10,bottom: 10),
                           margin: const EdgeInsets.only(left: 10,right: 10),
-                          child: Text("City")),
+                          child: Text("${widget.doc!.get("city")}")),
                     ],
                   ),
                 ),
@@ -270,7 +290,7 @@ class _MyRestaurantOverviewState extends State<MyRestaurantOverview> {
                       Container(
                           padding: const EdgeInsets.only(top: 10,bottom: 10),
                           margin: const EdgeInsets.only(left: 10,right: 10),
-                          child: Text("State")),
+                          child: Text("${widget.doc!.get("state")}")),
                     ],
                   ),
                 ),
@@ -290,12 +310,12 @@ class _MyRestaurantOverviewState extends State<MyRestaurantOverview> {
                       Container(
                           padding: const EdgeInsets.only(top: 10,bottom: 10),
                           margin: const EdgeInsets.only(left: 10,right: 10),
-                          child: Text("Website")),
+                          child: widget.doc!.get("website") == "" ? const Text("Not added") : Text("${widget.doc!.get("website")}")),
                     ],
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Row(
@@ -311,7 +331,7 @@ class _MyRestaurantOverviewState extends State<MyRestaurantOverview> {
                       ),
                       width: MediaQuery.of(context).size.width/2.4,
                       height: 120,
-                      child: const Center(child: Text("Image")),
+                      child: Image.network("${widget.doc!.get("image")}",fit: BoxFit.fill),
                     ),
                   ),
                   InkWell(
@@ -325,12 +345,20 @@ class _MyRestaurantOverviewState extends State<MyRestaurantOverview> {
                       ),
                       width: MediaQuery.of(context).size.width/2.4,
                       height: 120,
-                      child: const Center(child: Text("Map")),
+                      child: GoogleMap(
+                        // zoomControlsEnabled: false,
+                        onMapCreated: _onMapCreated,
+                        initialCameraPosition: CameraPosition(
+                          target: LatLng(latitudeDouble,longitudeDouble),
+                          zoom: 10.0,
+                        ),
+                        markers: markers,
+                      ),
                     ),
                   )
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
             ],

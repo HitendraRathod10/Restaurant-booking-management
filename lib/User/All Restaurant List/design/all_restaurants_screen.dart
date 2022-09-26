@@ -59,7 +59,7 @@ class _AllRestaurantsScreenState extends State<AllRestaurantsScreen> {
                       InkWell(
                         onTap: () {
                           Navigator.push(context, MaterialPageRoute(
-                              builder: (context) => RestaurantOverview()));
+                              builder: (context) => RestaurantOverview(doc: snapshot.data!.docChanges[index].doc,)));
                         },
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(10, 05, 10, 00),
