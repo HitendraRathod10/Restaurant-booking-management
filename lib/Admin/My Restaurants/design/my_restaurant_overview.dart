@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:restaurant_booking_management/Admin/My%20Restaurants/design/update_restaurant_details.dart';
+import 'package:restaurant_booking_management/Admin/My%20Restaurants/provider/update_restaurant_details_provider.dart';
 import 'package:restaurant_booking_management/utils/app_font.dart';
 
 import '../../../utils/app_color.dart';
@@ -43,6 +45,8 @@ class _MyRestaurantOverviewState extends State<MyRestaurantOverview> {
           color: AppColor.appColor),
       child: TextButton(
           onPressed: () {
+            Provider.of<UpdateRestaurantDetailsProvider>(context,listen: false).deleteInMyRestaurant(widget.doc!.id,context);
+            Provider.of<UpdateRestaurantDetailsProvider>(context,listen: false).deleteInAllRestaurant(widget.doc!.id,context);
             // Provider.of<AnonymousChatDeleteProvider>(context,listen: false).anonymousChatDeleteMethod(context, widget.groupId!);
           },
           child:  const Padding(

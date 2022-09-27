@@ -7,6 +7,10 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:restaurant_booking_management/Admin/My%20Restaurants/design/my_restaurants_screen.dart';
+
+import '../../../utils/mixin_toast.dart';
+import '../../Home/design/home_screen_admin.dart';
 
 class UpdateRestaurantDetailsProvider extends ChangeNotifier{
   final firebase = FirebaseFirestore.instance;
@@ -74,4 +78,86 @@ class UpdateRestaurantDetailsProvider extends ChangeNotifier{
     notifyListeners();
   }
 
+  updateInALLRestaurant(
+      context,
+      String name,
+      String food,
+      String phone,
+      String email,
+      String area,
+      String city,
+      String state,
+      String website,
+      String image,
+      String latitude,
+      String longitude,
+      String id
+      ) async {
+    await firebase.collection("All Restaurants").doc(id).update({
+      "name" : name,
+      "food" : food,
+      "phone" : phone,
+      "email" : email,
+      "area" : area,
+      "city" : city,
+      "state" : state,
+      "website" : website,
+      "image" : image,
+      "latitude" : latitude,
+      "longitude" : longitude,
+      "id" : id
+    });
+    showToast(
+        toastMessage: "Restaurant details updated successfully"
+    );
+    updateInMyRestaurant(name,food,phone,email,area,city,state,website,image,latitude,longitude,id);
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const HomeScreenAdmin()));
+    notifyListeners();
+  }
+
+  updateInMyRestaurant(
+      String name,
+      String food,
+      String phone,
+      String email,
+      String area,
+      String city,
+      String state,
+      String website,
+      String image,
+      String latitude,
+      String longitude,
+      String id
+      ) async {
+    await FirebaseFirestore.instance
+        .collection('User')
+        .doc(FirebaseAuth.instance.currentUser?.email)
+        .collection('My Restaurants')
+        .doc(id)
+        .update({
+      "name" : name,
+      "food" : food,
+      "phone" : phone,
+      "email" : email,
+      "area" : area,
+      "city" : city,
+      "state" : state,
+      "website" : website,
+      "image" : image,
+      "latitude" : latitude,
+      "longitude" : longitude,
+      "id" : id
+    });
+    notifyListeners();
+  }
+
+  deleteInMyRestaurant(String id,context){
+    firebase.collection('User').doc(FirebaseAuth.instance.currentUser!.email).collection("My Restaurants").doc(id).delete();
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreenAdmin()), (route) => false);
+  }
+
+  deleteInAllRestaurant(String id,context){
+    firebase.collection('All Restaurants').doc(id).delete();
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreenAdmin()), (route) => false);
+  }
 }

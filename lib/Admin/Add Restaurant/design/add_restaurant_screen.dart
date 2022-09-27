@@ -232,11 +232,16 @@ class _AddRestaurantScreenState extends State<AddRestaurantScreen> {
                               child: const Center(child: Text("Select Image")),
                             ),
                           ) :
-                          Image.file(
-                            snapshot.restaurantImageFile!,
-                            height: 120,
-                            width: MediaQuery.of(context).size.width/2.2,
-                            fit: BoxFit.fill
+                          InkWell(
+                            onTap: (){
+                              snapshot.selectBarberImage(context);
+                            },
+                            child: Image.file(
+                              snapshot.restaurantImageFile!,
+                              height: 120,
+                              width: MediaQuery.of(context).size.width/2.2,
+                              fit: BoxFit.fill
+                            ),
                           ),
                           const SizedBox(
                             width: 10,

@@ -245,8 +245,8 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
                     InkWell(
                       onTap: (){
                         var data = Provider.of<UpdateRestaurantDetailsProvider>(context,listen: false);
-                        Provider.of<AddRestaurantProvider>(context,listen: false).
-                        insertALLRestaurant(context,
+                        Provider.of<UpdateRestaurantDetailsProvider>(context,listen: false).
+                        updateInALLRestaurant(context,
                             data.restaurantNameController.text,
                             data.foodController.text,
                             data.phoneController.text,
@@ -257,7 +257,8 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
                             data.websiteController.text,
                             data.urlDownloads.toString(),
                             data.latitude.toString(),
-                            data.longitude.toString()
+                            data.longitude.toString(),
+                            widget.id!
                         );
                       },
                       child: Container(
