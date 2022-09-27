@@ -46,22 +46,31 @@ class _ResetPasswordState extends State<ResetPassword> {
                   ),
                   const Text(
                     "Reset Your Password",
-                    style: TextStyle(fontSize: 25),
+                    style: TextStyle(
+                        fontSize: 25,
+                      fontFamily: AppFont.semiBold
+                    ),
                   ),
                   const SizedBox(
                     height: 50,
                   ),
                   const Text(
                     'Email',
-                    style: TextStyle(fontSize: 16, color: AppColor.appColor),
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: AppColor.appColor,
+                      fontFamily: AppFont.regular
+                    ),
                   ),
                   const SizedBox(height: 5),
                   TextFieldMixin().textFieldWidget(
+                    textStyle: const TextStyle(fontFamily: AppFont.regular,fontSize: 17),
                     cursorColor: Colors.black,
                     controller: emailController,
                     textInputAction: TextInputAction.next,
                     keyboardType: TextInputType.emailAddress,
                     hintText: "Enter email",
+                    hintStyle: TextStyle(fontFamily: AppFont.regular),
                     prefixIcon: const Icon(Icons.email_outlined,
                         color: AppColor.appColor),
                     validator: (value) {
@@ -95,22 +104,30 @@ class _ResetPasswordState extends State<ResetPassword> {
                           alignment: Alignment.center,
                           child: const Text(
                             "Reset Password",
-                            style:
-                                TextStyle(color: AppColor.white, fontSize: 15),
+                            style: TextStyle(
+                                color: AppColor.white,
+                                fontSize: 20,
+                                fontFamily: AppFont.semiBold
+                            ),
                           ))),
                   const SizedBox(
                     height: 40,
                   ),
-                  widget.check == "Edit" ? SizedBox() :Row(
+                  widget.check == "Edit" ? const SizedBox() :Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text("Don't Have An Account Yet? "),
+                      const Text("Don't Have An Account Yet? ",
+                        style: TextStyle(
+                          fontFamily: AppFont.regular
+                        ),
+                      ),
                       InkWell(
                         child: const Text(
                           "Signup",
                           style: TextStyle(
                               color: AppColor.appColor,
-                              fontFamily: AppFont.semiBold),
+                              fontFamily: AppFont.semiBold
+                          ),
                         ),
                         onTap: () {
                           Navigator.pushReplacement(

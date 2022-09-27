@@ -42,7 +42,7 @@ class _AddRestaurantScreenState extends State<AddRestaurantScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Add Restaurant"),
+          title: const Text("Add Restaurant",style: TextStyle(fontFamily: AppFont.regular),),
           backgroundColor: AppColor.appColor.withOpacity(0.9),
           centerTitle: true,
         ),
@@ -57,6 +57,9 @@ class _AddRestaurantScreenState extends State<AddRestaurantScreen> {
                     controller: restaurantNameController,
                     textInputAction: TextInputAction.next,
                     cursorColor: AppColor.appColor,
+                    style: const TextStyle(
+                        fontFamily: AppFont.regular
+                    ),
                     decoration: const InputDecoration(
                       labelText: 'Restaurant Name',
                       labelStyle: TextStyle(
@@ -76,6 +79,9 @@ class _AddRestaurantScreenState extends State<AddRestaurantScreen> {
                     controller: foodController,
                     textInputAction: TextInputAction.next,
                     cursorColor: AppColor.appColor,
+                    style: const TextStyle(
+                        fontFamily: AppFont.regular
+                    ),
                     decoration: const InputDecoration(
                       labelText: 'Food',
                       labelStyle: TextStyle(
@@ -96,6 +102,9 @@ class _AddRestaurantScreenState extends State<AddRestaurantScreen> {
                     textInputAction: TextInputAction.next,
                     cursorColor: AppColor.appColor,
                     keyboardType: TextInputType.phone,
+                    style: const TextStyle(
+                        fontFamily: AppFont.regular
+                    ),
                     decoration: const InputDecoration(
                       labelText: 'Phone no.',
                       labelStyle: TextStyle(
@@ -115,6 +124,9 @@ class _AddRestaurantScreenState extends State<AddRestaurantScreen> {
                     controller: emailController,
                     textInputAction: TextInputAction.next,
                     cursorColor: AppColor.appColor,
+                    style: const TextStyle(
+                        fontFamily: AppFont.regular
+                    ),
                     decoration: const InputDecoration(
                       labelText: 'Email ID',
                       labelStyle: TextStyle(
@@ -138,6 +150,9 @@ class _AddRestaurantScreenState extends State<AddRestaurantScreen> {
                           controller: areaController,
                           textInputAction: TextInputAction.next,
                           cursorColor: AppColor.appColor,
+                          style: const TextStyle(
+                              fontFamily: AppFont.regular
+                          ),
                           decoration: const InputDecoration(
                             labelText: 'Area',
                             labelStyle: TextStyle(
@@ -163,6 +178,9 @@ class _AddRestaurantScreenState extends State<AddRestaurantScreen> {
                           controller: cityController,
                           textInputAction: TextInputAction.next,
                           cursorColor: AppColor.appColor,
+                          style: const TextStyle(
+                              fontFamily: AppFont.regular
+                          ),
                           decoration: const InputDecoration(
                             labelText: 'City',
                             labelStyle: TextStyle(
@@ -185,6 +203,9 @@ class _AddRestaurantScreenState extends State<AddRestaurantScreen> {
                     controller: stateController,
                     textInputAction: TextInputAction.next,
                     cursorColor: AppColor.appColor,
+                    style: const TextStyle(
+                        fontFamily: AppFont.regular
+                    ),
                     decoration: const InputDecoration(
                       labelText: 'State',
                       labelStyle: TextStyle(
@@ -204,6 +225,9 @@ class _AddRestaurantScreenState extends State<AddRestaurantScreen> {
                     controller: websiteController,
                     textInputAction: TextInputAction.done,
                     cursorColor: AppColor.appColor,
+                    style: const TextStyle(
+                        fontFamily: AppFont.regular
+                    ),
                     decoration: const InputDecoration(
                       labelText: 'Website',
                       labelStyle: TextStyle(
@@ -229,7 +253,7 @@ class _AddRestaurantScreenState extends State<AddRestaurantScreen> {
                               ),
                               width: MediaQuery.of(context).size.width/2.2,
                               height: 120,
-                              child: const Center(child: Text("Select Image")),
+                              child: const Center(child: Text("Select Image",style: TextStyle(fontFamily: AppFont.semiBold),)),
                             ),
                           ) :
                           InkWell(
@@ -291,7 +315,7 @@ class _AddRestaurantScreenState extends State<AddRestaurantScreen> {
                                                   children: const [
                                                     Icon(Icons.location_on,color: AppColor.appColor,),
                                                     SizedBox(width: 5),
-                                                    Text("Select Location"),
+                                                    Text("Select Location",style: TextStyle(fontFamily: AppFont.semiBold),),
                                                   ],
                                                 )),
                                             onTap: ()=>

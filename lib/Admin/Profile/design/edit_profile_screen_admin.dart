@@ -32,7 +32,7 @@ class _EditProfileScreenAdminState extends State<EditProfileScreenAdmin> {
         appBar: AppBar(
           backgroundColor: AppColor.appColor.withOpacity(0.9),
           centerTitle: true,
-          title: const Text('Edit Profile'),
+          title: const Text('Edit Profile',style: TextStyle(fontFamily: AppFont.semiBold),),
         ),
         body: SingleChildScrollView(
           child: StreamBuilder(
@@ -57,21 +57,24 @@ class _EditProfileScreenAdminState extends State<EditProfileScreenAdmin> {
                         children: [
                           // const SizedBox(height: 5),
                           TextFieldMixin().textFieldWidget(
-                            labelText: 'FullName',
-                            labelStyle: TextStyle(color: AppColor.appColor),
+                            textStyle: const TextStyle(fontFamily: AppFont.regular),
+                            labelText: 'Full Name',
+                            labelStyle: const TextStyle(color: AppColor.appColor),
                             controller: fullNameController..text = data['fullName'],
                           ),
                           const SizedBox(height: 10),
                           TextFieldMixin().textFieldWidget(
+                            textStyle: const TextStyle(fontFamily: AppFont.regular),
                             labelText: 'Email',
-                            labelStyle: TextStyle(color: AppColor.appColor),
+                            labelStyle: const TextStyle(color: AppColor.appColor),
                             controller: emailController..text = data['email'],
                             readOnly: true,
                           ),
                           const SizedBox(height: 10),
                           TextFieldMixin().textFieldWidget(
+                            textStyle: const TextStyle(fontFamily: AppFont.regular),
                             labelText: 'Phone',
-                            labelStyle: TextStyle(color: AppColor.appColor),
+                            labelStyle: const TextStyle(color: AppColor.appColor),
                             controller: phoneController..text = data['phone'],
                             keyboardType: TextInputType.phone,
                           ),

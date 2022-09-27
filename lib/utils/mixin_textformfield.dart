@@ -21,10 +21,12 @@ class TextFieldMixin {
     String? initialValue,
     bool readOnly = false,
     String? hintText,
+    TextStyle? hintStyle,
     bool obscureText = false,
     InputBorder? focusedBorder,
     String? labelText,
-    TextStyle? labelStyle
+    TextStyle? labelStyle,
+    TextStyle? textStyle
   }) {
     return TextFormField(
       decoration: InputDecoration(
@@ -47,6 +49,7 @@ class TextFieldMixin {
               borderRadius: BorderRadius.circular(10)
           ),
           hintText: hintText,
+          hintStyle: hintStyle,
           counterText: counterText,
           errorStyle: const TextStyle(
             fontSize: 12.0,
@@ -63,6 +66,7 @@ class TextFieldMixin {
       maxLines: maxLines,
       obscureText: obscureText,
       maxLength: maxLength,
+      style: textStyle,
     );
   }
 }

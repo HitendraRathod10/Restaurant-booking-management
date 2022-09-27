@@ -119,7 +119,7 @@ class _MyRestaurantOverviewState extends State<MyRestaurantOverview> {
                       SizedBox(
                         width: 10,
                       ),
-                      Text("Edit")
+                      Text("Edit",style: TextStyle(fontFamily: AppFont.regular),)
                     ],
                   ),
                 ),
@@ -133,7 +133,7 @@ class _MyRestaurantOverviewState extends State<MyRestaurantOverview> {
                       SizedBox(
                         width: 10,
                       ),
-                      Text("Delete")
+                      Text("Delete",style: TextStyle(fontFamily: AppFont.regular))
                     ],
                   ),
                 ),
@@ -174,7 +174,12 @@ class _MyRestaurantOverviewState extends State<MyRestaurantOverview> {
                       Container(
                           padding: const EdgeInsets.only(top: 10,bottom: 10),
                           margin: const EdgeInsets.only(left: 10,right: 10),
-                          child: Text("${widget.doc!.get("name")}")),
+                          child: Text("${widget.doc!.get("name")}",
+                            style: const TextStyle(
+                              fontFamily: AppFont.regular,
+                              fontSize: 17
+                            ),
+                          )),
                     ],
                   ),
                 ),
@@ -194,7 +199,12 @@ class _MyRestaurantOverviewState extends State<MyRestaurantOverview> {
                       Container(
                           padding: const EdgeInsets.only(top: 10,bottom: 10),
                           margin: const EdgeInsets.only(left: 10,right: 10),
-                          child: Text("${widget.doc!.get("food")}")),
+                          child: Text("${widget.doc!.get("food")}",
+                            style: const TextStyle(
+                                fontFamily: AppFont.regular,
+                                fontSize: 17
+                            ),
+                          )),
                     ],
                   ),
                 ),
@@ -214,7 +224,12 @@ class _MyRestaurantOverviewState extends State<MyRestaurantOverview> {
                       Container(
                           padding: const EdgeInsets.only(top: 10,bottom: 10),
                           margin: const EdgeInsets.only(left: 10,right: 10),
-                          child: Text("${widget.doc!.get("phone")}")),
+                          child: Text("${widget.doc!.get("phone")}",
+                              style: const TextStyle(
+                              fontFamily: AppFont.regular,
+                              fontSize: 17
+                          ),
+                          )),
                     ],
                   ),
                 ),
@@ -234,7 +249,12 @@ class _MyRestaurantOverviewState extends State<MyRestaurantOverview> {
                       Container(
                           padding: const EdgeInsets.only(top: 10,bottom: 10),
                           margin: const EdgeInsets.only(left: 10,right: 10),
-                          child: Text("${widget.doc!.get("email")}")),
+                          child: Text("${widget.doc!.get("email")}",
+                            style: const TextStyle(
+                                fontFamily: AppFont.regular,
+                                fontSize: 17
+                            ),
+                          )),
                     ],
                   ),
                 ),
@@ -254,7 +274,12 @@ class _MyRestaurantOverviewState extends State<MyRestaurantOverview> {
                       Container(
                           padding: const EdgeInsets.only(top: 10,bottom: 10),
                           margin: const EdgeInsets.only(left: 10,right: 10),
-                          child: Text("${widget.doc!.get("area")}")),
+                          child: Text("${widget.doc!.get("area")}",
+                            style: const TextStyle(
+                                fontFamily: AppFont.regular,
+                                fontSize: 17
+                            ),
+                          )),
                     ],
                   ),
                 ),
@@ -274,7 +299,12 @@ class _MyRestaurantOverviewState extends State<MyRestaurantOverview> {
                       Container(
                           padding: const EdgeInsets.only(top: 10,bottom: 10),
                           margin: const EdgeInsets.only(left: 10,right: 10),
-                          child: Text("${widget.doc!.get("city")}")),
+                          child: Text("${widget.doc!.get("city")}",
+                            style: const TextStyle(
+                                fontFamily: AppFont.regular,
+                                fontSize: 17
+                            ),
+                          )),
                     ],
                   ),
                 ),
@@ -294,7 +324,12 @@ class _MyRestaurantOverviewState extends State<MyRestaurantOverview> {
                       Container(
                           padding: const EdgeInsets.only(top: 10,bottom: 10),
                           margin: const EdgeInsets.only(left: 10,right: 10),
-                          child: Text("${widget.doc!.get("state")}")),
+                          child: Text("${widget.doc!.get("state")}",
+                            style: const TextStyle(
+                                fontFamily: AppFont.regular,
+                                fontSize: 17
+                            ),
+                          )),
                     ],
                   ),
                 ),
@@ -314,7 +349,19 @@ class _MyRestaurantOverviewState extends State<MyRestaurantOverview> {
                       Container(
                           padding: const EdgeInsets.only(top: 10,bottom: 10),
                           margin: const EdgeInsets.only(left: 10,right: 10),
-                          child: widget.doc!.get("website") == "" ? const Text("Not added") : Text("${widget.doc!.get("website")}")),
+                          child: widget.doc!.get("website") == "" ?
+                          const Text("Not added",
+                            style: TextStyle(
+                                fontFamily: AppFont.regular,
+                                fontSize: 17
+                            ),
+                          ) :
+                          Text("${widget.doc!.get("website")}",
+                            style: const TextStyle(
+                                fontFamily: AppFont.regular,
+                                fontSize: 17
+                            ),
+                          )),
                     ],
                   ),
                 ),

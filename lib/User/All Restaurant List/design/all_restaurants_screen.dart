@@ -28,7 +28,7 @@ class _AllRestaurantsScreenState extends State<AllRestaurantsScreen> {
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: const Text("Home"),
+          title: const Text("Home",style: TextStyle(fontFamily: AppFont.semiBold),),
           centerTitle: true,
           backgroundColor: AppColor.appColor.withOpacity(0.9),
         ),
@@ -137,7 +137,8 @@ class _AllRestaurantsScreenState extends State<AllRestaurantsScreen> {
                                           '${snapshot.data!.docChanges[index].doc.get("name")}',
                                           style: const TextStyle(
                                             color: Colors.white,
-                                            fontSize: 25,
+                                            fontSize: 27,
+                                            fontFamily: AppFont.semiBold
                                           ),
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 3,
@@ -149,8 +150,8 @@ class _AllRestaurantsScreenState extends State<AllRestaurantsScreen> {
                                           child: Container(
                                             padding: const EdgeInsets.all(02),
                                             decoration: BoxDecoration(
-                                                color: AppColor.appColor
-                                                    .withOpacity(0.6),
+                                                color: AppColor.greyDivider
+                                                    .withOpacity(0.9),
                                                 borderRadius: BorderRadius
                                                     .circular(10)
                                             ),
@@ -158,14 +159,18 @@ class _AllRestaurantsScreenState extends State<AllRestaurantsScreen> {
                                               children: const [
                                                 Icon(Icons.star,
                                                   color: Colors.amber,
-                                                  size: 20,),
+                                                  size: 20,
+                                                ),
                                                 SizedBox(
                                                   width: 02,
                                                 ),
-                                                Text("4.2", style: TextStyle(
-                                                    fontFamily: AppFont.bold,
+                                                Text("4.2",
+                                                  style: TextStyle(
+                                                    fontFamily: AppFont.semiBold,
                                                     fontSize: 20,
-                                                    color: AppColor.white),)
+                                                    color: AppColor.white
+                                                  ),
+                                                )
                                               ],
                                             ),
                                           )
@@ -185,7 +190,10 @@ class _AllRestaurantsScreenState extends State<AllRestaurantsScreen> {
                                               borderRadius: BorderRadius
                                                   .circular(20)
                                           ),
-                                          child: const Icon(Icons.location_on)),
+                                          child: const Padding(
+                                            padding: EdgeInsets.all(2),
+                                            child: Icon(Icons.location_on,size: 20,),
+                                          )),
                                       const SizedBox(
                                         width: 07,
                                       ),
@@ -198,6 +206,10 @@ class _AllRestaurantsScreenState extends State<AllRestaurantsScreen> {
                                                 "${snapshot.data!.docChanges[index].doc.get("area")} "
                                                 "${snapshot.data!.docChanges[index].doc.get("city")} "
                                                 "${snapshot.data!.docChanges[index].doc.get("state")}",
+                                            style: const TextStyle(
+                                              fontFamily: AppFont.regular,
+                                              fontSize: 17
+                                            ),
                                             overflow: TextOverflow.ellipsis,))
                                     ],
                                   ),
@@ -214,13 +226,20 @@ class _AllRestaurantsScreenState extends State<AllRestaurantsScreen> {
                                               borderRadius: BorderRadius
                                                   .circular(20)
                                           ),
-                                          child: const Icon(Icons.phone)),
+                                          child: const Padding(
+                                            padding: EdgeInsets.all(2),
+                                            child: Icon(Icons.phone,size: 20,),
+                                          )),
                                       const SizedBox(
                                         width: 07,
                                       ),
                                       SizedBox(
                                         width: 150,
                                         child: Text("${snapshot.data!.docChanges[index].doc.get("phone")}",
+                                            style: const TextStyle(
+                                                fontFamily: AppFont.regular,
+                                                fontSize: 17
+                                            ),
                                             overflow: TextOverflow.ellipsis),
                                       )
                                     ],
@@ -239,7 +258,10 @@ class _AllRestaurantsScreenState extends State<AllRestaurantsScreen> {
                                                   .circular(20)
                                           ),
                                           width: 30,
-                                          child: Image.asset(AppImage.dishTwo)),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(2),
+                                            child: Image.asset(AppImage.dishTwo,height: 20,width: 20),
+                                          )),
                                       // child: const Icon(Icons.restaurant)),
                                       const SizedBox(
                                         width: 07,
@@ -250,6 +272,10 @@ class _AllRestaurantsScreenState extends State<AllRestaurantsScreen> {
                                             .size
                                             .width / 1.4,
                                         child: Text("${snapshot.data!.docChanges[index].doc.get("food")}",
+                                            style: const TextStyle(
+                                                fontFamily: AppFont.regular,
+                                                fontSize: 17
+                                            ),
                                             overflow: TextOverflow.ellipsis),
                                       )
                                     ],

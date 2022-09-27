@@ -28,7 +28,7 @@ class _MyRestaurantsScreenState extends State<MyRestaurantsScreen> {
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
-            title: const Text("My Restaurants"),
+            title: const Text("My Restaurants",style: TextStyle(fontFamily: AppFont.semiBold),),
             backgroundColor: AppColor.appColor.withOpacity(0.9),
             centerTitle: true,
           ),
@@ -85,7 +85,8 @@ class _MyRestaurantsScreenState extends State<MyRestaurantsScreen> {
                                           '${snapshot.data!.docChanges[index].doc.get("name")}',
                                           style: const TextStyle(
                                             color: Colors.white,
-                                            fontSize: 25,
+                                            fontFamily: AppFont.semiBold,
+                                            fontSize: 30,
                                           ),
                                         ),
                                       ),
@@ -104,7 +105,7 @@ class _MyRestaurantsScreenState extends State<MyRestaurantsScreen> {
                                             SizedBox(
                                               width: 02,
                                             ),
-                                            Text("4.2",style: TextStyle(fontFamily: AppFont.bold,fontSize: 20),)
+                                            Text("4.2",style: TextStyle(fontFamily: AppFont.semiBold,fontSize: 20),)
                                           ],
                                         ),
                                       )
@@ -122,7 +123,10 @@ class _MyRestaurantsScreenState extends State<MyRestaurantsScreen> {
                                             color: AppColor.greyDivider.withOpacity(0.3),
                                             borderRadius: BorderRadius.circular(20)
                                         ),
-                                        child: const Icon(Icons.location_on)),
+                                        child: const Padding(
+                                          padding: EdgeInsets.all(02),
+                                          child: Icon(Icons.location_on,size: 22,),
+                                        )),
                                     const SizedBox(
                                       width: 07,
                                     ),
@@ -131,7 +135,13 @@ class _MyRestaurantsScreenState extends State<MyRestaurantsScreen> {
                                         child: Text("${snapshot.data!.docChanges[index].doc.get("area")} "
                                             "${snapshot.data!.docChanges[index].doc.get("city")} "
                                             "${snapshot.data!.docChanges[index].doc.get("state")}",
-                                          overflow: TextOverflow.ellipsis,))
+                                          style: const TextStyle(
+                                            fontFamily: AppFont.regular,
+                                            fontSize: 17
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                        )
+                                    )
                                   ],
                                 ),
                                 const SizedBox(
@@ -145,13 +155,17 @@ class _MyRestaurantsScreenState extends State<MyRestaurantsScreen> {
                                         color: AppColor.greyDivider.withOpacity(0.3),
                                         borderRadius: BorderRadius.circular(20)
                                       ),
-                                        child: const Icon(Icons.phone)),
+                                        child: const Padding(
+                                          padding: EdgeInsets.all(2),
+                                          child: Icon(Icons.phone,size: 22,),
+                                        )),
                                     const SizedBox(
                                       width: 07,
                                     ),
                                     SizedBox(
                                       width: 150,
                                       child: Text("${snapshot.data!.docChanges[index].doc.get("phone")}",
+                                          style: const TextStyle(fontFamily: AppFont.regular,fontSize: 17),
                                           overflow: TextOverflow.ellipsis),
                                     )
                                   ],

@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:restaurant_booking_management/utils/app_font.dart';
 
 import '../../../Admin/Add Restaurant/provider/current_location.dart';
+import '../../../utils/app_color.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({Key? key}) : super(key: key);
@@ -46,7 +48,8 @@ class _MapScreenState extends State<MapScreen> {
           appBar: AppBar(
             centerTitle: true,
             automaticallyImplyLeading: false,
-            title: const Text("Map Screen"),
+            title: const Text("Map Screen",style: TextStyle(fontFamily: AppFont.semiBold)),
+            backgroundColor: AppColor.appColor.withOpacity(0.9),
           ),
           body: FutureBuilder<LocationData?>(
               future: CurrentLocation.instance.currentLocation(),

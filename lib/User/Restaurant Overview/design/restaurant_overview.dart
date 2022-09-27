@@ -110,7 +110,7 @@ class _RestaurantOverviewState extends State<RestaurantOverview> {
                   style: TextStyle(
                       color: AppColor.white,
                       fontFamily: AppFont.semiBold,
-                      fontSize: 20
+                      fontSize: 25
                   ),
                 )
             ),
@@ -164,7 +164,7 @@ class _RestaurantOverviewState extends State<RestaurantOverview> {
                               width: MediaQuery.of(context).size.width/1.5,
                               child: Text("${widget.doc!.get("name")}",
                                 style: const TextStyle(
-                                    fontFamily: AppFont.bold,
+                                    fontFamily: AppFont.semiBold,
                                     fontSize: 30
                                 ),
                                 overflow: TextOverflow.ellipsis,
@@ -178,7 +178,7 @@ class _RestaurantOverviewState extends State<RestaurantOverview> {
                             alignment: Alignment.centerLeft,
                             child: Text("${widget.doc!.get("area")}, ${widget.doc!.get("city")}, ${widget.doc!.get("state")}",
                               style: const TextStyle(
-                                  fontFamily: AppFont.medium,
+                                  fontFamily: AppFont.regular,
                                   fontSize: 15
                               ),
                               overflow: TextOverflow.ellipsis,
@@ -194,7 +194,7 @@ class _RestaurantOverviewState extends State<RestaurantOverview> {
                   ),
                   const Padding(
                     padding: EdgeInsets.fromLTRB(00, 00, 10, 00),
-                    child: Text("5.0",style: TextStyle(fontFamily: AppFont.bold,fontSize: 20,color: AppColor.black),),
+                    child: Text("5.0",style: TextStyle(fontFamily: AppFont.semiBold,fontSize: 20,color: AppColor.black),),
                   )
                 ],
               ),
@@ -467,7 +467,7 @@ class _RestaurantOverviewState extends State<RestaurantOverview> {
               ),
               rating == false ? const SizedBox.shrink() : Container(
                 height: 50,
-                width: 180,
+                width: 160,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     // color: AppColor.lightBlue

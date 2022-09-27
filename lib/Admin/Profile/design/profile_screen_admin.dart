@@ -56,14 +56,14 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    const SizedBox(height: 20),
+                                    const SizedBox(height: 17),
                                     ClipOval(
                                       child: Container(
                                           color: AppColor.white,
                                           height: 80,width: 80,
                                           child: Center(
                                             child: Text('${data['fullName']?.substring(0,1).toUpperCase()}',
-                                              style: const TextStyle(color: AppColor.appColor,fontSize: 40,fontFamily: AppFont.medium),),
+                                              style: const TextStyle(color: AppColor.appColor,fontSize: 40,fontFamily: AppFont.regular),),
                                           )
                                       ),
                                     ),
@@ -84,8 +84,14 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
                                     const SizedBox(
                                       height: 10,
                                     ),
-                                    Text(data['fullName'],
-                                        style: const TextStyle(fontSize: 24,color: AppColor.white)),
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(10, 00, 10, 00),
+                                      child: Text(data['fullName'],
+                                          style: const TextStyle(fontSize: 24,color: AppColor.white,fontFamily: AppFont.semiBold),
+                                          overflow: TextOverflow.ellipsis,
+                                        // maxLines: 1,
+                                      ),
+                                    ),
                                     // Text(data['department'],
                                     //     style: const TextStyle(fontSize: 12,color: Colors.white)),
                                     const SizedBox(height: 5),
@@ -95,7 +101,7 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
                             ),
                             Positioned(
                                 right: 10,
-                                top: 20,
+                                top: 17,
                                 child: GestureDetector(
                                   onTap: (){
                                     Navigator.push(context, MaterialPageRoute(builder: (context)=>EditProfileScreenAdmin()));
@@ -112,7 +118,7 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
                             ),
                             Positioned(
                                 left: 10,
-                                top: 20,
+                                top: 17,
                                 child: GestureDetector(
                                   onTap: (){
                                     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreenAdmin()), (route) => false);
@@ -129,68 +135,74 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
                           ]
                       ),
                       Container(
-                        padding: const EdgeInsets.only(top: 20),
-                        margin: const EdgeInsets.only(left: 20,right: 20),
-                        width: double.infinity,
+                        padding: const EdgeInsets.only(top: 17),
+                        margin: const EdgeInsets.only(left: 17,right: 17),
+                        // width: double.infinity,
                         child: Card(
                           child: Row(
                             children: [
                               Container(
                                   padding: const EdgeInsets.only(top: 10,bottom: 10),
-                                  margin: const EdgeInsets.only(left: 10,right: 10),
+                                  margin: const EdgeInsets.only(left: 10,right: 00),
                                   child: const Icon(Icons.person,color: AppColor.appColor,)),
                               const SizedBox(height: 5,),
                               Container(
+                                width: MediaQuery.of(context).size.width/1.5,
                                   padding: const EdgeInsets.only(top: 10,bottom: 10),
                                   margin: const EdgeInsets.only(left: 10,right: 10),
-                                  child: Text(data['fullName'])),
+                                  child: Text(data['fullName'],maxLines: 2,overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(fontFamily: AppFont.regular,fontSize: 17),)),
                             ],
                           ),
                         ),
                       ),
                       Container(
                         padding: const EdgeInsets.only(top: 5),
-                        margin: const EdgeInsets.only(left: 20,right: 20),
-                        width: double.infinity,
+                        margin: const EdgeInsets.only(left: 17,right: 17),
+                        // width: double.infinity,
                         child: Card(
                           child: Row(
                             children: [
                               Container(
                                   padding: const EdgeInsets.only(top: 10,bottom: 10),
-                                  margin: const EdgeInsets.only(left: 10,right: 10),
+                                  margin: const EdgeInsets.only(left: 10,right: 00),
                                   child: const Icon(Icons.email,color: AppColor.appColor,)),
                               const SizedBox(height: 5,),
                               Container(
+                                  width: MediaQuery.of(context).size.width/1.5,
                                   padding: const EdgeInsets.only(top: 10,bottom: 10),
                                   margin: const EdgeInsets.only(left: 10,right: 10),
-                                  child: Text(data['email'])),
+                                  child: Text(data['email'],maxLines: 2,overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(fontFamily: AppFont.regular,fontSize: 17),)),
                             ],
                           ),
                         ),
                       ),
                       Container(
                         padding: const EdgeInsets.only(top: 5),
-                        margin: const EdgeInsets.only(left: 20,right: 20),
-                        width: double.infinity,
+                        margin: const EdgeInsets.only(left: 17,right: 17),
+                        // width: double.infinity,
                         child: Card(
                           child: Row(
                             children: [
                               Container(
                                   padding: const EdgeInsets.only(top: 10,bottom: 10),
-                                  margin: const EdgeInsets.only(left: 10,right: 10),
+                                  margin: const EdgeInsets.only(left: 10,right: 00),
                                   child: const Icon(Icons.phone_iphone_rounded,color: AppColor.appColor,)),
                               const SizedBox(height: 5,),
                               Container(
+                                  width: MediaQuery.of(context).size.width/1.5,
                                   padding: const EdgeInsets.only(top: 10,bottom: 10),
                                   margin: const EdgeInsets.only(left: 10,right: 10),
-                                  child: Text(data['phone'])),
+                                  child: Text(data['phone'],maxLines: 2,overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(fontFamily: AppFont.regular,fontSize: 17),)),
                             ],
                           ),
                         ),
                       ),
                       /*Container(
                         padding: const EdgeInsets.only(top: 10),
-                        margin: const EdgeInsets.only(left: 20,right: 20),
+                        margin: const EdgeInsets.only(left: 17,right: 17),
                         width: double.infinity,
                         child: Card(
                           child: Row(
@@ -210,7 +222,7 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
                       ),
                       Container(
                         padding: const EdgeInsets.only(top: 5),
-                        margin: const EdgeInsets.only(left: 20,right: 20),
+                        margin: const EdgeInsets.only(left: 17,right: 17),
                         width: double.infinity,
                         child: Card(
                           child: Row(
@@ -238,7 +250,7 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
                           },
                           child: Container(
                             height: 50,
-                            width: 90,
+                            width: 100,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               // color: AppColor.lightBlue

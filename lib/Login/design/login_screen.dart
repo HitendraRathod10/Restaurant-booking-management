@@ -93,11 +93,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                     child: TextFormField(
                                       cursorHeight: 17,
                                       controller: emailController,
-                                      style: const TextStyle(fontSize: 17),
+                                      style: const TextStyle(fontSize: 17,fontFamily: AppFont.regular),
                                       decoration: const InputDecoration(
                                         contentPadding: EdgeInsets.fromLTRB(00, 10, 00, 00),
                                           hintText: "Email ID",
-                                          border: InputBorder.none
+                                          border: InputBorder.none,
+                                        hintStyle: TextStyle(fontFamily: AppFont.regular)
                                       ),
                                     ),
                                   ),
@@ -111,10 +112,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                         return TextFormField(
                                           cursorHeight: 17,
                                           controller: passwordController,
-                                          style: const TextStyle(fontSize: 17),
+                                          style: const TextStyle(fontSize: 17,fontFamily: AppFont.regular),
                                           obscureText: snapshot.loginPswd ? false : true,
                                           decoration: InputDecoration(
                                               hintText: "Password",
+                                              hintStyle: const TextStyle(fontFamily: AppFont.regular),
                                               border: InputBorder.none,
                                             suffixIcon: IconButton(
                                                 highlightColor: Colors.transparent,
@@ -146,7 +148,12 @@ class _LoginScreenState extends State<LoginScreen> {
                               child: Container(
                                 padding: const EdgeInsets.fromLTRB(00, 00, 20, 00),
                                 alignment: Alignment.centerRight,
-                                  child: const Text("Reset password?")
+                                  child: const Text("Reset password?",
+                                  style: TextStyle(
+                                    fontFamily: AppFont.regular,
+                                    fontSize: 17
+                                  ),
+                                  )
                               ),
                             onTap: (){
                                 Navigator.push(context, MaterialPageRoute(builder: (context)=>ResetPassword()));

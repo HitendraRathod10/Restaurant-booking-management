@@ -22,7 +22,7 @@ class _AddLocationToMapScreenState extends State<AddLocationToMapScreen> {
   LocationData? currentLocation;
   final Set<Marker> markers = {};
   final markerController=TextEditingController();
-  CollectionReference users = FirebaseFirestore.instance.collection('users');
+  // CollectionReference users = FirebaseFirestore.instance.collection('users');
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;

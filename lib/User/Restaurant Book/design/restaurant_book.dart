@@ -93,7 +93,7 @@ class _RestaurantBookState extends State<RestaurantBook> {
                 child: Container(
                   alignment: Alignment.centerLeft,
                     child: const Text("T A B L E   B O O K I N G",
-                    style: TextStyle(fontFamily: AppFont.bold,fontSize: 20),
+                    style: TextStyle(fontFamily: AppFont.semiBold,fontSize: 20),
                     )
                 ),
               ),
@@ -135,7 +135,7 @@ class _RestaurantBookState extends State<RestaurantBook> {
                                   borderRadius: BorderRadius.circular(10),
                                   color: AppColor.greyDivider.withOpacity(0.2)
                                 ),
-                                child: Center(child: Text("${index+1} Person")),
+                                child: Center(child: Text("${index+1} Person",style: const TextStyle(fontFamily: AppFont.regular,fontSize: 15),)),
                               ),
                               const SizedBox(
                                 width: 15,
@@ -199,7 +199,12 @@ class _RestaurantBookState extends State<RestaurantBook> {
                                   ),
                                   child: Center(
                                     // child: methodForDate(),
-                                      child: Text("${dayFormatter.format(dates[index])} ${monthFormatter.format(dates[index])}")
+                                      child: Text("${dayFormatter.format(dates[index])} ${monthFormatter.format(dates[index])}",
+                                        style: const TextStyle(
+                                            fontFamily: AppFont.regular,
+                                            fontSize: 15
+                                        ),
+                                      )
                                   ),
                                 ),
                                 const SizedBox(

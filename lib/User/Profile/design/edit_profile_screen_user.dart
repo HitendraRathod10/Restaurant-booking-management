@@ -32,7 +32,7 @@ class _EditProfileScreenUserState extends State<EditProfileScreenUser> {
         appBar: AppBar(
           backgroundColor: AppColor.appColor.withOpacity(0.9),
           centerTitle: true,
-          title: const Text('Edit Profile'),
+          title: const Text('Edit Profile',style: TextStyle(fontFamily: AppFont.semiBold),),
         ),
         body: SingleChildScrollView(
           child: StreamBuilder(
@@ -57,12 +57,14 @@ class _EditProfileScreenUserState extends State<EditProfileScreenUser> {
                         children: [
                           // const SizedBox(height: 5),
                           TextFieldMixin().textFieldWidget(
+                            textStyle: TextStyle(fontFamily: AppFont.regular),
                             labelText: 'FullName',
                             labelStyle: TextStyle(color: AppColor.appColor),
                             controller: fullNameController..text = data['fullName'],
                           ),
                           const SizedBox(height: 10),
                           TextFieldMixin().textFieldWidget(
+                            textStyle: TextStyle(fontFamily: AppFont.regular),
                             labelText: 'Email',
                             labelStyle: TextStyle(color: AppColor.appColor),
                             controller: emailController..text = data['email'],
@@ -70,6 +72,7 @@ class _EditProfileScreenUserState extends State<EditProfileScreenUser> {
                           ),
                           const SizedBox(height: 10),
                           TextFieldMixin().textFieldWidget(
+                            textStyle: TextStyle(fontFamily: AppFont.regular),
                             labelText: 'Phone',
                             labelStyle: TextStyle(color: AppColor.appColor),
                             controller: phoneController..text = data['phone'],
@@ -90,7 +93,7 @@ class _EditProfileScreenUserState extends State<EditProfileScreenUser> {
                               },
                               child: Container(
                                 height: 50,
-                                width: 150,
+                                width: 120,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
                                     // color: AppColor.lightBlue

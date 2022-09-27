@@ -17,7 +17,12 @@ class _MyBookingStatusScreenState extends State<MyBookingStatusScreen> {
         appBar: AppBar(
           centerTitle: true,
           automaticallyImplyLeading: false,
-          title: const Text("My booking"),
+          backgroundColor: AppColor.appColor.withOpacity(0.9),
+          title: const Text("My booking",
+            style: TextStyle(
+              fontFamily: AppFont.semiBold
+            ),
+          ),
         ),
         body: ListView.builder(
           itemCount: 10,

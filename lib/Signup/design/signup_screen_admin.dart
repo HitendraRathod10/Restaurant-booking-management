@@ -95,10 +95,11 @@ class _SignupScreenAdminState extends State<SignupScreenAdmin> {
                                       child: TextFormField(
                                         cursorHeight: 17,
                                         controller: fullNameController,
-                                        style: const TextStyle(fontSize: 17),
+                                        style: const TextStyle(fontSize: 17,fontFamily: AppFont.regular),
                                         decoration: const InputDecoration(
                                             contentPadding: EdgeInsets.fromLTRB(00, 10, 00, 00),
                                             hintText: "Full Name",
+                                            hintStyle: TextStyle(fontFamily: AppFont.regular),
                                             border: InputBorder.none
                                         ),
                                       ),
@@ -111,9 +112,10 @@ class _SignupScreenAdminState extends State<SignupScreenAdmin> {
                                       child: TextFormField(
                                         cursorHeight: 17,
                                         controller: emailController,
-                                        style: const TextStyle(fontSize: 17),
+                                        style: const TextStyle(fontSize: 17,fontFamily: AppFont.regular),
                                         decoration: const InputDecoration(
                                             hintText: "Email ID",
+                                            hintStyle: TextStyle(fontFamily: AppFont.regular),
                                             border: InputBorder.none,
                                         ),
                                       ),
@@ -126,9 +128,10 @@ class _SignupScreenAdminState extends State<SignupScreenAdmin> {
                                       child: TextFormField(
                                         cursorHeight: 17,
                                         controller: phoneController,
-                                        style: const TextStyle(fontSize: 17),
+                                        style: const TextStyle(fontSize: 17,fontFamily: AppFont.regular),
                                         decoration: const InputDecoration(
                                             hintText: "Phone",
+                                            hintStyle: TextStyle(fontFamily: AppFont.regular),
                                             border: InputBorder.none
                                         ),
                                       ),
@@ -144,9 +147,10 @@ class _SignupScreenAdminState extends State<SignupScreenAdmin> {
                                             cursorHeight: 17,
                                             controller: passwordController,
                                             obscureText: snapshot.registerPswd ? true : false,
-                                            style: const TextStyle(fontSize: 17),
+                                            style: const TextStyle(fontSize: 17,fontFamily: AppFont.regular),
                                             decoration: InputDecoration(
                                                 hintText: "Password",
+                                                hintStyle: const TextStyle(fontFamily: AppFont.regular),
                                               // contentPadding: EdgeInsets.fromLTRB(00, 15, 00, 00),
                                                 border: InputBorder.none,
                                               suffixIcon: IconButton(
@@ -185,7 +189,10 @@ class _SignupScreenAdminState extends State<SignupScreenAdmin> {
                                               //   return null;
                                               // },
                                               hint: const Text('Select User Type',
-                                                style: TextStyle(fontSize: 17),
+                                                style: TextStyle(
+                                                    fontSize: 17,
+                                                    fontFamily: AppFont.regular
+                                                ),
                                               ),
                                               isExpanded: true,
                                               // isDense: true,
@@ -202,7 +209,10 @@ class _SignupScreenAdminState extends State<SignupScreenAdmin> {
                                                     child: Row(
                                                       children: [
                                                         Text(userType,
-                                                          style: const TextStyle(fontSize: 17),
+                                                          style: const TextStyle(
+                                                              fontSize: 17,
+                                                              fontFamily: AppFont.regular
+                                                          ),
                                                         )
                                                       ],
                                                     )

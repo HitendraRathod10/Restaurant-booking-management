@@ -47,7 +47,11 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
         appBar: AppBar(
           backgroundColor: AppColor.appColor.withOpacity(0.9),
           centerTitle: true,
-          title: const Text('Edit Details'),
+          title: const Text('Edit Details',
+            style: TextStyle(
+              fontFamily: AppFont.semiBold
+            ),
+          ),
         ),
         body: SingleChildScrollView(
           child: Container(
@@ -58,6 +62,7 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
                 return Column(
                   children: [
                     TextFieldMixin().textFieldWidget(
+                      textStyle: const TextStyle(fontFamily: AppFont.regular),
                       labelText: 'Restaurant Name',
                       labelStyle: const TextStyle(color: AppColor.appColor),
                       // controller: restaurantNameController..text = data['fullName'],
@@ -67,6 +72,7 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
                       height: 10,
                     ),
                     TextFieldMixin().textFieldWidget(
+                      textStyle: const TextStyle(fontFamily: AppFont.regular),
                       labelText: 'Food',
                       labelStyle: const TextStyle(color: AppColor.appColor),
                       // controller: restaurantNameController..text = data['fullName'],
@@ -76,6 +82,7 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
                       height: 10,
                     ),
                     TextFieldMixin().textFieldWidget(
+                      textStyle: const TextStyle(fontFamily: AppFont.regular),
                       labelText: 'Phone no.',
                       labelStyle: const TextStyle(color: AppColor.appColor),
                       // controller: restaurantNameController..text = data['fullName'],
@@ -85,6 +92,7 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
                       height: 10,
                     ),
                     TextFieldMixin().textFieldWidget(
+                      textStyle: const TextStyle(fontFamily: AppFont.regular),
                       labelText: 'Email ID',
                       labelStyle: const TextStyle(color: AppColor.appColor),
                       // controller: restaurantNameController..text = data['fullName'],
@@ -94,6 +102,7 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
                       height: 10,
                     ),
                     TextFieldMixin().textFieldWidget(
+                      textStyle: const TextStyle(fontFamily: AppFont.regular),
                       labelText: 'Area',
                       labelStyle: const TextStyle(color: AppColor.appColor),
                       // controller: restaurantNameController..text = data['fullName'],
@@ -103,6 +112,7 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
                       height: 10,
                     ),
                     TextFieldMixin().textFieldWidget(
+                      textStyle: const TextStyle(fontFamily: AppFont.regular),
                       labelText: 'City',
                       labelStyle: const TextStyle(color: AppColor.appColor),
                       // controller: restaurantNameController..text = data['fullName'],
@@ -112,6 +122,7 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
                       height: 10,
                     ),
                     TextFieldMixin().textFieldWidget(
+                      textStyle: const TextStyle(fontFamily: AppFont.regular),
                       labelText: 'State',
                       labelStyle: const TextStyle(color: AppColor.appColor),
                       // controller: restaurantNameController..text = data['fullName'],
@@ -121,6 +132,7 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
                       height: 10,
                     ),
                     TextFieldMixin().textFieldWidget(
+                      textStyle: const TextStyle(fontFamily: AppFont.regular),
                       labelText: 'Website',
                       labelStyle: const TextStyle(color: AppColor.appColor),
                       // controller: restaurantNameController..text = data['fullName'],
@@ -206,7 +218,11 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
                                                       children: const [
                                                         Icon(Icons.location_on,color: AppColor.appColor,),
                                                         SizedBox(width: 5),
-                                                        Text("Select Location"),
+                                                        Text("Select Location",
+                                                          style: TextStyle(
+                                                            fontFamily: AppFont.regular
+                                                          ),
+                                                        ),
                                                       ],
                                                     )),
                                                 onTap: ()=>
