@@ -146,12 +146,16 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
                                   margin: const EdgeInsets.only(left: 10,right: 00),
                                   child: const Icon(Icons.person,color: AppColor.appColor,)),
                               const SizedBox(height: 5,),
-                              Container(
-                                width: MediaQuery.of(context).size.width/1.5,
-                                  padding: const EdgeInsets.only(top: 10,bottom: 10),
-                                  margin: const EdgeInsets.only(left: 10,right: 10),
-                                  child: Text(data['fullName'],maxLines: 2,overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(fontFamily: AppFont.regular,fontSize: 17),)),
+                              Expanded(
+                                child: Container(
+                                  // width: MediaQuery.of(context).size.width/1.5,
+                                    padding: const EdgeInsets.only(top: 10,bottom: 10),
+                                    margin: const EdgeInsets.only(left: 10,right: 10),
+                                    child: Text(data['fullName'],
+                                      // maxLines: 2,
+                                      // overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(fontFamily: AppFont.regular,fontSize: 17),)),
+                              ),
                             ],
                           ),
                         ),
@@ -168,12 +172,16 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
                                   margin: const EdgeInsets.only(left: 10,right: 00),
                                   child: const Icon(Icons.email,color: AppColor.appColor,)),
                               const SizedBox(height: 5,),
-                              Container(
-                                  width: MediaQuery.of(context).size.width/1.5,
-                                  padding: const EdgeInsets.only(top: 10,bottom: 10),
-                                  margin: const EdgeInsets.only(left: 10,right: 10),
-                                  child: Text(data['email'],maxLines: 2,overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(fontFamily: AppFont.regular,fontSize: 17),)),
+                              Expanded(
+                                child: Container(
+                                    // width: MediaQuery.of(context).size.width/1.5,
+                                    padding: const EdgeInsets.only(top: 10,bottom: 10),
+                                    margin: const EdgeInsets.only(left: 10,right: 10),
+                                    child: Text(data['email'],
+                                      // maxLines: 2,
+                                      // overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(fontFamily: AppFont.regular,fontSize: 17),)),
+                              ),
                             ],
                           ),
                         ),
@@ -190,12 +198,16 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
                                   margin: const EdgeInsets.only(left: 10,right: 00),
                                   child: const Icon(Icons.phone_iphone_rounded,color: AppColor.appColor,)),
                               const SizedBox(height: 5,),
-                              Container(
-                                  width: MediaQuery.of(context).size.width/1.5,
-                                  padding: const EdgeInsets.only(top: 10,bottom: 10),
-                                  margin: const EdgeInsets.only(left: 10,right: 10),
-                                  child: Text(data['phone'],maxLines: 2,overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(fontFamily: AppFont.regular,fontSize: 17),)),
+                              Expanded(
+                                child: Container(
+                                    // width: MediaQuery.of(context).size.width/1.5,
+                                    padding: const EdgeInsets.only(top: 10,bottom: 10),
+                                    margin: const EdgeInsets.only(left: 10,right: 10),
+                                    child: Text(data['phone'],
+                                      // maxLines: 2,
+                                      // overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(fontFamily: AppFont.regular,fontSize: 17),)),
+                              ),
                             ],
                           ),
                         ),
@@ -240,7 +252,7 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
                           ),
                         ),
                       ),*/
-                      const SizedBox(height: 50),
+                      const SizedBox(height: 40),
                       GestureDetector(
                           onTap: () async {
                             SharedPreferences prefg = await SharedPreferences.getInstance();
@@ -270,7 +282,8 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
                                 )
                             ),
                           )
-                      )
+                      ),
+                      const SizedBox(height: 40),
                     ],
                   );
                 } else if (snapshot.connectionState == ConnectionState.done) {

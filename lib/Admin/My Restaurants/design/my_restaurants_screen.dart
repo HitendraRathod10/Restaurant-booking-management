@@ -81,6 +81,7 @@ class _MyRestaurantsScreenState extends State<MyRestaurantsScreen> {
                                     Positioned(
                                         bottom: 08,
                                         left: 08,
+                                        right: 80,
                                         child: Text(
                                           '${snapshot.data!.docChanges[index].doc.get("name")}',
                                           style: const TextStyle(
@@ -88,6 +89,8 @@ class _MyRestaurantsScreenState extends State<MyRestaurantsScreen> {
                                             fontFamily: AppFont.semiBold,
                                             fontSize: 30,
                                           ),
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 3,
                                         ),
                                       ),
                                     Positioned(
@@ -105,7 +108,7 @@ class _MyRestaurantsScreenState extends State<MyRestaurantsScreen> {
                                             SizedBox(
                                               width: 02,
                                             ),
-                                            Text("4.2",style: TextStyle(fontFamily: AppFont.semiBold,fontSize: 20),)
+                                            Text("4.5",style: TextStyle(fontFamily: AppFont.semiBold,fontSize: 20),)
                                           ],
                                         ),
                                       )
@@ -182,7 +185,8 @@ class _MyRestaurantsScreenState extends State<MyRestaurantsScreen> {
                   );
                 },
               );
-              }else{
+              }
+              else{
                 return loader();
               }
             }

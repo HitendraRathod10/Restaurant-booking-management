@@ -48,7 +48,7 @@ class _MapScreenState extends State<MapScreen> {
           appBar: AppBar(
             centerTitle: true,
             automaticallyImplyLeading: false,
-            title: const Text("Map Screen",style: TextStyle(fontFamily: AppFont.semiBold)),
+            title: const Text("Restaurants Near Me",style: TextStyle(fontFamily: AppFont.semiBold)),
             backgroundColor: AppColor.appColor.withOpacity(0.9),
           ),
           body: FutureBuilder<LocationData?>(

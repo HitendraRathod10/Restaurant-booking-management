@@ -153,48 +153,57 @@ class _RestaurantOverviewState extends State<RestaurantOverview> {
               ),
               Row(
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(10, 00, 00, 00),
-                        child: Container(
-                          alignment: Alignment.centerLeft ,
-                            child: SizedBox(
-                              width: MediaQuery.of(context).size.width/1.5,
+                  Expanded(
+                    flex: 8,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(10, 00, 00, 00),
+                          child: Container(
+                              // width: MediaQuery.of(context).size.width/1.5,
+                            alignment: Alignment.centerLeft ,
                               child: Text("${widget.doc!.get("name")}",
                                 style: const TextStyle(
                                     fontFamily: AppFont.semiBold,
                                     fontSize: 30
                                 ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            )
+                                // overflow: TextOverflow.ellipsis,
+                              )
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(10, 00, 00, 00),
-                        child: Container(
-                            alignment: Alignment.centerLeft,
-                            child: Text("${widget.doc!.get("area")}, ${widget.doc!.get("city")}, ${widget.doc!.get("state")}",
-                              style: const TextStyle(
-                                  fontFamily: AppFont.regular,
-                                  fontSize: 15
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                            )
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(10, 00, 00, 00),
+                          child: Container(
+                            // width: MediaQuery.of(context).size.width/1.5,
+                              alignment: Alignment.centerLeft,
+                              child: Text("${widget.doc!.get("area")}, ${widget.doc!.get("city")}, ${widget.doc!.get("state")}",
+                                style: const TextStyle(
+                                    fontFamily: AppFont.regular,
+                                    fontSize: 15
+                                ),
+                                // overflow: TextOverflow.ellipsis,
+                              )
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                  const Spacer(),
-                  const Icon(Icons.star,color: Colors.amber,size: 20),
-                  const SizedBox(
-                    width: 02,
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.fromLTRB(00, 00, 10, 00),
-                    child: Text("5.0",style: TextStyle(fontFamily: AppFont.semiBold,fontSize: 20,color: AppColor.black),),
+                  // const Spacer(),
+                  Expanded(
+                    flex: 2,
+                    child: Row(
+                      children: const [
+                        Icon(Icons.star,color: Colors.amber,size: 20),
+                        SizedBox(
+                          width: 02,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(00, 00, 10, 00),
+                          child: Text("5.0",style: TextStyle(fontFamily: AppFont.semiBold,fontSize: 20,color: AppColor.black),),
+                        ),
+                      ],
+                    ),
                   )
                 ],
               ),
@@ -318,9 +327,11 @@ class _RestaurantOverviewState extends State<RestaurantOverview> {
                             margin: const EdgeInsets.only(left: 10,right: 10),
                             child: const Icon(Icons.call,color: AppColor.black,)),
                         const SizedBox(width: 1,),
-                        Container(
-                            padding: const EdgeInsets.only(top: 10,bottom: 10),
-                            child: Text('${widget.doc!.get("phone")}',style: const TextStyle(fontFamily: AppFont.regular,fontSize: 20))),
+                        Expanded(
+                          child: Container(
+                              padding: const EdgeInsets.only(top: 10,bottom: 10),
+                              child: Text('${widget.doc!.get("phone")}',style: const TextStyle(fontFamily: AppFont.regular,fontSize: 20))),
+                        ),
                       ],
                     ),
                   ),
@@ -342,9 +353,11 @@ class _RestaurantOverviewState extends State<RestaurantOverview> {
                             margin: const EdgeInsets.only(left: 10,right: 10),
                             child: const Icon(Icons.email_outlined,color: AppColor.black,)),
                         const SizedBox(width: 1,),
-                        Container(
-                            padding: const EdgeInsets.only(top: 10,bottom: 10),
-                            child: Text('${widget.doc!.get("email")}',style: const TextStyle(fontFamily: AppFont.regular,fontSize: 20),)),
+                        Expanded(
+                          child: Container(
+                              padding: const EdgeInsets.only(top: 10,bottom: 10),
+                              child: Text('${widget.doc!.get("email")}',style: const TextStyle(fontFamily: AppFont.regular,fontSize: 20),)),
+                        ),
                       ],
                     ),
                   ),
@@ -366,11 +379,13 @@ class _RestaurantOverviewState extends State<RestaurantOverview> {
                             margin: const EdgeInsets.only(left: 10,right: 10),
                             child: Image.asset(AppImage.website,width: 20,)),
                         const SizedBox(width: 1,),
-                        Container(
-                            padding: const EdgeInsets.only(top: 10,bottom: 10),
-                            child: widget.doc!.get("website") == "" ?
-                            const Text("Not Given",style: TextStyle(fontFamily: AppFont.regular,fontSize: 20),) :
-                            Text('${widget.doc!.get("website")}',style: const TextStyle(fontFamily: AppFont.regular,fontSize: 20),)),
+                        Expanded(
+                          child: Container(
+                              padding: const EdgeInsets.only(top: 10,bottom: 10),
+                              child: widget.doc!.get("website") == "" ?
+                              const Text("Not Given",style: TextStyle(fontFamily: AppFont.regular,fontSize: 20),) :
+                              Text('${widget.doc!.get("website")}',style: const TextStyle(fontFamily: AppFont.regular,fontSize: 20),)),
+                        ),
                       ],
                     ),
                   ),

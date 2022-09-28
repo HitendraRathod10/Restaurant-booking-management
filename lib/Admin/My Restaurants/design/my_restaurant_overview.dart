@@ -162,24 +162,26 @@ class _MyRestaurantOverviewState extends State<MyRestaurantOverview> {
               Container(
                 padding: const EdgeInsets.only(top: 05),
                 margin: const EdgeInsets.only(left: 20,right: 20),
-                width: double.infinity,
+                // width: double.infinity,
                 child: Card(
                   child: Row(
                     children: [
                       Container(
                           padding: const EdgeInsets.only(top: 10,bottom: 10),
-                          margin: const EdgeInsets.only(left: 10,right: 10),
+                          margin: const EdgeInsets.only(left: 10,right: 00),
                           child: const Icon(Icons.food_bank,color: AppColor.appColor,)),
                       const SizedBox(height: 5,),
-                      Container(
-                          padding: const EdgeInsets.only(top: 10,bottom: 10),
-                          margin: const EdgeInsets.only(left: 10,right: 10),
-                          child: Text("${widget.doc!.get("name")}",
-                            style: const TextStyle(
-                              fontFamily: AppFont.regular,
-                              fontSize: 17
-                            ),
-                          )),
+                      Expanded(
+                        child: Container(
+                            padding: const EdgeInsets.only(top: 10,bottom: 10),
+                            margin: const EdgeInsets.only(left: 10,right: 10),
+                            child: Text("${widget.doc!.get("name")}",
+                              style: const TextStyle(
+                                fontFamily: AppFont.regular,
+                                fontSize: 17
+                              ),
+                            )),
+                      ),
                     ],
                   ),
                 ),
@@ -193,18 +195,20 @@ class _MyRestaurantOverviewState extends State<MyRestaurantOverview> {
                     children: [
                       Container(
                           padding: const EdgeInsets.only(top: 10,bottom: 10),
-                          margin: const EdgeInsets.only(left: 10,right: 10),
+                          margin: const EdgeInsets.only(left: 10,right: 00),
                           child: const Icon(Icons.restaurant,color: AppColor.appColor,)),
                       const SizedBox(height: 5,),
-                      Container(
-                          padding: const EdgeInsets.only(top: 10,bottom: 10),
-                          margin: const EdgeInsets.only(left: 10,right: 10),
-                          child: Text("${widget.doc!.get("food")}",
-                            style: const TextStyle(
-                                fontFamily: AppFont.regular,
-                                fontSize: 17
-                            ),
-                          )),
+                      Expanded(
+                        child: Container(
+                            padding: const EdgeInsets.only(top: 10,bottom: 10),
+                            margin: const EdgeInsets.only(left: 10,right: 10),
+                            child: Text("${widget.doc!.get("food")}",
+                              style: const TextStyle(
+                                  fontFamily: AppFont.regular,
+                                  fontSize: 17
+                              ),
+                            )),
+                      ),
                     ],
                   ),
                 ),
@@ -218,18 +222,20 @@ class _MyRestaurantOverviewState extends State<MyRestaurantOverview> {
                     children: [
                       Container(
                           padding: const EdgeInsets.only(top: 10,bottom: 10),
-                          margin: const EdgeInsets.only(left: 10,right: 10),
+                          margin: const EdgeInsets.only(left: 10,right: 00),
                           child: const Icon(Icons.call,color: AppColor.appColor,)),
                       const SizedBox(height: 5,),
-                      Container(
-                          padding: const EdgeInsets.only(top: 10,bottom: 10),
-                          margin: const EdgeInsets.only(left: 10,right: 10),
-                          child: Text("${widget.doc!.get("phone")}",
-                              style: const TextStyle(
-                              fontFamily: AppFont.regular,
-                              fontSize: 17
-                          ),
-                          )),
+                      Expanded(
+                        child: Container(
+                            padding: const EdgeInsets.only(top: 10,bottom: 10),
+                            margin: const EdgeInsets.only(left: 10,right: 10),
+                            child: Text("${widget.doc!.get("phone")}",
+                                style: const TextStyle(
+                                fontFamily: AppFont.regular,
+                                fontSize: 17
+                            ),
+                            )),
+                      ),
                     ],
                   ),
                 ),
@@ -243,18 +249,20 @@ class _MyRestaurantOverviewState extends State<MyRestaurantOverview> {
                     children: [
                       Container(
                           padding: const EdgeInsets.only(top: 10,bottom: 10),
-                          margin: const EdgeInsets.only(left: 10,right: 10),
+                          margin: const EdgeInsets.only(left: 10,right: 00),
                           child: const Icon(Icons.mail,color: AppColor.appColor,)),
                       const SizedBox(height: 5,),
-                      Container(
-                          padding: const EdgeInsets.only(top: 10,bottom: 10),
-                          margin: const EdgeInsets.only(left: 10,right: 10),
-                          child: Text("${widget.doc!.get("email")}",
-                            style: const TextStyle(
-                                fontFamily: AppFont.regular,
-                                fontSize: 17
-                            ),
-                          )),
+                      Expanded(
+                        child: Container(
+                            padding: const EdgeInsets.only(top: 10,bottom: 10),
+                            margin: const EdgeInsets.only(left: 10,right: 10),
+                            child: Text("${widget.doc!.get("email")}",
+                              style: const TextStyle(
+                                  fontFamily: AppFont.regular,
+                                  fontSize: 17
+                              ),
+                            )),
+                      ),
                     ],
                   ),
                 ),
@@ -268,18 +276,20 @@ class _MyRestaurantOverviewState extends State<MyRestaurantOverview> {
                     children: [
                       Container(
                           padding: const EdgeInsets.only(top: 10,bottom: 10),
-                          margin: const EdgeInsets.only(left: 10,right: 10),
+                          margin: const EdgeInsets.only(left: 10,right: 00),
                           child: const Icon(Icons.location_on,color: AppColor.appColor,)),
                       const SizedBox(height: 5,),
-                      Container(
-                          padding: const EdgeInsets.only(top: 10,bottom: 10),
-                          margin: const EdgeInsets.only(left: 10,right: 10),
-                          child: Text("${widget.doc!.get("area")}",
-                            style: const TextStyle(
-                                fontFamily: AppFont.regular,
-                                fontSize: 17
-                            ),
-                          )),
+                      Expanded(
+                        child: Container(
+                            padding: const EdgeInsets.only(top: 10,bottom: 10),
+                            margin: const EdgeInsets.only(left: 10,right: 10),
+                            child: Text("${widget.doc!.get("area")}",
+                              style: const TextStyle(
+                                  fontFamily: AppFont.regular,
+                                  fontSize: 17
+                              ),
+                            )),
+                      ),
                     ],
                   ),
                 ),
@@ -293,18 +303,20 @@ class _MyRestaurantOverviewState extends State<MyRestaurantOverview> {
                     children: [
                       Container(
                           padding: const EdgeInsets.only(top: 10,bottom: 10),
-                          margin: const EdgeInsets.only(left: 10,right: 10),
+                          margin: const EdgeInsets.only(left: 10,right: 00),
                           child: const Icon(Icons.location_on,color: AppColor.appColor,)),
                       const SizedBox(height: 5,),
-                      Container(
-                          padding: const EdgeInsets.only(top: 10,bottom: 10),
-                          margin: const EdgeInsets.only(left: 10,right: 10),
-                          child: Text("${widget.doc!.get("city")}",
-                            style: const TextStyle(
-                                fontFamily: AppFont.regular,
-                                fontSize: 17
-                            ),
-                          )),
+                      Expanded(
+                        child: Container(
+                            padding: const EdgeInsets.only(top: 10,bottom: 10),
+                            margin: const EdgeInsets.only(left: 10,right: 10),
+                            child: Text("${widget.doc!.get("city")}",
+                              style: const TextStyle(
+                                  fontFamily: AppFont.regular,
+                                  fontSize: 17
+                              ),
+                            )),
+                      ),
                     ],
                   ),
                 ),
@@ -318,18 +330,20 @@ class _MyRestaurantOverviewState extends State<MyRestaurantOverview> {
                     children: [
                       Container(
                           padding: const EdgeInsets.only(top: 10,bottom: 10),
-                          margin: const EdgeInsets.only(left: 10,right: 10),
+                          margin: const EdgeInsets.only(left: 10,right: 00),
                           child: const Icon(Icons.location_on,color: AppColor.appColor,)),
                       const SizedBox(height: 5,),
-                      Container(
-                          padding: const EdgeInsets.only(top: 10,bottom: 10),
-                          margin: const EdgeInsets.only(left: 10,right: 10),
-                          child: Text("${widget.doc!.get("state")}",
-                            style: const TextStyle(
-                                fontFamily: AppFont.regular,
-                                fontSize: 17
-                            ),
-                          )),
+                      Expanded(
+                        child: Container(
+                            padding: const EdgeInsets.only(top: 10,bottom: 10),
+                            margin: const EdgeInsets.only(left: 10,right: 10),
+                            child: Text("${widget.doc!.get("state")}",
+                              style: const TextStyle(
+                                  fontFamily: AppFont.regular,
+                                  fontSize: 17
+                              ),
+                            )),
+                      ),
                     ],
                   ),
                 ),
@@ -343,25 +357,27 @@ class _MyRestaurantOverviewState extends State<MyRestaurantOverview> {
                     children: [
                       Container(
                           padding: const EdgeInsets.only(top: 10,bottom: 10),
-                          margin: const EdgeInsets.only(left: 10,right: 10),
+                          margin: const EdgeInsets.only(left: 10,right: 00),
                           child: const Icon(Icons.web,color: AppColor.appColor,)),
                       const SizedBox(height: 5,),
-                      Container(
-                          padding: const EdgeInsets.only(top: 10,bottom: 10),
-                          margin: const EdgeInsets.only(left: 10,right: 10),
-                          child: widget.doc!.get("website") == "" ?
-                          const Text("Not added",
-                            style: TextStyle(
-                                fontFamily: AppFont.regular,
-                                fontSize: 17
-                            ),
-                          ) :
-                          Text("${widget.doc!.get("website")}",
-                            style: const TextStyle(
-                                fontFamily: AppFont.regular,
-                                fontSize: 17
-                            ),
-                          )),
+                      Expanded(
+                        child: Container(
+                            padding: const EdgeInsets.only(top: 10,bottom: 10),
+                            margin: const EdgeInsets.only(left: 10,right: 10),
+                            child: widget.doc!.get("website") == "" ?
+                            const Text("Not added",
+                              style: TextStyle(
+                                  fontFamily: AppFont.regular,
+                                  fontSize: 17
+                              ),
+                            ) :
+                            Text("${widget.doc!.get("website")}",
+                              style: const TextStyle(
+                                  fontFamily: AppFont.regular,
+                                  fontSize: 17
+                              ),
+                            )),
+                      ),
                     ],
                   ),
                 ),

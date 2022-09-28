@@ -61,6 +61,7 @@ class _EditProfileScreenAdminState extends State<EditProfileScreenAdmin> {
                             labelText: 'Full Name',
                             labelStyle: const TextStyle(color: AppColor.appColor),
                             controller: fullNameController..text = data['fullName'],
+                            maxLines: 5
                           ),
                           const SizedBox(height: 10),
                           TextFieldMixin().textFieldWidget(
@@ -69,6 +70,7 @@ class _EditProfileScreenAdminState extends State<EditProfileScreenAdmin> {
                             labelStyle: const TextStyle(color: AppColor.appColor),
                             controller: emailController..text = data['email'],
                             readOnly: true,
+                              maxLines: 5
                           ),
                           const SizedBox(height: 10),
                           TextFieldMixin().textFieldWidget(
@@ -77,6 +79,7 @@ class _EditProfileScreenAdminState extends State<EditProfileScreenAdmin> {
                             labelStyle: const TextStyle(color: AppColor.appColor),
                             controller: phoneController..text = data['phone'],
                             keyboardType: TextInputType.phone,
+                              maxLines: 5
                           ),
                           const SizedBox(height: 35,),
                           GestureDetector(

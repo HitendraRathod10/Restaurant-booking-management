@@ -57,26 +57,29 @@ class _EditProfileScreenUserState extends State<EditProfileScreenUser> {
                         children: [
                           // const SizedBox(height: 5),
                           TextFieldMixin().textFieldWidget(
-                            textStyle: TextStyle(fontFamily: AppFont.regular),
+                            textStyle: const TextStyle(fontFamily: AppFont.regular),
                             labelText: 'FullName',
-                            labelStyle: TextStyle(color: AppColor.appColor),
+                            labelStyle: const TextStyle(color: AppColor.appColor),
                             controller: fullNameController..text = data['fullName'],
+                            maxLines: 5
                           ),
                           const SizedBox(height: 10),
                           TextFieldMixin().textFieldWidget(
-                            textStyle: TextStyle(fontFamily: AppFont.regular),
+                            textStyle: const TextStyle(fontFamily: AppFont.regular),
                             labelText: 'Email',
-                            labelStyle: TextStyle(color: AppColor.appColor),
+                            labelStyle: const TextStyle(color: AppColor.appColor),
                             controller: emailController..text = data['email'],
                             readOnly: true,
+                            maxLines: 5
                           ),
                           const SizedBox(height: 10),
                           TextFieldMixin().textFieldWidget(
-                            textStyle: TextStyle(fontFamily: AppFont.regular),
+                            textStyle: const TextStyle(fontFamily: AppFont.regular),
                             labelText: 'Phone',
-                            labelStyle: TextStyle(color: AppColor.appColor),
+                            labelStyle: const TextStyle(color: AppColor.appColor),
                             controller: phoneController..text = data['phone'],
                             keyboardType: TextInputType.phone,
+                            maxLines: 5
                           ),
                           const SizedBox(height: 35),
                           GestureDetector(
@@ -88,7 +91,7 @@ class _EditProfileScreenUserState extends State<EditProfileScreenUser> {
                                 }else{
                                   Provider.of<SignupProvider>(context,listen: false).
                                   insertDataUser(fullNameController.text, emailController.text, phoneController.text, "User");
-                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomeScreenUser()));
+                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const HomeScreenUser()));
                                 }
                               },
                               child: Container(

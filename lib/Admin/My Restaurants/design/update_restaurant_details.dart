@@ -67,6 +67,7 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
                       labelStyle: const TextStyle(color: AppColor.appColor),
                       // controller: restaurantNameController..text = data['fullName'],
                       controller: snapshot.restaurantNameController,
+                      maxLines: 5
                     ),
                     const SizedBox(
                       height: 10,
@@ -77,6 +78,7 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
                       labelStyle: const TextStyle(color: AppColor.appColor),
                       // controller: restaurantNameController..text = data['fullName'],
                       controller: snapshot.foodController,
+                      maxLines: 5
                     ),
                     const SizedBox(
                       height: 10,
@@ -87,6 +89,7 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
                       labelStyle: const TextStyle(color: AppColor.appColor),
                       // controller: restaurantNameController..text = data['fullName'],
                       controller: snapshot.phoneController,
+                        maxLines: 5
                     ),
                     const SizedBox(
                       height: 10,
@@ -97,6 +100,7 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
                       labelStyle: const TextStyle(color: AppColor.appColor),
                       // controller: restaurantNameController..text = data['fullName'],
                       controller: snapshot.emailController,
+                        maxLines: 5
                     ),
                     const SizedBox(
                       height: 10,
@@ -107,6 +111,7 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
                       labelStyle: const TextStyle(color: AppColor.appColor),
                       // controller: restaurantNameController..text = data['fullName'],
                       controller: snapshot.areaController,
+                        maxLines: 5
                     ),
                     const SizedBox(
                       height: 10,
@@ -117,6 +122,7 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
                       labelStyle: const TextStyle(color: AppColor.appColor),
                       // controller: restaurantNameController..text = data['fullName'],
                       controller: snapshot.cityController,
+                        maxLines: 5
                     ),
                     const SizedBox(
                       height: 10,
@@ -127,6 +133,7 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
                       labelStyle: const TextStyle(color: AppColor.appColor),
                       // controller: restaurantNameController..text = data['fullName'],
                       controller: snapshot.stateController,
+                        maxLines: 5
                     ),
                     const SizedBox(
                       height: 10,
@@ -137,6 +144,7 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
                       labelStyle: const TextStyle(color: AppColor.appColor),
                       // controller: restaurantNameController..text = data['fullName'],
                       controller: snapshot.websiteController,
+                        maxLines: 5
                     ),
                     const SizedBox(
                       height: 10,

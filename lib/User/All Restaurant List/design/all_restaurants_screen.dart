@@ -293,7 +293,8 @@ class _AllRestaurantsScreenState extends State<AllRestaurantsScreen> {
                   );
                 },
               );
-            }else{
+            }
+            else{
               return loader();
             }
           }
