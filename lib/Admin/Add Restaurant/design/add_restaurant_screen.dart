@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -373,6 +374,7 @@ class _AddRestaurantScreenState extends State<AddRestaurantScreen> {
                             Provider.of<AddRestaurantProvider>(context,listen: false).
                             insertALLRestaurant(
                                 context,
+                                FirebaseAuth.instance.currentUser!.email.toString(),
                                 restaurantNameController.text, foodController.text, phoneController.text, emailController.text,
                                 areaController.text, cityController.text, stateController.text, websiteController.text,
                                 Provider.of<AddRestaurantProvider>(context,listen: false).urlDownloads.toString(),

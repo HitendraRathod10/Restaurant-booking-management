@@ -1,13 +1,20 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:restaurant_booking_management/User/Restaurant%20Book/provider/restaurant_book_provider.dart';
 import 'package:restaurant_booking_management/utils/app_font.dart';
+import 'package:time_range/time_range.dart';
 
 
 import '../../../utils/app_color.dart';
 import '../../../utils/app_image.dart';
 
 class RestaurantBook extends StatefulWidget {
-  const RestaurantBook({Key? key}) : super(key: key);
+  DocumentSnapshot? doc;
+  RestaurantBook({required this.doc});
+  // const RestaurantBook({Key? key}) : super(key: key);
 
   @override
   State<RestaurantBook> createState() => _RestaurantBookState();
@@ -20,7 +27,14 @@ class _RestaurantBookState extends State<RestaurantBook> {
   final monthFormatter = DateFormat('MMM');
   List dates = [];
   DateTime? date;
-
+  // bool isSelected = false;
+  int? selectedIndex;
+  int? selectedIndexDate;
+  int? personSend;
+  String? dateSend;
+  String? timeSend;
+  final firebase = FirebaseFirestore.instance;
+  String? fullName;
   methodForDate(){
     for (int i = 0; i < 5; i++) {
       date = currentDate.add(Duration(days: i));
@@ -115,6 +129,7 @@ class _RestaurantBookState extends State<RestaurantBook> {
               const SizedBox(
                 height: 15,
               ),
+              //Booking for person code
               SizedBox(
                 height: 40,
                 child: Row(
@@ -128,14 +143,23 @@ class _RestaurantBookState extends State<RestaurantBook> {
                         itemBuilder: (context,index){
                           return Row(
                             children: [
-                              Container(
-                                height: 40,
-                                width: 70,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: AppColor.greyDivider.withOpacity(0.2)
+                              InkWell(
+                                onTap: (){
+                                  setState(() {
+                                    selectedIndex=index;
+                                  });
+                                  print("Person : ${index+1} Person");
+                                  personSend = index+1;
+                                },
+                                child: Container(
+                                  height: 40,
+                                  width: 70,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: selectedIndex==index ? AppColor.appColor : AppColor.greyDivider.withOpacity(0.2)
+                                  ),
+                                  child: Center(child: Text("${index+1} Person",style: const TextStyle(fontFamily: AppFont.regular,fontSize: 15),)),
                                 ),
-                                child: Center(child: Text("${index+1} Person",style: const TextStyle(fontFamily: AppFont.regular,fontSize: 15),)),
                               ),
                               const SizedBox(
                                 width: 15,
@@ -177,6 +201,7 @@ class _RestaurantBookState extends State<RestaurantBook> {
               const SizedBox(
                 height: 15,
               ),
+              //Date code
               SizedBox(
                 height: 40,
                 child: Row(
@@ -190,21 +215,31 @@ class _RestaurantBookState extends State<RestaurantBook> {
                           itemBuilder: (context,index){
                             return Row(
                               children: [
-                                Container(
-                                  height: 40,
-                                  width: 70,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: AppColor.greyDivider.withOpacity(0.2)
-                                  ),
-                                  child: Center(
-                                    // child: methodForDate(),
-                                      child: Text("${dayFormatter.format(dates[index])} ${monthFormatter.format(dates[index])}",
-                                        style: const TextStyle(
-                                            fontFamily: AppFont.regular,
-                                            fontSize: 15
-                                        ),
-                                      )
+                                InkWell(
+                                  onTap: (){
+                                    setState(() {
+                                      selectedIndexDate=index;
+                                    });
+                                    dateSend = "${dayFormatter.format(dates[index])} ${monthFormatter.format(dates[index])}";
+                                    print("dateSend in ontap of date ${dateSend}");
+                                    print("Date : ${dayFormatter.format(dates[index])} ${monthFormatter.format(dates[index])}");
+                                  },
+                                  child: Container(
+                                    height: 40,
+                                    width: 70,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: selectedIndexDate==index ? AppColor.appColor : AppColor.greyDivider.withOpacity(0.2)
+                                    ),
+                                    child: Center(
+                                      // child: methodForDate(),
+                                        child: Text("${dayFormatter.format(dates[index])} ${monthFormatter.format(dates[index])}",
+                                          style: const TextStyle(
+                                              fontFamily: AppFont.regular,
+                                              fontSize: 15
+                                          ),
+                                        )
+                                    ),
                                   ),
                                 ),
                                 const SizedBox(
@@ -235,302 +270,430 @@ class _RestaurantBookState extends State<RestaurantBook> {
               const SizedBox(
                 height: 15,
               ),
-              SizedBox(
+              TimeRange(
+                fromTitle: const Text('From', style: TextStyle(fontSize: 18, color: AppColor.black),),
+                toTitle: const Text('To', style: TextStyle(fontSize: 18, color: AppColor.black),),
+                titlePadding: 20,
+                textStyle: const TextStyle(fontWeight: FontWeight.normal, color: Colors.black87),
+                activeTextStyle: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                borderColor: AppColor.greyDivider.withOpacity(0.2),
+                backgroundColor: AppColor.greyDivider.withOpacity(0.2),
+                activeBackgroundColor: AppColor.appColor,
+                activeBorderColor: AppColor.appColor,
+                firstTime: const TimeOfDay(hour: 11, minute: 00),
+                lastTime: const TimeOfDay(hour: 24, minute: 00),
+                timeStep: 15,
+                timeBlock: 60,
+                onRangeCompleted: (range) {
+                  timeSend = "${range!.start.hour.toString()}:${range.start.minute.toString()} to ${range.end.hour.toString()}:${range.end.minute.toString()}";
+                    setState(() {
+                      print("Time :  ${range.start.hour.toString()}:${range.start.minute.toString()} "
+                          "${range.end.hour.toString()}:${range.end.minute.toString()}"
+                      );
+                    });},
+              ),
+              /*SizedBox(
                 height: 40,
                 child: ListView(
                   padding: const EdgeInsets.fromLTRB(20, 00, 00, 00),
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
                   children: [
-                    Container(
-                      height: 40,
-                      width: 70,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: AppColor.greyDivider.withOpacity(0.2)
-                      ),
-                      child: const Center(
-                          child: Text("11:00")
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    Container(
-                      height: 40,
-                      width: 70,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: AppColor.greyDivider.withOpacity(0.2)
-                      ),
-                      child: const Center(
-                          child: Text("11:30")
+                    //21
+                    InkWell(
+                      onTap: (){
+
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 70,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: AppColor.greyDivider.withOpacity(0.2)
+                        ),
+                        child: const Center(
+                            child: Text("11:00")
+                        ),
                       ),
                     ),
                     const SizedBox(
                       width: 15,
                     ),
-                    Container(
-                      height: 40,
-                      width: 70,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: AppColor.greyDivider.withOpacity(0.2)
-                      ),
-                      child: const Center(
-                          child: Text("12:00")
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    Container(
-                      height: 40,
-                      width: 70,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: AppColor.greyDivider.withOpacity(0.2)
-                      ),
-                      child: const Center(
-                          child: Text("12:30")
+                    InkWell(
+                      onTap: (){
+
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 70,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: AppColor.greyDivider.withOpacity(0.2)
+                        ),
+                        child: const Center(
+                            child: Text("11:30")
+                        ),
                       ),
                     ),
                     const SizedBox(
                       width: 15,
                     ),
-                    Container(
-                      height: 40,
-                      width: 70,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: AppColor.greyDivider.withOpacity(0.2)
-                      ),
-                      child: const Center(
-                          child: Text("01:00")
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    Container(
-                      height: 40,
-                      width: 70,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: AppColor.greyDivider.withOpacity(0.2)
-                      ),
-                      child: const Center(
-                          child: Text("01:30")
+                    InkWell(
+                      onTap: (){
+
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 70,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: AppColor.greyDivider.withOpacity(0.2)
+                        ),
+                        child: const Center(
+                            child: Text("12:00")
+                        ),
                       ),
                     ),
                     const SizedBox(
                       width: 15,
                     ),
-                    Container(
-                      height: 40,
-                      width: 70,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: AppColor.greyDivider.withOpacity(0.2)
-                      ),
-                      child: const Center(
-                          child: Text("02:00")
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    Container(
-                      height: 40,
-                      width: 70,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: AppColor.greyDivider.withOpacity(0.2)
-                      ),
-                      child: const Center(
-                          child: Text("02:30")
+                    InkWell(
+                      onTap: (){
+
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 70,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: AppColor.greyDivider.withOpacity(0.2)
+                        ),
+                        child: const Center(
+                            child: Text("12:30")
+                        ),
                       ),
                     ),
                     const SizedBox(
                       width: 15,
                     ),
-                    Container(
-                      height: 40,
-                      width: 70,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: AppColor.greyDivider.withOpacity(0.2)
-                      ),
-                      child: const Center(
-                          child: Text("03:00")
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    Container(
-                      height: 40,
-                      width: 70,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: AppColor.greyDivider.withOpacity(0.2)
-                      ),
-                      child: const Center(
-                          child: Text("06:00")
+                    InkWell(
+                      onTap: (){
+
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 70,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: AppColor.greyDivider.withOpacity(0.2)
+                        ),
+                        child: const Center(
+                            child: Text("13:00")
+                        ),
                       ),
                     ),
                     const SizedBox(
                       width: 15,
                     ),
-                    Container(
-                      height: 40,
-                      width: 70,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: AppColor.greyDivider.withOpacity(0.2)
-                      ),
-                      child: const Center(
-                          child: Text("06:30")
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    Container(
-                      height: 40,
-                      width: 70,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: AppColor.greyDivider.withOpacity(0.2)
-                      ),
-                      child: const Center(
-                          child: Text("07:00")
+                    InkWell(
+                      onTap: (){
+
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 70,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: AppColor.greyDivider.withOpacity(0.2)
+                        ),
+                        child: const Center(
+                            child: Text("13:30")
+                        ),
                       ),
                     ),
                     const SizedBox(
                       width: 15,
                     ),
-                    Container(
-                      height: 40,
-                      width: 70,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: AppColor.greyDivider.withOpacity(0.2)
-                      ),
-                      child: const Center(
-                          child: Text("07:30")
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    Container(
-                      height: 40,
-                      width: 70,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: AppColor.greyDivider.withOpacity(0.2)
-                      ),
-                      child: const Center(
-                          child: Text("08:00")
+                    InkWell(
+                      onTap: (){
+
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 70,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: AppColor.greyDivider.withOpacity(0.2)
+                        ),
+                        child: const Center(
+                            child: Text("14:00")
+                        ),
                       ),
                     ),
                     const SizedBox(
                       width: 15,
                     ),
-                    Container(
-                      height: 40,
-                      width: 70,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: AppColor.greyDivider.withOpacity(0.2)
-                      ),
-                      child: const Center(
-                          child: Text("08:30")
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    Container(
-                      height: 40,
-                      width: 70,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: AppColor.greyDivider.withOpacity(0.2)
-                      ),
-                      child: const Center(
-                          child: Text("09:00")
+                    InkWell(
+                      onTap: (){
+
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 70,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: AppColor.greyDivider.withOpacity(0.2)
+                        ),
+                        child: const Center(
+                            child: Text("14:30")
+                        ),
                       ),
                     ),
                     const SizedBox(
                       width: 15,
                     ),
-                    Container(
-                      height: 40,
-                      width: 70,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: AppColor.greyDivider.withOpacity(0.2)
-                      ),
-                      child: const Center(
-                          child: Text("09:30")
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    Container(
-                      height: 40,
-                      width: 70,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: AppColor.greyDivider.withOpacity(0.2)
-                      ),
-                      child: const Center(
-                          child: Text("10:00")
+                    InkWell(
+                      onTap: (){
+
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 70,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: AppColor.greyDivider.withOpacity(0.2)
+                        ),
+                        child: const Center(
+                            child: Text("15:00")
+                        ),
                       ),
                     ),
                     const SizedBox(
                       width: 15,
                     ),
-                    Container(
-                      height: 40,
-                      width: 70,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: AppColor.greyDivider.withOpacity(0.2)
-                      ),
-                      child: const Center(
-                          child: Text("10:30")
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    Container(
-                      height: 40,
-                      width: 70,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: AppColor.greyDivider.withOpacity(0.2)
-                      ),
-                      child: const Center(
-                          child: Text("11:00")
+                    InkWell(
+                      onTap: (){
+
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 70,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: AppColor.greyDivider.withOpacity(0.2)
+                        ),
+                        child: const Center(
+                            child: Text("18:00")
+                        ),
                       ),
                     ),
                     const SizedBox(
                       width: 15,
                     ),
-                    Container(
-                      height: 40,
-                      width: 70,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: AppColor.greyDivider.withOpacity(0.2)
+                    InkWell(
+                      onTap: (){
+
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 70,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: AppColor.greyDivider.withOpacity(0.2)
+                        ),
+                        child: const Center(
+                            child: Text("18:30")
+                        ),
                       ),
-                      child: const Center(
-                          child: Text("11:30")
+                    ),
+                    const SizedBox(
+                      width: 15,
+                    ),
+                    InkWell(
+                      onTap: (){
+
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 70,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: AppColor.greyDivider.withOpacity(0.2)
+                        ),
+                        child: const Center(
+                            child: Text("19:00")
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 15,
+                    ),
+                    InkWell(
+                      onTap: (){
+
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 70,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: AppColor.greyDivider.withOpacity(0.2)
+                        ),
+                        child: const Center(
+                            child: Text("19:30")
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 15,
+                    ),
+                    InkWell(
+                      onTap: (){
+
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 70,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: AppColor.greyDivider.withOpacity(0.2)
+                        ),
+                        child: const Center(
+                            child: Text("20:00")
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 15,
+                    ),
+                    InkWell(
+                      onTap: (){
+
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 70,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: AppColor.greyDivider.withOpacity(0.2)
+                        ),
+                        child: const Center(
+                            child: Text("20:30")
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 15,
+                    ),
+                    InkWell(
+                      onTap: (){
+
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 70,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: AppColor.greyDivider.withOpacity(0.2)
+                        ),
+                        child: const Center(
+                            child: Text("21:00")
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 15,
+                    ),
+                    InkWell(
+                      onTap: (){
+
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 70,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: AppColor.greyDivider.withOpacity(0.2)
+                        ),
+                        child: const Center(
+                            child: Text("21:30")
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 15,
+                    ),
+                    InkWell(
+                      onTap: (){
+
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 70,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: AppColor.greyDivider.withOpacity(0.2)
+                        ),
+                        child: const Center(
+                            child: Text("22:00")
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 15,
+                    ),
+                    InkWell(
+                      onTap: (){
+
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 70,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: AppColor.greyDivider.withOpacity(0.2)
+                        ),
+                        child: const Center(
+                            child: Text("22:30")
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 15,
+                    ),
+                    InkWell(
+                      onTap: (){
+
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 70,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: AppColor.greyDivider.withOpacity(0.2)
+                        ),
+                        child: const Center(
+                            child: Text("23:00")
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 15,
+                    ),
+                    InkWell(
+                      onTap: (){
+
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 70,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: AppColor.greyDivider.withOpacity(0.2)
+                        ),
+                        child: const Center(
+                            child: Text("23:30")
+                        ),
                       ),
                     ),
                     const SizedBox(
@@ -538,13 +701,35 @@ class _RestaurantBookState extends State<RestaurantBook> {
                     ),
                   ],
                 ),
-              ),
+              ),*/
               const SizedBox(
                 height: 40,
               ),
               GestureDetector(
                   onTap: () async {
-
+                    var dataName = await firebase.collection('User').get();
+                    for(var i in dataName.docChanges){
+                      if(i.doc.get('email') == FirebaseAuth.instance.currentUser!.email){
+                        print("UserName ${i.doc.get('fullName')}");
+                        fullName = i.doc.get('fullName');
+                        break;
+                      }
+                    }
+                    print("email${FirebaseAuth.instance.currentUser!.email} person $personSend || date $dateSend || time $timeSend || "
+                        "restName ${widget.doc!.get("name")} || status pending ||"
+                        " userName $fullName");
+                    Provider.of<RestaurantBookProvider>(context,listen: false).
+                    bookTable(
+                        context,
+                        FirebaseAuth.instance.currentUser!.email,
+                        personSend.toString(),
+                        dateSend,
+                        timeSend,
+                        "${widget.doc!.get("name")}",
+                        "Pending",
+                        fullName,
+                        "${widget.doc!.get("shopOwnerEmail")}"
+                    );
                   },
                   child: Container(
                     height: 50,
@@ -568,7 +753,10 @@ class _RestaurantBookState extends State<RestaurantBook> {
                         )
                     ),
                   )
-              )
+              ),
+              const SizedBox(
+                height: 40,
+              ),
             ],
           ),
         ),

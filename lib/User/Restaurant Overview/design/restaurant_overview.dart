@@ -91,7 +91,7 @@ class _RestaurantOverviewState extends State<RestaurantOverview> {
       child: Scaffold(
         bottomNavigationBar: InkWell(
           onTap: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>const RestaurantBook()));
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>RestaurantBook(doc: widget.doc,)));
           },
           child: Container(
             height: 50,

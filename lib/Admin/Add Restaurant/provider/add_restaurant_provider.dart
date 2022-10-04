@@ -53,6 +53,7 @@ class AddRestaurantProvider extends ChangeNotifier{
 
   insertALLRestaurant(
       context,
+      String shopOwnerEmail,
       String name,
       String food,
       String phone,
@@ -66,6 +67,7 @@ class AddRestaurantProvider extends ChangeNotifier{
       String longitude
       ) async {
     await firebase.collection("All Restaurants").doc(name).set({
+      "shopOwnerEmail" : shopOwnerEmail,
       "name" : name,
       "food" : food,
       "phone" : phone,
@@ -81,12 +83,13 @@ class AddRestaurantProvider extends ChangeNotifier{
     showToast(
       toastMessage: "Restaurant added successfully"
     );
-    insertMyRestaurant(name,food,phone,email,area,city,state,website,image,latitude,longitude);
+    insertMyRestaurant(shopOwnerEmail,name,food,phone,email,area,city,state,website,image,latitude,longitude);
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const HomeScreenAdmin()));
     notifyListeners();
   }
 
   insertMyRestaurant(
+      String? shopOwnerEmail,
       String name,
       String food,
       String phone,
@@ -105,6 +108,7 @@ class AddRestaurantProvider extends ChangeNotifier{
         .collection('My Restaurants')
         .doc(name)
         .set({
+      "userEmail" : shopOwnerEmail,
       "name" : name,
       "food" : food,
       "phone" : phone,

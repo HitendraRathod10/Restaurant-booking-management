@@ -8,6 +8,7 @@ import 'package:restaurant_booking_management/Login/provider/login_provider.dart
 import 'package:restaurant_booking_management/Login/provider/reset_password_provider.dart';
 import 'package:restaurant_booking_management/Signup/provider/signup_provider.dart';
 import 'package:restaurant_booking_management/Splash/design/splash_screen.dart';
+import 'package:restaurant_booking_management/User/Restaurant%20Book/provider/restaurant_book_provider.dart';
 import 'Login/design/login_screen.dart';
 
 void main() async {
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ResetPasswordProvider()),
         ChangeNotifierProvider(create: (context) => AddRestaurantProvider()),
         ChangeNotifierProvider(create: (context) => UpdateRestaurantDetailsProvider()),
+        ChangeNotifierProvider(create: (context) => RestaurantBookProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
