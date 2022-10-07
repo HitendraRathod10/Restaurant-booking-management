@@ -156,16 +156,16 @@ class _AllRestaurantsScreenState extends State<AllRestaurantsScreen> {
                                                     .circular(10)
                                             ),
                                             child: Row(
-                                              children: const [
-                                                Icon(Icons.star,
+                                              children: [
+                                                const Icon(Icons.star,
                                                   color: Colors.amber,
                                                   size: 20,
                                                 ),
-                                                SizedBox(
+                                                const SizedBox(
                                                   width: 02,
                                                 ),
-                                                Text("4.2",
-                                                  style: TextStyle(
+                                                Text("${snapshot.data!.docChanges[index].doc.get("rating")}",
+                                                  style: const TextStyle(
                                                     fontFamily: AppFont.semiBold,
                                                     fontSize: 20,
                                                     color: AppColor.white

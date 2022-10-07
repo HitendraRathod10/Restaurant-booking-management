@@ -17,10 +17,54 @@ class PermissionScreenAdmin extends StatefulWidget {
 
 class _PermissionScreenAdminState extends State<PermissionScreenAdmin> {
 
-  loader(){
-    EasyLoading.show(status: 'loading...');
-  }
+  // loader(){
+  //   EasyLoading.show(status: 'loading...');
+  // }
   final firebase = FirebaseFirestore.instance;
+  forApprove(index) async {
+    var restaurantName,date,time,email,person,shopOwnerEmail,userName;
+    var collection = FirebaseFirestore.instance.collection('Booking').where("shopOwnerEmail",isEqualTo: FirebaseAuth.instance.currentUser!.email);
+    var querySnapshot = await collection.get();
+
+    print("index ${index} ${querySnapshot.docs[index].get("restaurantName")} "
+        "${querySnapshot.docs[index].get("date")} "
+        "${querySnapshot.docs[index].get("time")} "
+        "${querySnapshot.docs[index].get("person")}");
+
+    restaurantName = querySnapshot.docs[index].get("restaurantName");
+    date = querySnapshot.docs[index].get("date");
+    time = querySnapshot.docs[index].get("time");
+    email = querySnapshot.docs[index].get("email");
+    person = querySnapshot.docs[index].get("person");
+    shopOwnerEmail = querySnapshot.docs[index].get("shopOwnerEmail");
+    userName = querySnapshot.docs[index].get("userName");
+
+    // collection.doc("$restaurantName $date $time $email").update({
+    //     "email" : email,
+    //     "person" : person,
+    //     "date" : date,
+    //     "time" : time,
+    //     "shopOwnerEmail" : shopOwnerEmail,
+    //     "restaurantName" : restaurantName,
+    //     "statusOfBooking" : "Approved",
+    //     "userName" : userName
+    // });
+    setState(() {});
+    // await firebase.collection("Booking").
+    // doc("${snapshot.data!.docChanges[index].doc.get("restaurantName")} "
+    //     "${snapshot.data!.docChanges[index].doc.get("date")} "
+    //     "${snapshot.data!.docChanges[index].doc.get("time")} "
+    //     "${snapshot.data!.docChanges[index].doc.get("email")}").update({
+    //   "email" : snapshot.data!.docChanges[index].doc.get("email"),
+    //   "person" : snapshot.data!.docChanges[index].doc.get("person"),
+    //   "date" : snapshot.data!.docChanges[index].doc.get("date"),
+    //   "time" : snapshot.data!.docChanges[index].doc.get("time"),
+    //   "shopOwnerEmail" : snapshot.data!.docChanges[index].doc.get("shopOwnerEmail"),
+    //   "restaurantName" : snapshot.data!.docChanges[index].doc.get("restaurantName"),
+    //   "statusOfBooking" : "Approved",
+    //   "userName" : snapshot.data!.docChanges[index].doc.get("userName")
+    // });
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -34,22 +78,20 @@ class _PermissionScreenAdminState extends State<PermissionScreenAdmin> {
         body: StreamBuilder(
           stream: firebase.collection('Booking').where("shopOwnerEmail",isEqualTo: FirebaseAuth.instance.currentUser!.email).snapshots(),
           builder: (context,AsyncSnapshot<QuerySnapshot<Object?>> snapshot) {
-            if (!snapshot.hasData) return const Center(child: CircularProgressIndicator(color: AppColor.darkMaroon,));
-            if(snapshot.data!.size ==0) {
-              EasyLoading.dismiss();
-              return const Center(
-                child: Text("No Data found",
-                  style: TextStyle(
-                      fontFamily: AppFont.bold,
-                      fontSize: 25
-                  ),
-                ),
-              );
+            if(snapshot.connectionState == ConnectionState.waiting){
+              return const Center(child: CircularProgressIndicator());
+            }else if (snapshot.hasError) {
+              return const Center(child: Text("Something went wrong",style: TextStyle(fontFamily: AppFont.medium)));
             }
-            if(snapshot.hasData){
-              EasyLoading.dismiss();
+            else if (!snapshot.hasData) {
+              return const Center(child: Text("No Data Found",style: TextStyle(fontFamily: AppFont.medium)));
+            } else if (snapshot.requireData.docChanges.isEmpty){
+              return  Center(child: Text("No Data Found",style: TextStyle(fontFamily: AppFont.medium)));
+            }
+            else if(snapshot.hasData){
+              // EasyLoading.dismiss();
               return ListView.builder(
-                  itemCount: snapshot.data!.docChanges.length,
+                  itemCount: snapshot.data!.docs.length,
                   itemBuilder: (context,index){
                     return SizedBox(
                       // height: 92,
@@ -67,7 +109,7 @@ class _PermissionScreenAdminState extends State<PermissionScreenAdmin> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text("${snapshot.data!.docChanges[index].doc.get("userName")}",
+                                  Text("${snapshot.data!.docs[index]["userName"]}",
                                     style: const TextStyle(
                                         fontSize: 25,
                                         fontFamily: AppFont.semiBold
@@ -78,7 +120,7 @@ class _PermissionScreenAdminState extends State<PermissionScreenAdmin> {
                                   ),
                                   Row(
                                     children: [
-                                      Text("${snapshot.data!.docChanges[index].doc.get("date")}",
+                                      Text("${snapshot.data!.docs[index]["date"]}",
                                         style: const TextStyle(
                                             fontSize: 15,
                                             fontFamily: AppFont.regular
@@ -87,7 +129,7 @@ class _PermissionScreenAdminState extends State<PermissionScreenAdmin> {
                                       const SizedBox(
                                         width: 10,
                                       ),
-                                      Text("${snapshot.data!.docChanges[index].doc.get("time")}",
+                                      Text("${snapshot.data!.docs[index]["time"]}",
                                         style: const TextStyle(
                                             fontSize: 15,
                                             fontFamily: AppFont.regular
@@ -98,7 +140,7 @@ class _PermissionScreenAdminState extends State<PermissionScreenAdmin> {
                                   const SizedBox(
                                     height: 07,
                                   ),
-                                  Text("${snapshot.data!.docChanges[index].doc.get("person")} Persons",
+                                  Text("${snapshot.data!.docs[index]['person']} Persons",
                                     style: const TextStyle(
                                         fontSize: 15,
                                         fontFamily: AppFont.regular
@@ -107,29 +149,31 @@ class _PermissionScreenAdminState extends State<PermissionScreenAdmin> {
                                 ],
                               ),
                               const Spacer(),
-                              snapshot.data!.docChanges[index].doc.get("statusOfBooking") == "Approved" ?
+                              snapshot.data!.docs[index]["statusOfBooking"] == "Approved" ?
                               const Text("Approved") :
-                              snapshot.data!.docChanges[index].doc.get("statusOfBooking") == "Rejected" ?
-                              const Text("rejected") :
+                              snapshot.data!.docs[index]["statusOfBooking"] == "Rejected" ?
+                              const Text("Rejected") :
                               Row(
                                 children: [
                                   InkWell(
                                     onTap: () async {
                                       EasyLoading.show(status: "Loading Please wait for some time");
+                                      // forApprove(index);
                                       await firebase.collection("Booking").
-                                      doc("${snapshot.data!.docChanges[index].doc.get("restaurantName")} "
-                                          "${snapshot.data!.docChanges[index].doc.get("date")} "
-                                          "${snapshot.data!.docChanges[index].doc.get("time")}").update({
-                                        "email" : snapshot.data!.docChanges[index].doc.get("email"),
-                                        "person" : snapshot.data!.docChanges[index].doc.get("person"),
-                                        "date" : snapshot.data!.docChanges[index].doc.get("date"),
-                                        "time" : snapshot.data!.docChanges[index].doc.get("time"),
-                                        "shopOwnerEmail" : snapshot.data!.docChanges[index].doc.get("shopOwnerEmail"),
-                                        "restaurantName" : snapshot.data!.docChanges[index].doc.get("restaurantName"),
+                                      doc("${snapshot.data!.docs[index]["restaurantName"]} "
+                                          "${snapshot.data!.docs[index]["date"]} "
+                                          "${snapshot.data!.docs[index]["time"]} "
+                                          "${snapshot.data!.docs[index]["email"]}").update({
+                                        "email" : snapshot.data!.docs[index]["email"],
+                                        "person" : snapshot.data!.docs[index]["person"],
+                                        "date" : snapshot.data!.docs[index]["date"],
+                                        "time" : snapshot.data!.docs[index]["time"],
+                                        "shopOwnerEmail" : snapshot.data!.docs[index]["shopOwnerEmail"],
+                                        "restaurantName" : snapshot.data!.docs[index]["restaurantName"],
                                         "statusOfBooking" : "Approved",
-                                        "userName" : snapshot.data!.docChanges[index].doc.get("userName")
+                                        "userName" : snapshot.data!.docs[index]["userName"]
                                       });
-                                      setState(() {});
+                                      // setState(() {});
                                       EasyLoading.dismiss();
                                     },
                                     child: Image.asset(
@@ -145,19 +189,20 @@ class _PermissionScreenAdminState extends State<PermissionScreenAdmin> {
                                     onTap: () async {
                                       EasyLoading.show(status: "Loading Please wait for some time");
                                       await firebase.collection("Booking").
-                                      doc("${snapshot.data!.docChanges[index].doc.get("restaurantName")} "
-                                          "${snapshot.data!.docChanges[index].doc.get("date")} "
-                                          "${snapshot.data!.docChanges[index].doc.get("time")}").update({
-                                        "email" : snapshot.data!.docChanges[index].doc.get("email"),
-                                        "person" : snapshot.data!.docChanges[index].doc.get("person"),
-                                        "date" : snapshot.data!.docChanges[index].doc.get("date"),
-                                        "time" : snapshot.data!.docChanges[index].doc.get("time"),
-                                        "shopOwnerEmail" : snapshot.data!.docChanges[index].doc.get("shopOwnerEmail"),
-                                        "restaurantName" : snapshot.data!.docChanges[index].doc.get("restaurantName"),
+                                      doc("${snapshot.data!.docs[index]["restaurantName"]} "
+                                          "${snapshot.data!.docs[index]["date"]} "
+                                          "${snapshot.data!.docs[index]["time"]} "
+                                          "${snapshot.data!.docs[index]["email"]}").update({
+                                        "email" : snapshot.data!.docs[index]["email"],
+                                        "person" : snapshot.data!.docs[index]["person"],
+                                        "date" : snapshot.data!.docs[index]["date"],
+                                        "time" : snapshot.data!.docs[index]["time"],
+                                        "shopOwnerEmail" : snapshot.data!.docs[index]["shopOwnerEmail"],
+                                        "restaurantName" : snapshot.data!.docs[index]["restaurantName"],
                                         "statusOfBooking" : "Rejected",
-                                        "userName" : snapshot.data!.docChanges[index].doc.get("userName")
+                                        "userName" : snapshot.data!.docs[index]["userName"]
                                       });
-                                      setState(() {});
+                                      // setState(() {});
                                       EasyLoading.dismiss();
                                     },
                                     child: Image.asset(
@@ -176,8 +221,9 @@ class _PermissionScreenAdminState extends State<PermissionScreenAdmin> {
                       ),
                     );
                   });
-            }else{
-              return loader();
+            }
+            else{
+              return  const Center(child: CircularProgressIndicator(color: AppColor.darkMaroon,));
             }
           }
         ),

@@ -31,9 +31,9 @@ class RestaurantBookProvider extends ChangeNotifier{
       "userName" : userName
     });
     showToast(
-        toastMessage: "Your request for booking table added successfully."
+        toastMessage: "Your request for table booking added successfully."
     );
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreenUser()),(route) => false);
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>const HomeScreenUser()),(route) => false);
     // forMyBooking(context,email,person,date,time,restaurantName,statusOfBooking,userName);
     notifyListeners();
   }

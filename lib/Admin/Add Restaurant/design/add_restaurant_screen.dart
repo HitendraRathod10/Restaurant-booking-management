@@ -46,6 +46,13 @@ class _AddRestaurantScreenState extends State<AddRestaurantScreen> {
           title: const Text("Add Restaurant",style: TextStyle(fontFamily: AppFont.regular),),
           backgroundColor: AppColor.appColor.withOpacity(0.9),
           centerTitle: true,
+          leading: IconButton(
+            onPressed: () {
+              Provider.of<AddRestaurantProvider>(context,listen: false).restaurantImageFile = null;
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.arrow_back),
+          ),
         ),
         body: Padding(
           padding: const EdgeInsets.fromLTRB(10, 10, 10, 00),

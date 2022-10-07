@@ -251,6 +251,8 @@ class _SignupScreenAdminState extends State<SignupScreenAdmin> {
                                          Provider.of<SignupProvider>(context,listen: false).selectUserType.toString(),
                                          context
                                      );
+                                     Provider.of<SignupProvider>(context,listen: false).selectUserType = null;
+                                     Provider.of<SignupProvider>(context,listen: false).registerPswd = true;
                                    }else{
                                      showToast(toastMessage: "Please fill all required details properly");
                                    }
@@ -290,6 +292,8 @@ class _SignupScreenAdminState extends State<SignupScreenAdmin> {
                                       ),
                                     ),
                                   onTap: (){
+                                      Provider.of<SignupProvider>(context,listen: false).selectUserType = null;
+                                      Provider.of<SignupProvider>(context,listen: false).registerPswd = true;
                                       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const LoginScreen()));
                                   },
                                 ),

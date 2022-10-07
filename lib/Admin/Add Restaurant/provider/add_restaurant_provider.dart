@@ -78,7 +78,8 @@ class AddRestaurantProvider extends ChangeNotifier{
       "website" : website,
       "image" : image,
       "latitude" : latitude,
-      "longitude" : longitude
+      "longitude" : longitude,
+      "rating" : 0.1
     });
     showToast(
       toastMessage: "Restaurant added successfully"
@@ -119,7 +120,8 @@ class AddRestaurantProvider extends ChangeNotifier{
       "website" : website,
       "image" : image,
       "latitude" : latitude,
-      "longitude" : longitude
+      "longitude" : longitude,
+      "rating" : 0.1
     });
     notifyListeners();
   }

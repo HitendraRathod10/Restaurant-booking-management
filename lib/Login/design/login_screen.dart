@@ -157,6 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             onTap: (){
                                 Navigator.push(context, MaterialPageRoute(builder: (context)=>ResetPassword()));
+                                Provider.of<LoginProvider>(context,listen: false).loginPswd = false;
                             },
                           ),
                           const SizedBox(
@@ -173,6 +174,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 }else{
                                   Provider.of<LoginProvider>(context,listen: false).
                                   loginWithEmail(emailController.text, passwordController.text,context);
+                                  Provider.of<LoginProvider>(context,listen: false).loginPswd = false;
                                 }
                               },
                               child: Container(
@@ -209,6 +211,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                                   ),
                                 onTap: (){
+                                    Provider.of<LoginProvider>(context,listen: false).loginPswd = false;
                                     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>SignupScreenAdmin()));
                                 },
                               ),

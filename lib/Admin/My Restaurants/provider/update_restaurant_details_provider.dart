@@ -105,7 +105,8 @@ class UpdateRestaurantDetailsProvider extends ChangeNotifier{
       "image" : image,
       "latitude" : latitude,
       "longitude" : longitude,
-      "id" : id
+      "id" : id,
+      "rating" : 0.1
     });
     showToast(
         toastMessage: "Restaurant details updated successfully"
@@ -146,7 +147,8 @@ class UpdateRestaurantDetailsProvider extends ChangeNotifier{
       "image" : image,
       "latitude" : latitude,
       "longitude" : longitude,
-      "id" : id
+      "id" : id,
+      "rating" : 0.1
     });
     notifyListeners();
   }
