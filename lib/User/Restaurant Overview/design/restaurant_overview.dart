@@ -3,13 +3,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
+import 'package:restaurant_booking_management/Admin/Add%20Restaurant/provider/add_restaurant_provider.dart';
+import 'package:restaurant_booking_management/User/All%20Restaurant%20List/design/all_restaurants_screen.dart';
 import 'package:restaurant_booking_management/User/Restaurant%20Overview/provider/restaurant_overview_provider.dart';
 import 'package:restaurant_booking_management/utils/app_font.dart';
 import 'package:restaurant_booking_management/utils/app_image.dart';
+import 'package:restaurant_booking_management/utils/mixin_toast.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../utils/app_color.dart';
 import '../../../utils/mixin_textformfield.dart';
+import '../../Home/design/home_screen_user.dart';
 import '../../Restaurant Book/design/restaurant_book.dart';
 
 class RestaurantOverview extends StatefulWidget {
@@ -30,8 +34,15 @@ class _RestaurantOverviewState extends State<RestaurantOverview> {
   bool location = false;
   bool food = false;
   bool rating = false;
-  var ratingStar;
+  double? ratingStar;
   String? fullName;
+  var count;
+  double userRating = 0;
+  double ratingCount = 0;
+  int userLength = 0;
+  double sum = 0.0;
+  List ratingList = [];
+
   @override
   void initState() {
     // TODO: implement initState
@@ -49,8 +60,8 @@ class _RestaurantOverviewState extends State<RestaurantOverview> {
 
   _launchURL() async {
     final url = '${widget.doc!.get("website")}';
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
     } else {
       throw 'Could not launch $url';
     }
@@ -62,8 +73,8 @@ class _RestaurantOverviewState extends State<RestaurantOverview> {
     String body = '';
 
     String emailUrl = "mailto:$email?subject=$subject&body=$body";
-    if (await canLaunch(emailUrl)) {
-    await launch(emailUrl);
+    if (await canLaunchUrl(Uri.parse(emailUrl))) {
+    await launchUrl(Uri.parse(emailUrl));
     } else {
     throw "Error occured sending an email";
     }
@@ -71,8 +82,8 @@ class _RestaurantOverviewState extends State<RestaurantOverview> {
 
   static void navigateTo(String lat, String lng) async {
     var uri = Uri.parse("google.navigation:q=$lat,$lng&mode=d");
-    if (await canLaunch(uri.toString())) {
-      await launch(uri.toString());
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
     } else {
       throw 'Could not launch ${uri.toString()}';
     }
@@ -136,7 +147,8 @@ class _RestaurantOverviewState extends State<RestaurantOverview> {
                       child: ClipOval(
                           child: InkWell(
                             onTap: (){
-                              Navigator.pop(context);
+                              // Navigator.pop(context);
+                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomeScreenUser()));
                             },
                             child: Container(
                               decoration: const BoxDecoration(
@@ -202,9 +214,17 @@ class _RestaurantOverviewState extends State<RestaurantOverview> {
                         const SizedBox(
                           width: 02,
                         ),
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(00, 00, 10, 00),
-                          child: Text("${widget.doc!.get("rating")}",style: TextStyle(fontFamily: AppFont.semiBold,fontSize: 20,color: AppColor.black),),
+                        SizedBox(
+                          width: 30,
+                          child: Text("${widget.doc!.get("rating")}",
+                            style: const TextStyle(
+                                fontFamily: AppFont.semiBold,
+                                fontSize: 20,
+                                color: AppColor.black
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.clip,
+                          ),
                         ),
                       ],
                     ),
@@ -461,7 +481,11 @@ class _RestaurantOverviewState extends State<RestaurantOverview> {
                 onRatingUpdate: (rating) {
                   debugPrint('rating $rating');
                   setState(() {
-                    ratingStar = rating;
+                    userRating = 0;
+                    ratingList.clear();
+                    userRating = rating;
+                    // ratingStar = rating;
+                    // count = rating;
                     // userRating = 0;
                     // buttonVisible = true;
                     // ratingList.clear();
@@ -494,6 +518,83 @@ class _RestaurantOverviewState extends State<RestaurantOverview> {
               ),
               rating == false ? const SizedBox.shrink() : InkWell(
                 onTap: () async {
+                  //add rating
+                  ratingList.clear();
+                  /*var querySnapShot = await firebase.collection("User").
+                  where('userEmail',isEqualTo: FirebaseAuth.instance.currentUser?.email).get();
+
+                  var queryUserRatingSnapshots = await firebase.collection("Rating").
+                  where('restaurantName',isEqualTo: widget.doc!.get("name"));
+
+                  var queryRestaurantSnapshots = await firebase.collection("All Restaurants").
+                  where('shopName',isEqualTo: widget.doc!.get("name"));
+
+                  for (var snapshot in querySnapShot.docChanges) {
+                    RatingAuth().userRating(
+                      shopName: widget.snapshotData['shopName'],
+                      barberName: widget.snapshotData['barberName'],
+                      currentUser: FirebaseAuth.instance.currentUser!.email.toString(),
+                      currentDate: DateTime.now().toString().substring(0,10),
+                      userRating: userRating,
+                      userExprience: reviewController.text,
+                      timestamp: Timestamp.now(),
+                      userName: snapshot.doc.get('userName'),
+                      userImage: snapshot.doc.get('userImage'),
+                    ).then((value) {
+                      for (var snapshot in queryUserRatingSnapshots.docChanges) {
+                        for(int i = 0;i<1;i++){
+                          userRating = snapshot.doc.get('shopRating');
+                          ratingList.add(snapshot.doc.get('shopRating'));
+                          sum = ratingList.reduce((a, b) => a + b);
+                          userLength = queryUserRatingSnapshots.docs.length;
+                          rating = sum/userLength;
+                          debugPrint('User Rating => $sum = $userLength = $rating = $userRating');
+                          break;
+                        }
+                      }
+
+                      for(var shopSnapshot in queryShopSnapshots.docChanges){
+                        uId = snapshot.doc.get('uid');
+                        userName = snapshot.doc.get('userName');
+                        shopName = shopSnapshot.doc.get('shopName');
+                        shopDescription = shopSnapshot.doc.get('shopDescription');
+                        status = shopSnapshot.doc.get('shopStatus');
+                        openingHour= shopSnapshot.doc.get('openingHour');
+                        closingHour= shopSnapshot.doc.get('closingHour');
+                        shopEmail= shopSnapshot.doc.get('shopEmail');
+                        barberName= shopSnapshot.doc.get('barberName');
+                        hairCategory= shopSnapshot.doc.get('hairCategory');
+                        price= shopSnapshot.doc.get('price');
+                        longitudeShop= shopSnapshot.doc.get('longitude');
+                        latitudeShop= shopSnapshot.doc.get('latitude');
+                        gender= shopSnapshot.doc.get('gender');
+                        contactNumber= shopSnapshot.doc.get('contactNumber');
+                        timestamp= shopSnapshot.doc.get('timeStamp');
+                        address = shopSnapshot.doc.get('address');
+                        coverPageImage = shopSnapshot.doc.get('coverPageImage');
+                        barberImage = shopSnapshot.doc.get('barberImage');
+                        shopImage = shopSnapshot.doc.get('shopImage');
+                        currentUser = shopSnapshot.doc.get('currentUser');
+                        webSiteUrl= shopSnapshot.doc.get('webSiteUrl');
+                      }
+                      AddShopDetailFirebase().addShopDetail(
+                          userName: userName,uId: uId,
+                          shopName: shopName, shopDescription: shopDescription,
+                          rating: rating, status: status,
+                          openingHour: openingHour, closingHour: closingHour,
+                          shopEmail: shopEmail,
+                          barberName: barberName,
+                          currentUser: currentUser,
+                          hairCategory: hairCategory, price: price,
+                          longitudeShop: longitudeShop, latitudeShop: latitudeShop,
+                          contactNumber: contactNumber, webSiteUrl: webSiteUrl,
+                          gender: gender,
+                          address: address, coverPageImage: coverPageImage,
+                          barberImage: barberImage, shopImage: shopImage,
+                          timestamp: timestamp);
+                      Navigator.pop(context);
+                    });
+                  }*/
                   var dataName = await firebase.collection('User').get();
                   for(var i in dataName.docChanges){
                     if(i.doc.get('email') == FirebaseAuth.instance.currentUser!.email){
@@ -501,20 +602,67 @@ class _RestaurantOverviewState extends State<RestaurantOverview> {
                       break;
                     }
                   }
-                  print("userEmail ${FirebaseAuth.instance.currentUser!.email}");
-                  print("userName $fullName");
-                  print("rating $ratingStar");
-                  print("restaurantName ${widget.doc!.get("name")}");
-                  print("feedback ${reviewController.text}");
                   Provider.of<RestaurantOverviewProvider>(context,listen: false).
                   addRating(
                       "${FirebaseAuth.instance.currentUser!.email}",
                       "$fullName",
-                      "$ratingStar",
+                      userRating,
                       "${widget.doc!.get("name")}",
-                      // "restaurantOwnerName",
-                      reviewController.text
+                      reviewController.text);
+                  //count
+                  var queryUserRatingSnapshots = await FirebaseFirestore.instance.collection("Rating").
+                  where('restaurantName',isEqualTo: widget.doc!.get("name")).get();
+                  for (var snapshot in queryUserRatingSnapshots.docChanges) {
+                    for (int i = 0; i < 1; i++) {
+                      userRating = snapshot.doc.get('rating');
+                      ratingList.add(snapshot.doc.get('rating'));
+                      sum = ratingList.reduce((a, b) => a + b);
+                      userLength = queryUserRatingSnapshots.docs.length;
+                      ratingCount = sum / userLength;
+                      debugPrint('User Rating => $sum = $userLength = $ratingCount = $userRating');
+                      break;
+                    }
+                  }
+                  //all restaurant
+                  Provider.of<AddRestaurantProvider>(context,listen: false).
+                  insertALLRestaurant(
+                    context,
+                    "${widget.doc!.get("shopOwnerEmail")}",
+                    "${widget.doc!.get("name")}",
+                    "${widget.doc!.get("food")}",
+                    "${widget.doc!.get("phone")}",
+                    "${widget.doc!.get("email")}",
+                    "${widget.doc!.get("area")}",
+                    "${widget.doc!.get("city")}",
+                    "${widget.doc!.get("state")}",
+                    "${widget.doc!.get("website")}",
+                    "${widget.doc!.get("image")}",
+                    "${widget.doc!.get("latitude")}",
+                    "${widget.doc!.get("longitude")}",
+                    ratingCount
                   );
+                  await FirebaseFirestore.instance.
+                  collection("User").
+                  doc(widget.doc!.get("shopOwnerEmail")).
+                  collection('My Restaurants').
+                  doc(widget.doc!.get("name")).
+                  set({
+                    "userEmail" : widget.doc!.get("shopOwnerEmail"),
+                    "name" : widget.doc!.get("name"),
+                    "food" : widget.doc!.get("food"),
+                    "phone" : widget.doc!.get("phone"),
+                    "email" : widget.doc!.get("email"),
+                    "area" : widget.doc!.get("area"),
+                    "city" : widget.doc!.get("city"),
+                    "state" : widget.doc!.get("state"),
+                    "website" : widget.doc!.get("website"),
+                    "image" : widget.doc!.get("image"),
+                    "latitude" : widget.doc!.get("latitude"),
+                    "longitude" : widget.doc!.get("longitude"),
+                    "rating" : ratingCount
+                  });
+                  showToast(toastMessage: "Your review posted successfully.");
+                  reviewController.clear();
                 },
                 child: Container(
                   padding: const EdgeInsets.all(10),

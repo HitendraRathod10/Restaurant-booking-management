@@ -25,8 +25,8 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
 
   final Set<Marker> markers = {};
   late GoogleMapController mapController;
-  var latitudeDouble;
-  var longitudeDouble;
+  String? latitudeDouble;
+  String? longitudeDouble;
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
   }
@@ -36,8 +36,9 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
     // TODO: implement initState
     super.initState();
     Provider.of<UpdateRestaurantDetailsProvider>(context, listen: false).getData(widget.id!);
-    latitudeDouble = double.parse(Provider.of<UpdateRestaurantDetailsProvider>(context, listen: false).latitude.toString());
-    longitudeDouble = double.parse(Provider.of<UpdateRestaurantDetailsProvider>(context, listen: false).longitude.toString());
+    latitudeDouble = Provider.of<UpdateRestaurantDetailsProvider>(context, listen: false).latitude;
+    longitudeDouble = Provider.of<UpdateRestaurantDetailsProvider>(context, listen: false).longitude;
+    // print("init lat long ${double.parse(latitudeDouble!)} ${double.parse(longitudeDouble!)}");
   }
 
   @override
@@ -206,7 +207,8 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
                                               zoomControlsEnabled: false,
                                               onMapCreated: _onMapCreated,
                                               initialCameraPosition: CameraPosition(
-                                                target: LatLng(latitudeDouble,longitudeDouble),
+                                                target: LatLng(double.parse(Provider.of<UpdateRestaurantDetailsProvider>(context, listen: false).latitude.toString()),
+                                                    double.parse(Provider.of<UpdateRestaurantDetailsProvider>(context, listen: false).latitude.toString())),
                                                 zoom: 11.0,
                                               ),
                                               markers: markers,
@@ -279,7 +281,10 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
                             data.cityController.text,
                             data.stateController.text,
                             data.websiteController.text,
-                            data.urlDownloads.toString(),
+                            Provider.of<UpdateRestaurantDetailsProvider>(context,listen: false).restaurantImageFile == "" ||
+                                Provider.of<UpdateRestaurantDetailsProvider>(context,listen: false).restaurantImageFile == null ?
+                            Provider.of<UpdateRestaurantDetailsProvider>(context,listen: false).image.toString() :
+                            Provider.of<UpdateRestaurantDetailsProvider>(context,listen: false).urlDownloads.toString() ,
                             data.latitude.toString(),
                             data.longitude.toString(),
                             widget.id!

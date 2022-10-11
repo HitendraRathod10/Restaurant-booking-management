@@ -103,12 +103,23 @@ class _MyRestaurantsScreenState extends State<MyRestaurantsScreen> {
                                           borderRadius: BorderRadius.circular(10)
                                         ),
                                         child: Row(
-                                          children: const [
-                                            Icon(Icons.star,color: Colors.yellow,size: 20,),
-                                            SizedBox(
+                                          children: [
+                                            const Icon(Icons.star,color: Colors.yellow,size: 20,),
+                                            const SizedBox(
                                               width: 02,
                                             ),
-                                            Text("4.5",style: TextStyle(fontFamily: AppFont.semiBold,fontSize: 20),)
+                                            SizedBox(
+                                              width: 30,
+                                              child: Text("${snapshot.data!.docChanges[index].doc.get("rating")}",
+                                                style: const TextStyle(
+                                                    fontFamily: AppFont.semiBold,
+                                                    fontSize: 20,
+                                                    color: AppColor.white
+                                                ),
+                                                maxLines: 1,
+                                                overflow: TextOverflow.clip,
+                                              ),
+                                            )
                                           ],
                                         ),
                                       )

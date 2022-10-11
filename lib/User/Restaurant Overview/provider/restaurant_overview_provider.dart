@@ -7,7 +7,7 @@ class RestaurantOverviewProvider extends ChangeNotifier{
   addRating(
       String? userEmail,
       String? userName,
-      String? rating,
+      double rating,
       String? restaurantName,
       // String? restaurantOwnerName,
       String? feedback

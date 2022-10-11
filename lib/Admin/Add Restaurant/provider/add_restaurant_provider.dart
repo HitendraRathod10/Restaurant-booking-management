@@ -64,7 +64,8 @@ class AddRestaurantProvider extends ChangeNotifier{
       String website,
       String image,
       String latitude,
-      String longitude
+      String longitude,
+      double rating
       ) async {
     await firebase.collection("All Restaurants").doc(name).set({
       "shopOwnerEmail" : shopOwnerEmail,
@@ -79,13 +80,13 @@ class AddRestaurantProvider extends ChangeNotifier{
       "image" : image,
       "latitude" : latitude,
       "longitude" : longitude,
-      "rating" : 0.1
+      "rating" : rating
     });
-    showToast(
-      toastMessage: "Restaurant added successfully"
-    );
-    insertMyRestaurant(shopOwnerEmail,name,food,phone,email,area,city,state,website,image,latitude,longitude);
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const HomeScreenAdmin()));
+    // showToast(
+    //   toastMessage: "Restaurant added successfully"
+    // );
+    // insertMyRestaurant(shopOwnerEmail,name,food,phone,email,area,city,state,website,image,latitude,longitude);
+    // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const HomeScreenAdmin()));
     notifyListeners();
   }
 
@@ -101,7 +102,8 @@ class AddRestaurantProvider extends ChangeNotifier{
       String website,
       String image,
       String latitude,
-      String longitude
+      String longitude,
+      double rating
       ) async {
     await FirebaseFirestore.instance
         .collection('User')
@@ -121,7 +123,7 @@ class AddRestaurantProvider extends ChangeNotifier{
       "image" : image,
       "latitude" : latitude,
       "longitude" : longitude,
-      "rating" : 0.1
+      "rating" : rating
     });
     notifyListeners();
   }

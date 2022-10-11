@@ -9,6 +9,7 @@ import 'package:restaurant_booking_management/utils/mixin_textformfield.dart';
 
 import '../../../utils/app_font.dart';
 import '../../../utils/mixin_toast.dart';
+import '../../Home/design/home_screen_admin.dart';
 import '../provider/current_location.dart';
 import 'add_location_to_map_screen.dart';
 
@@ -382,12 +383,48 @@ class _AddRestaurantScreenState extends State<AddRestaurantScreen> {
                             insertALLRestaurant(
                                 context,
                                 FirebaseAuth.instance.currentUser!.email.toString(),
-                                restaurantNameController.text, foodController.text, phoneController.text, emailController.text,
-                                areaController.text, cityController.text, stateController.text, websiteController.text,
+                                restaurantNameController.text,
+                                foodController.text,
+                                phoneController.text,
+                                emailController.text,
+                                areaController.text,
+                                cityController.text,
+                                stateController.text,
+                                websiteController.text,
                                 Provider.of<AddRestaurantProvider>(context,listen: false).urlDownloads.toString(),
                                 Provider.of<AddRestaurantProvider>(context,listen: false).latitude,
-                                Provider.of<AddRestaurantProvider>(context,listen: false).longitude
+                                Provider.of<AddRestaurantProvider>(context,listen: false).longitude,
+                                0.1
+                                // context,
+                                // FirebaseAuth.instance.currentUser!.email.toString(),
+                                // restaurantNameController.text, foodController.text, phoneController.text, emailController.text,
+                                // areaController.text, cityController.text, stateController.text, websiteController.text,
+                                // Provider.of<AddRestaurantProvider>(context,listen: false).urlDownloads.toString(),
+                                // Provider.of<AddRestaurantProvider>(context,listen: false).latitude,
+                                // Provider.of<AddRestaurantProvider>(context,listen: false).longitude,
+                                // 0.1
                             );
+                            Provider.of<AddRestaurantProvider>(context,listen: false).
+                            insertMyRestaurant(
+                                FirebaseAuth.instance.currentUser!.email.toString(),
+                                restaurantNameController.text,
+                                foodController.text,
+                                phoneController.text,
+                                emailController.text,
+                                areaController.text,
+                                cityController.text,
+                                stateController.text,
+                                websiteController.text,
+                                Provider.of<AddRestaurantProvider>(context,listen: false).urlDownloads.toString(),
+                                Provider.of<AddRestaurantProvider>(context,listen: false).latitude,
+                                Provider.of<AddRestaurantProvider>(context,listen: false).longitude,
+                                0.1
+                            );
+                            showToast(
+                                toastMessage: "Restaurant added successfully"
+                            );
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const HomeScreenAdmin()));
+                            Provider.of<AddRestaurantProvider>(context,listen: false).restaurantImageFile = null;
                           }
                         }
                       }else{

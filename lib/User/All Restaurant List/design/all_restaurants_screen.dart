@@ -164,11 +164,16 @@ class _AllRestaurantsScreenState extends State<AllRestaurantsScreen> {
                                                 const SizedBox(
                                                   width: 02,
                                                 ),
-                                                Text("${snapshot.data!.docChanges[index].doc.get("rating")}",
-                                                  style: const TextStyle(
-                                                    fontFamily: AppFont.semiBold,
-                                                    fontSize: 20,
-                                                    color: AppColor.white
+                                                SizedBox(
+                                                  width: 30,
+                                                  child: Text("${snapshot.data!.docChanges[index].doc.get("rating")}",
+                                                    style: const TextStyle(
+                                                      fontFamily: AppFont.semiBold,
+                                                      fontSize: 20,
+                                                      color: AppColor.white
+                                                    ),
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.clip,
                                                   ),
                                                 )
                                               ],
