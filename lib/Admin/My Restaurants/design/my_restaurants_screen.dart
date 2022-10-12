@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:restaurant_booking_management/Admin/My%20Restaurants/design/my_restaurant_overview.dart';
+import 'package:restaurant_booking_management/Admin/Rating%20and%20Feedback/design/rating_and_feedback_screen_admin.dart';
 import 'package:restaurant_booking_management/utils/app_font.dart';
 
 import '../../../utils/app_color.dart';
@@ -96,31 +97,37 @@ class _MyRestaurantsScreenState extends State<MyRestaurantsScreen> {
                                     Positioned(
                                       bottom: 08,
                                       right: 08,
-                                      child: Container(
-                                        padding: const EdgeInsets.all(02),
-                                        decoration: BoxDecoration(
-                                          color: AppColor.greyDivider.withOpacity(0.9),
-                                          borderRadius: BorderRadius.circular(10)
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            const Icon(Icons.star,color: Colors.yellow,size: 20,),
-                                            const SizedBox(
-                                              width: 02,
-                                            ),
-                                            SizedBox(
-                                              width: 30,
-                                              child: Text("${snapshot.data!.docChanges[index].doc.get("rating")}",
-                                                style: const TextStyle(
-                                                    fontFamily: AppFont.semiBold,
-                                                    fontSize: 20,
-                                                    color: AppColor.white
-                                                ),
-                                                maxLines: 1,
-                                                overflow: TextOverflow.clip,
+                                      child: InkWell(
+                                        onTap: (){
+                                          Navigator.push(context, MaterialPageRoute(builder: (context)=>
+                                              RatingAndFeedbackSceenAdmin(name: snapshot.data!.docChanges[index].doc.get("name"),)));
+                                        },
+                                        child: Container(
+                                          padding: const EdgeInsets.all(02),
+                                          decoration: BoxDecoration(
+                                            color: AppColor.greyDivider.withOpacity(0.9),
+                                            borderRadius: BorderRadius.circular(10)
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              const Icon(Icons.star,color: Colors.yellow,size: 20,),
+                                              const SizedBox(
+                                                width: 02,
                                               ),
-                                            )
-                                          ],
+                                              SizedBox(
+                                                width: 30,
+                                                child: Text("${snapshot.data!.docChanges[index].doc.get("rating")}",
+                                                  style: const TextStyle(
+                                                      fontFamily: AppFont.semiBold,
+                                                      fontSize: 20,
+                                                      color: AppColor.white
+                                                  ),
+                                                  maxLines: 1,
+                                                  overflow: TextOverflow.clip,
+                                                ),
+                                              )
+                                            ],
+                                          ),
                                         ),
                                       )
                                     ),

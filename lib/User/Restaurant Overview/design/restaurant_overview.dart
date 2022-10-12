@@ -5,6 +5,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_booking_management/Admin/Add%20Restaurant/provider/add_restaurant_provider.dart';
 import 'package:restaurant_booking_management/User/All%20Restaurant%20List/design/all_restaurants_screen.dart';
+import 'package:restaurant_booking_management/User/Rating%20and%20Feedback/design/rating_and_feedback_screen_user.dart';
 import 'package:restaurant_booking_management/User/Restaurant%20Overview/provider/restaurant_overview_provider.dart';
 import 'package:restaurant_booking_management/utils/app_font.dart';
 import 'package:restaurant_booking_management/utils/app_image.dart';
@@ -208,25 +209,30 @@ class _RestaurantOverviewState extends State<RestaurantOverview> {
                   // const Spacer(),
                   Expanded(
                     flex: 2,
-                    child: Row(
-                      children: [
-                        const Icon(Icons.star,color: Colors.amber,size: 20),
-                        const SizedBox(
-                          width: 02,
-                        ),
-                        SizedBox(
-                          width: 30,
-                          child: Text("${widget.doc!.get("rating")}",
-                            style: const TextStyle(
-                                fontFamily: AppFont.semiBold,
-                                fontSize: 20,
-                                color: AppColor.black
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.clip,
+                    child: InkWell(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>RatingAndFeedbackScreen(name: widget.doc!.get("name"),)));
+                      },
+                      child: Row(
+                        children: [
+                          const Icon(Icons.star,color: Colors.amber,size: 20),
+                          const SizedBox(
+                            width: 02,
                           ),
-                        ),
-                      ],
+                          SizedBox(
+                            width: 30,
+                            child: Text("${widget.doc!.get("rating")}",
+                              style: const TextStyle(
+                                  fontFamily: AppFont.semiBold,
+                                  fontSize: 20,
+                                  color: AppColor.black
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.clip,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   )
                 ],

@@ -118,6 +118,15 @@ class _PermissionScreenAdminState extends State<PermissionScreenAdmin> {
                                   const SizedBox(
                                     height: 07,
                                   ),
+                                  Text("${snapshot.data!.docs[index]['restaurantName']}",
+                                    style: const TextStyle(
+                                        fontSize: 15,
+                                        fontFamily: AppFont.regular
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 07,
+                                  ),
                                   Row(
                                     children: [
                                       Text("${snapshot.data!.docs[index]["date"]}",

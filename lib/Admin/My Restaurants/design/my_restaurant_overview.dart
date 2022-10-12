@@ -145,7 +145,7 @@ class _MyRestaurantOverviewState extends State<MyRestaurantOverview> {
               onSelected: (value) {
                 // if value 1 show dialog
                 if (value == 1) {
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>UpdateRestaurantDetails(id: widget.doc!.id,)));
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>UpdateRestaurantDetails(id: widget.doc!.id,)));
                   // _showDialog(context);
                   // if value 2 show dialog
                 } else if (value == 2) {
