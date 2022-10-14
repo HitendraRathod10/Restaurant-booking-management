@@ -432,8 +432,8 @@ class _AddRestaurantScreenState extends State<AddRestaurantScreen> {
                       }
                     },
                     child: Container(
-                      height: 50,
-                      width: 180,
+                      // height: 50,
+                      // width: 180,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           // color: AppColor.lightBlue
@@ -444,11 +444,14 @@ class _AddRestaurantScreenState extends State<AddRestaurantScreen> {
                           )
                       ),
                       child: const Center(
-                          child: Text("Add Your Restaurant",
-                            style: TextStyle(
-                                color: AppColor.white,
-                                fontFamily: AppFont.semiBold,
-                                fontSize: 20
+                          child: Padding(
+                            padding: EdgeInsets.fromLTRB(00, 10, 00, 10),
+                            child: Text("Add Restaurant",
+                              style: TextStyle(
+                                  color: AppColor.white,
+                                  fontFamily: AppFont.semiBold,
+                                  fontSize: 20
+                              ),
                             ),
                           )
                       ),

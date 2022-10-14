@@ -136,7 +136,7 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(100, 10, 10, 00),
+                padding: const EdgeInsets.fromLTRB(100, 20, 10, 00),
                 child: InkWell(
                   onTap: (){
                     Navigator.push(context, MaterialPageRoute(builder: (context)=>MyRestaurantsScreen()));
@@ -164,7 +164,7 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(100, 20, 10, 00),
+                padding: const EdgeInsets.fromLTRB(100, 20, 10, 20),
                 child: InkWell(
                     onTap: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context)=>PermissionScreenAdmin()));

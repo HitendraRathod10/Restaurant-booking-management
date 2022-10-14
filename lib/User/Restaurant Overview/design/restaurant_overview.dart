@@ -82,11 +82,22 @@ class _RestaurantOverviewState extends State<RestaurantOverview> {
   }
 
   static void navigateTo(String lat, String lng) async {
-    var uri = Uri.parse("google.navigation:q=$lat,$lng&mode=d");
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
+    // var uri = Uri.parse("google.navigation:q=$lat,$lng&mode=d");
+    // if (await canLaunchUrl(uri)) {
+    //   await launchUrl(uri);
+    // } else {
+    //   throw 'Could not launch ${uri.toString()}';
+    // }
+    final String googleMapsUrl = "comgooglemaps://?center=$lat,$lng";
+    final String appleMapsUrl = "https://maps.apple.com/?q=$lat,$lng";
+
+    if (await canLaunch(googleMapsUrl)) {
+      await launch(googleMapsUrl);
+    }
+    if (await canLaunch(appleMapsUrl)) {
+      await launch(appleMapsUrl, forceSafariVC: false);
     } else {
-      throw 'Could not launch ${uri.toString()}';
+      throw "Couldn't launch URL";
     }
   }
 

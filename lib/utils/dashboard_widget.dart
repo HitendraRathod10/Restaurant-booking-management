@@ -19,7 +19,7 @@ Widget dashboardDetailsWidget(
 
       child: Container(
         padding: const EdgeInsets.only(left: 5),
-        height: 150,
+        height: 200,
         decoration:  BoxDecoration(
           color: color,
           borderRadius: const BorderRadius.only(

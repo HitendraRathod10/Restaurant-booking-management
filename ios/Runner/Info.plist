@@ -41,6 +41,20 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+    <string>Explain why your app uses photo library</string>
+	<key>LSApplicationQueriesSchemes</key>
+        <array>
+          <string>sms</string>
+          <string>tel</string>
+          <string>navigation</string>
+        </array>
+    <key>NSLocationWhenInUseUsageDescription</key>
+        <string>NSLocationWhenInUseUsageDescription</string>
+        <key>NSLocationAlwaysUsageDescription</key>
+        <string>NSLocationAlwaysUsageDescription</string>
+        <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+        <string>NSLocationAlwaysAndWhenInUseUsageDescription</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>CADisableMinimumFrameDurationOnPhone</key>

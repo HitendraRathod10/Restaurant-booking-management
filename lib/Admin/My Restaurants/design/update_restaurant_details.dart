@@ -360,8 +360,8 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
                           }
                         },
                         child: Container(
-                          height: 50,
-                          width: 220,
+                          // height: 50,
+                          // width: 220,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               // color: AppColor.lightBlue
@@ -372,11 +372,14 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
                               )
                           ),
                           child: const Center(
-                              child: Text("Update Restaurant Details",
-                                style: TextStyle(
-                                    color: AppColor.white,
-                                    fontFamily: AppFont.semiBold,
-                                    fontSize: 20
+                              child: Padding(
+                                padding: EdgeInsets.fromLTRB(00, 10, 00, 10),
+                                child: Text("Update Restaurant",
+                                  style: TextStyle(
+                                      color: AppColor.white,
+                                      fontFamily: AppFont.semiBold,
+                                      fontSize: 20
+                                  ),
                                 ),
                               )
                           ),

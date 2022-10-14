@@ -44,6 +44,7 @@ class _ProfileScreenUserState extends State<ProfileScreenUser> {
                   return Column(
                     children: [
                       Stack(
+                        alignment: Alignment.center,
                           children: [
                             Container(
                               height: MediaQuery.of(context).size.height/3,
@@ -58,8 +59,8 @@ class _ProfileScreenUserState extends State<ProfileScreenUser> {
                               ),
                             ),
                             Positioned(
-                              top: 40,
-                              left: 0,right: 0,
+                              // top: 40,
+                              // left: 0,right: 0,
                               child: Center(
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
