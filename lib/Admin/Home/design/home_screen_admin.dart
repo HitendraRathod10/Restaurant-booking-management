@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:restaurant_booking_management/Admin/Add%20Restaurant/design/add_restaurant_screen.dart';
 import 'package:restaurant_booking_management/Admin/My%20Restaurants/design/my_restaurants_screen.dart';
 import 'package:restaurant_booking_management/Admin/Permission/design/permission_screen_admin.dart';
@@ -9,6 +10,7 @@ import 'package:restaurant_booking_management/utils/app_image.dart';
 import 'package:restaurant_booking_management/utils/dashboard_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../Signup/provider/signup_provider.dart';
 import '../../../utils/app_color.dart';
 import '../../../utils/app_font.dart';
 import '../../Profile/design/profile_screen_admin.dart';
@@ -123,6 +125,18 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                         SharedPreferences prefg = await SharedPreferences.getInstance();
                         prefg.clear();
                         FirebaseAuth.instance.signOut();
+                        final firebase = FirebaseFirestore.instance;
+                        var dataNameFcmToken = await firebase.collection('User').where("email",isEqualTo: FirebaseAuth.instance.currentUser!.email).get();
+                        for(var i in dataNameFcmToken.docChanges){
+                          Provider.of<SignupProvider>(context,listen: false).
+                          insertDataUser(
+                              "${i.doc.get("fullName")}",
+                              "${i.doc.get("email")}",
+                              "${i.doc.get("phone")}",
+                              "${i.doc.get("userType")}",
+                              ""
+                          );
+                        }
                         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>LoginScreen()), (route) => false);
                       },
                     ),

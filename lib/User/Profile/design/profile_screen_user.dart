@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:restaurant_booking_management/Signup/provider/signup_provider.dart';
 import 'package:restaurant_booking_management/User/Profile/design/edit_profile_screen_user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../Admin/Home/design/home_screen_admin.dart';
@@ -264,6 +266,18 @@ class _ProfileScreenUserState extends State<ProfileScreenUser> {
                             SharedPreferences prefg = await SharedPreferences.getInstance();
                             prefg.clear();
                             FirebaseAuth.instance.signOut();
+                            final firebase = FirebaseFirestore.instance;
+                            var dataNameFcmToken = await firebase.collection('User').where("email",isEqualTo: FirebaseAuth.instance.currentUser!.email).get();
+                            for(var i in dataNameFcmToken.docChanges){
+                            Provider.of<SignupProvider>(context,listen: false).
+                            insertDataUser(
+                                "${i.doc.get("fullName")}",
+                                "${i.doc.get("email")}",
+                                "${i.doc.get("phone")}",
+                                "${i.doc.get("userType")}",
+                                ""
+                            );
+                            }
                             Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>LoginScreen()), (route) => false);
                           },
                           child: Container(

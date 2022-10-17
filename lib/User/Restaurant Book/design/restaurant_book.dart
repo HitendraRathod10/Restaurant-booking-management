@@ -8,6 +8,7 @@ import 'package:restaurant_booking_management/utils/app_font.dart';
 import 'package:time_range/time_range.dart';
 
 
+import '../../../Services/PushNotificationService.dart';
 import '../../../utils/app_color.dart';
 import '../../../utils/app_image.dart';
 
@@ -715,6 +716,12 @@ class _RestaurantBookState extends State<RestaurantBook> {
                         break;
                       }
                     }
+                    var dataNameFcmToken = await firebase.collection('User').where("email",isEqualTo: widget.doc!.get("shopOwnerEmail")).get();
+                    String? token;
+                    for(var i in dataNameFcmToken.docChanges){
+                      print("iiiii ${i.doc.get("fcmToken")}");
+                      token = i.doc.get("fcmToken");
+                    }
                     print("email${FirebaseAuth.instance.currentUser!.email} person $personSend || date $dateSend || time $timeSend || "
                         "restName ${widget.doc!.get("name")} || status pending ||"
                         " userName $fullName");
@@ -729,6 +736,13 @@ class _RestaurantBookState extends State<RestaurantBook> {
                         "Pending",
                         fullName,
                         "${widget.doc!.get("shopOwnerEmail")}"
+                    );
+                    PushNotificationService().
+                    chatMessageNotification(
+                        token,
+                        "${widget.doc!.get("name")}",
+                        "$fullName",
+                        "${personSend.toString()} person"
                     );
                   },
                   child: Container(

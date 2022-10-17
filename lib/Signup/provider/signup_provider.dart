@@ -18,12 +18,13 @@ class SignupProvider extends ChangeNotifier{
     return selectUserType;
   }
 
-  insertDataUser(String fullName,String email,String phone,String userType)async{
+  insertDataUser(String fullName,String email,String phone,String userType,String fcmToken)async{
     await firebase.collection("User").doc(email).set({
       "fullName" : fullName,
       "email" : email,
       "phone" : phone,
-      "userType" : userType
+      "userType" : userType,
+      "fcmToken" : fcmToken
     });
     notifyListeners();
   }
@@ -43,6 +44,7 @@ class SignupProvider extends ChangeNotifier{
       String phone,
       String password,
       String userType,
+      String fcmToken,
       context)async{
     EasyLoading.show(status: 'loading...');
     email = email.trim();
@@ -50,7 +52,7 @@ class SignupProvider extends ChangeNotifier{
       final newUser = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       if(newUser != null){
-        insertDataUser(fullName, email, phone, userType);
+        insertDataUser(fullName, email, phone, userType,fcmToken);
        /* if(userType == "User"){
           print("UserType $userType");
           insertDataUser(fullName, email, phone);

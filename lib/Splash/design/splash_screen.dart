@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_booking_management/Admin/Home/design/home_screen_admin.dart';
 import 'package:restaurant_booking_management/Login/design/login_screen.dart';
+import 'package:restaurant_booking_management/Services/PushNotificationService.dart';
 import 'package:restaurant_booking_management/User/Home/design/home_screen_user.dart';
 import 'package:restaurant_booking_management/utils/app_image.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -59,6 +61,7 @@ class _SplashSceenState extends State<SplashSceen> {
     // TODO: implement initState
     super.initState();
     checkLogin();
+    PushNotificationService().getNotification(context);
   }
 
   @override

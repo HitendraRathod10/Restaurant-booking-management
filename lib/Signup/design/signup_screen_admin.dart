@@ -249,6 +249,7 @@ class _SignupScreenAdminState extends State<SignupScreenAdmin> {
                                          phoneController.text,
                                          passwordController.text,
                                          Provider.of<SignupProvider>(context,listen: false).selectUserType.toString(),
+                                         "",
                                          context
                                      );
                                      Provider.of<SignupProvider>(context,listen: false).selectUserType = null;

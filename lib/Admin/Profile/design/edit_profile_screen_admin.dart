@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_booking_management/Admin/Home/design/home_screen_admin.dart';
@@ -89,8 +90,9 @@ class _EditProfileScreenAdminState extends State<EditProfileScreenAdmin> {
                                       toastMessage: "Please fill all required details"
                                   );
                                 }else{
+                                  var token = (await FirebaseMessaging.instance.getToken())!;
                                   Provider.of<SignupProvider>(context,listen: false).
-                                  insertDataUser(fullNameController.text, emailController.text, phoneController.text, "Restaurant Owner");
+                                  insertDataUser(fullNameController.text, emailController.text, phoneController.text, "Restaurant Owner",token);
                                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomeScreenAdmin()));
                                 }
                                 },

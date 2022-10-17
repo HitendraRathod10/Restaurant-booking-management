@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -89,8 +90,9 @@ class _EditProfileScreenUserState extends State<EditProfileScreenUser> {
                                       toastMessage: "Please fill all required details"
                                   );
                                 }else{
+                                  var token = (await FirebaseMessaging.instance.getToken())!;
                                   Provider.of<SignupProvider>(context,listen: false).
-                                  insertDataUser(fullNameController.text, emailController.text, phoneController.text, "User");
+                                  insertDataUser(fullNameController.text, emailController.text, phoneController.text, "User",token);
                                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const HomeScreenUser()));
                                 }
                               },

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:restaurant_booking_management/utils/app_color.dart';
@@ -11,6 +12,11 @@ class LoginProvider extends ChangeNotifier{
   final _auth = FirebaseAuth.instance;
   bool loginPswd =  false;
   final firebase = FirebaseFirestore.instance;
+  String? token;
+
+  getToken() async {
+
+  }
   
   checkPasswordVisibility() {
     loginPswd=!loginPswd;
@@ -24,8 +30,25 @@ class LoginProvider extends ChangeNotifier{
       email = email.trim();
       await _auth.signInWithEmailAndPassword(email: email, password: password);
       showToast(toastMessage: "Login successfully",backgroundColor: AppColor.appColor,textColor: AppColor.white);
-
       final firebase = FirebaseFirestore.instance;
+      token = (await FirebaseMessaging.instance.getToken())!;
+      print('Token => $token');
+
+      var dataName = await firebase.collection('User').get();
+      for(var i in dataName.docChanges){
+        if(i.doc.get('email') == FirebaseAuth.instance.currentUser!.email){
+          await FirebaseFirestore.instance.
+          collection("User").
+          doc(FirebaseAuth.instance.currentUser!.email).set(({
+            "email" : FirebaseAuth.instance.currentUser!.email,
+            "fcmToken" : token,
+            "fullName" : i.doc.get('fullName'),
+            "phone" : i.doc.get('phone'),
+            "userType" : i.doc.get('userType')
+          }));
+          break;
+        }
+      }
 
       var queryUserRatingSnapshots = await firebase.collection("User").
       where('email',isEqualTo: FirebaseAuth.instance.currentUser!.email).
@@ -48,6 +71,7 @@ class LoginProvider extends ChangeNotifier{
               context, MaterialPageRoute(builder: (context) => HomeScreenAdmin()));
         }
       }
+
 
     } on Exception catch (e) {
       EasyLoading.showToast("Your email or password is invalid !!",
