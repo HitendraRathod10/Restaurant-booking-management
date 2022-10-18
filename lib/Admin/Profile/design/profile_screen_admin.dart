@@ -124,7 +124,9 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
                                 top: 17,
                                 child: GestureDetector(
                                   onTap: (){
-                                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreenAdmin()), (route) => false);
+                                    Navigator.pop(context);
+                                    // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomeScreenAdmin()));
+                                    // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreenAdmin()), (route) => false);
                                   },
                                   child: Container(
                                       padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),

@@ -711,7 +711,6 @@ class _RestaurantBookState extends State<RestaurantBook> {
                     var dataName = await firebase.collection('User').get();
                     for(var i in dataName.docChanges){
                       if(i.doc.get('email') == FirebaseAuth.instance.currentUser!.email){
-                        print("UserName ${i.doc.get('fullName')}");
                         fullName = i.doc.get('fullName');
                         break;
                       }
@@ -719,12 +718,11 @@ class _RestaurantBookState extends State<RestaurantBook> {
                     var dataNameFcmToken = await firebase.collection('User').where("email",isEqualTo: widget.doc!.get("shopOwnerEmail")).get();
                     String? token;
                     for(var i in dataNameFcmToken.docChanges){
-                      print("iiiii ${i.doc.get("fcmToken")}");
                       token = i.doc.get("fcmToken");
                     }
-                    print("email${FirebaseAuth.instance.currentUser!.email} person $personSend || date $dateSend || time $timeSend || "
-                        "restName ${widget.doc!.get("name")} || status pending ||"
-                        " userName $fullName");
+                    // print("email${FirebaseAuth.instance.currentUser!.email} person $personSend || date $dateSend || time $timeSend || "
+                    //     "restName ${widget.doc!.get("name")} || status pending ||"
+                    //     " userName $fullName");
                     Provider.of<RestaurantBookProvider>(context,listen: false).
                     bookTable(
                         context,
@@ -740,9 +738,9 @@ class _RestaurantBookState extends State<RestaurantBook> {
                     PushNotificationService().
                     chatMessageNotification(
                         token,
-                        "${widget.doc!.get("name")}",
+                        "${widget.doc!.get("name")} for",
                         "$fullName",
-                        "${personSend.toString()} person"
+                        "${personSend.toString()} person on $dateSend $timeSend"
                     );
                   },
                   child: Container(

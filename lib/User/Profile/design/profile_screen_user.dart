@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_booking_management/Signup/provider/signup_provider.dart';
+import 'package:restaurant_booking_management/User/Home/provider/home_provider.dart';
 import 'package:restaurant_booking_management/User/Profile/design/edit_profile_screen_user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../Admin/Home/design/home_screen_admin.dart';
@@ -279,6 +280,7 @@ class _ProfileScreenUserState extends State<ProfileScreenUser> {
                             );
                             }
                             Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>LoginScreen()), (route) => false);
+                            Provider.of<HomeProvider>(context,listen: false).onItemTapped(0);
                           },
                           child: Container(
                             height: 50,

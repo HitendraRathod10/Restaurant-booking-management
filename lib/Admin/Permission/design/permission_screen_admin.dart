@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
+import '../../../Services/PushNotificationService.dart';
 import '../../../User/Restaurant Book/provider/restaurant_book_provider.dart';
 import '../../../utils/app_color.dart';
 import '../../../utils/app_font.dart';
@@ -80,15 +81,180 @@ class _PermissionScreenAdminState extends State<PermissionScreenAdmin> {
           builder: (context,AsyncSnapshot<QuerySnapshot<Object?>> snapshot) {
             if(snapshot.connectionState == ConnectionState.waiting){
               return const Center(child: CircularProgressIndicator());
-            }else if (snapshot.hasError) {
+            }
+            else if (snapshot.hasError) {
               return const Center(child: Text("Something went wrong",style: TextStyle(fontFamily: AppFont.medium)));
             }
-            else if (!snapshot.hasData) {
+            else if (!snapshot.hasData || snapshot.requireData.docChanges.isEmpty) {
               return const Center(child: Text("No Data Found",style: TextStyle(fontFamily: AppFont.medium)));
-            } else if (snapshot.requireData.docChanges.isEmpty){
-              return  Center(child: Text("No Data Found",style: TextStyle(fontFamily: AppFont.medium)));
             }
-            else if(snapshot.hasData){
+            else if (snapshot.requireData.docChanges.isNotEmpty){
+              return ListView.builder(
+                  itemCount: snapshot.data!.docs.length,
+                  itemBuilder: (context,index){
+                    return SizedBox(
+                      // height: 92,
+                      child: Card(
+                        color: index % 2 == 0 ? AppColor.white : Colors.grey.shade300,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        elevation: 05,
+                        margin: const EdgeInsets.all(05),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Row(
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("${snapshot.data!.docs[index]["userName"]}",
+                                    style: const TextStyle(
+                                        fontSize: 25,
+                                        fontFamily: AppFont.semiBold
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 07,
+                                  ),
+                                  Text("${snapshot.data!.docs[index]['restaurantName']}",
+                                    style: const TextStyle(
+                                        fontSize: 15,
+                                        fontFamily: AppFont.regular
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 07,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text("${snapshot.data!.docs[index]["date"]}",
+                                        style: const TextStyle(
+                                            fontSize: 15,
+                                            fontFamily: AppFont.regular
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text("${snapshot.data!.docs[index]["time"]}",
+                                        style: const TextStyle(
+                                            fontSize: 15,
+                                            fontFamily: AppFont.regular
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 07,
+                                  ),
+                                  Text("${snapshot.data!.docs[index]['person']} Persons",
+                                    style: const TextStyle(
+                                        fontSize: 15,
+                                        fontFamily: AppFont.regular
+                                    ),
+                                  )
+                                ],
+                              ),
+                              const Spacer(),
+                              snapshot.data!.docs[index]["statusOfBooking"] == "Approved" ?
+                              const Text("Approved") :
+                              snapshot.data!.docs[index]["statusOfBooking"] == "Rejected" ?
+                              const Text("Rejected") :
+                              Row(
+                                children: [
+                                  InkWell(
+                                    onTap: () async {
+                                      EasyLoading.show(status: "Loading Please wait for some time");
+                                      // forApprove(index);
+                                      await firebase.collection("Booking").
+                                      doc("${snapshot.data!.docs[index]["restaurantName"]} "
+                                          "${snapshot.data!.docs[index]["date"]} "
+                                          "${snapshot.data!.docs[index]["time"]} "
+                                          "${snapshot.data!.docs[index]["email"]}").update({
+                                        "email" : snapshot.data!.docs[index]["email"],
+                                        "person" : snapshot.data!.docs[index]["person"],
+                                        "date" : snapshot.data!.docs[index]["date"],
+                                        "time" : snapshot.data!.docs[index]["time"],
+                                        "shopOwnerEmail" : snapshot.data!.docs[index]["shopOwnerEmail"],
+                                        "restaurantName" : snapshot.data!.docs[index]["restaurantName"],
+                                        "statusOfBooking" : "Approved",
+                                        "userName" : snapshot.data!.docs[index]["userName"]
+                                      });
+                                      // setState(() {});
+                                      EasyLoading.dismiss();
+                                      var dataNameFcmToken = await firebase.collection('User').where("email",isEqualTo: snapshot.data!.docs[index]["email"]).get();
+                                      String? token;
+                                      for(var i in dataNameFcmToken.docChanges){
+                                        token = i.doc.get("fcmToken");
+                                      }
+                                      PushNotificationService().
+                                      notificationToUserForStatus(
+                                          token,
+                                          snapshot.data!.docs[index]["restaurantName"],
+                                          "Approved for ${snapshot.data!.docs[index]["person"]} person",
+                                          "on ${snapshot.data!.docs[index]["date"]} ${snapshot.data!.docs[index]["time"]}"
+                                      );
+                                    },
+                                    child: Image.asset(
+                                      AppImage.greenYes,
+                                      height: 30,
+                                      width: 30,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  InkWell(
+                                    onTap: () async {
+                                      EasyLoading.show(status: "Loading Please wait for some time");
+                                      await firebase.collection("Booking").
+                                      doc("${snapshot.data!.docs[index]["restaurantName"]} "
+                                          "${snapshot.data!.docs[index]["date"]} "
+                                          "${snapshot.data!.docs[index]["time"]} "
+                                          "${snapshot.data!.docs[index]["email"]}").update({
+                                        "email" : snapshot.data!.docs[index]["email"],
+                                        "person" : snapshot.data!.docs[index]["person"],
+                                        "date" : snapshot.data!.docs[index]["date"],
+                                        "time" : snapshot.data!.docs[index]["time"],
+                                        "shopOwnerEmail" : snapshot.data!.docs[index]["shopOwnerEmail"],
+                                        "restaurantName" : snapshot.data!.docs[index]["restaurantName"],
+                                        "statusOfBooking" : "Rejected",
+                                        "userName" : snapshot.data!.docs[index]["userName"]
+                                      });
+                                      // setState(() {});
+                                      EasyLoading.dismiss();
+                                      var dataNameFcmToken = await firebase.collection('User').where("email",isEqualTo: snapshot.data!.docs[index]["email"]).get();
+                                      String? token;
+                                      for(var i in dataNameFcmToken.docChanges){
+                                        token = i.doc.get("fcmToken");
+                                      }
+                                      PushNotificationService().
+                                      notificationToUserForStatus(
+                                          token,
+                                          snapshot.data!.docs[index]["restaurantName"],
+                                          "Rejected for ${snapshot.data!.docs[index]["person"]} person",
+                                          "on ${snapshot.data!.docs[index]["date"]} ${snapshot.data!.docs[index]["time"]}"
+                                      );
+                                    },
+                                    child: Image.asset(
+                                      AppImage.redNo,
+                                      height: 30,
+                                      width: 30,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              // Icon(Icons.check_circle_outline,color: Colors.green,),
+                              // Icon(Icons.cancel_outlined,color: Colors.red,)
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  });
+            }
+            /*else if(snapshot.hasData){
               // EasyLoading.dismiss();
               return ListView.builder(
                   itemCount: snapshot.data!.docs.length,
@@ -184,6 +350,18 @@ class _PermissionScreenAdminState extends State<PermissionScreenAdmin> {
                                       });
                                       // setState(() {});
                                       EasyLoading.dismiss();
+                                      var dataNameFcmToken = await firebase.collection('User').where("email",isEqualTo: snapshot.data!.docs[index]["email"]).get();
+                                      String? token;
+                                      for(var i in dataNameFcmToken.docChanges){
+                                        token = i.doc.get("fcmToken");
+                                      }
+                                      PushNotificationService().
+                                      notificationToUserForStatus(
+                                          token,
+                                          snapshot.data!.docs[index]["restaurantName"],
+                                          "Approved for ${snapshot.data!.docs[index]["person"]} person",
+                                          "on ${snapshot.data!.docs[index]["date"]}"
+                                      );
                                     },
                                     child: Image.asset(
                                       AppImage.greenYes,
@@ -213,6 +391,18 @@ class _PermissionScreenAdminState extends State<PermissionScreenAdmin> {
                                       });
                                       // setState(() {});
                                       EasyLoading.dismiss();
+                                      var dataNameFcmToken = await firebase.collection('User').where("email",isEqualTo: snapshot.data!.docs[index]["email"]).get();
+                                      String? token;
+                                      for(var i in dataNameFcmToken.docChanges){
+                                        token = i.doc.get("fcmToken");
+                                      }
+                                      PushNotificationService().
+                                      notificationToUserForStatus(
+                                          token,
+                                          snapshot.data!.docs[index]["restaurantName"],
+                                          "Rejected for ${snapshot.data!.docs[index]["person"]} person",
+                                          "on ${snapshot.data!.docs[index]["date"]}"
+                                      );
                                     },
                                     child: Image.asset(
                                       AppImage.redNo,
@@ -230,7 +420,7 @@ class _PermissionScreenAdminState extends State<PermissionScreenAdmin> {
                       ),
                     );
                   });
-            }
+            }*/
             else{
               return  const Center(child: CircularProgressIndicator(color: AppColor.darkMaroon,));
             }

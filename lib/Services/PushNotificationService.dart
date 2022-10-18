@@ -155,4 +155,40 @@ class PushNotificationService {
       debugPrint("Debug print Catch $e");
     }
   }
+
+  notificationToUserForStatus(notificationToken,restName,status,person) async{
+    final msg = jsonEncode({
+      "registration_ids": <String>[
+        "$notificationToken"
+      ],
+      "notification": {
+        "title": "$restName",
+        "body": "$status $person",
+        "android_channel_id": "restaurant-booking-management",
+        "sound": true,
+      },
+      // "data":{
+      // "opponentUserEmail":"$opponentUserEmail",
+      // "chatUserEmail":"$currentEmail",
+      // }
+    });
+    try {
+      var response = await http.post(
+        Uri.parse('https://fcm.googleapis.com/fcm/send'),
+        headers: {
+          'Authorization': 'key=AAAAcQxVIjA:APA91bHT38yyHAMWuEYBRiYBJ9AJznJJVBB4GC4QaeRKa5TwA3UhErKJ1hukKboSPbvl2fi_F5NHKqB-xhTXJynK7LQM4ES2GcIV3m7NKLKxhPAJmNNZTXIrH3O9PgHoWfgtXgsjs1Tn',
+          'Content-Type': 'application/json'
+        },
+        body: msg,
+      );
+      if(response.statusCode==200){
+        debugPrint("Notification Send");
+      }
+      else{
+        debugPrint("Notification Send Error");
+      }
+    }catch(e){
+      debugPrint("Debug print Catch $e");
+    }
+  }
 }

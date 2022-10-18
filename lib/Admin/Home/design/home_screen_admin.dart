@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_booking_management/Admin/Add%20Restaurant/design/add_restaurant_screen.dart';
@@ -29,11 +30,21 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
     prefg.setBool("key", true);
   }
 
+  notificationOnTap(){
+    FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? event) {
+      if (event != null) {
+        // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>PermissionScreenAdmin()), (route) => false);
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>PermissionScreenAdmin()));
+      }
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     check();
+    notificationOnTap();
   }
 
   @override
@@ -114,6 +125,7 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                       leading: const Icon(Icons.person),
                       title: const Text('Profile',style: TextStyle(fontFamily: AppFont.medium)),
                       onTap: () {
+                        Navigator.pop(context);
                         Navigator.push(context, MaterialPageRoute(builder: (context)=>const ProfileScreenAdmin()));
                       },
                     ),
