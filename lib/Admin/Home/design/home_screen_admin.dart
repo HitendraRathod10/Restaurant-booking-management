@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_booking_management/Admin/Add%20Restaurant/design/add_restaurant_screen.dart';
 import 'package:restaurant_booking_management/Admin/My%20Restaurants/design/my_restaurants_screen.dart';
@@ -12,6 +13,7 @@ import 'package:restaurant_booking_management/utils/dashboard_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../Signup/provider/signup_provider.dart';
+import '../../../main.dart';
 import '../../../utils/app_color.dart';
 import '../../../utils/app_font.dart';
 import '../../Profile/design/profile_screen_admin.dart';
@@ -31,11 +33,17 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
   }
 
   notificationOnTap(){
+    // For background || When app is kill
     FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? event) {
       if (event != null) {
         // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>PermissionScreenAdmin()), (route) => false);
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>PermissionScreenAdmin()));
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>const PermissionScreenAdmin()));
       }
+    });
+    // For background || When app is not kill but in background
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print("onTap notification admin");
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>const PermissionScreenAdmin()));
     });
   }
 

@@ -60,15 +60,15 @@ class LoginProvider extends ChangeNotifier{
 
       for(var i in queryUserRatingSnapshotsOne.docChanges){
         if(i.doc.get("userType") == "User"){
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => HomeScreenUser()));
+          Navigator.pushAndRemoveUntil(
+              context, MaterialPageRoute(builder: (context) => const HomeScreenUser()),(route) => false);
         }
       }
 
       for(var i in queryUserRatingSnapshots.docChanges){
         if(i.doc.get("userType") == "Restaurant Owner"){
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => HomeScreenAdmin()));
+          Navigator.pushAndRemoveUntil(
+              context, MaterialPageRoute(builder: (context) => const HomeScreenAdmin()),(route) => false);
         }
       }
 

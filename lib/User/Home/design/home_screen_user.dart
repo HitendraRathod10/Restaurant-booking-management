@@ -33,11 +33,16 @@ class _HomeScreenUserState extends State<HomeScreenUser> {
     FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? event) {
       if (event != null) {
         Provider.of<HomeProvider>(context,listen: false).onItemTapped(2);
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomeScreenUser()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const HomeScreenUser()));
         // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreenUser()), (route) => false);
         setState(() {});
         // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>MyBookingStatusScreen()), (route) => false);
       }
+    });
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      // Navigator.push(context, MaterialPageRoute(builder: (context)=>const MyBookingStatusScreen()));
+      Provider.of<HomeProvider>(context,listen: false).onItemTapped(2);
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const HomeScreenUser()));
     });
   }
 

@@ -11,8 +11,10 @@ import '../main.dart';
  * - When the app is killed, there is a function called getInitialMessage which
  *   returns the remoteMessage in case we receive a notification otherwise returns null.
  *   It can be called at any point of the application (Preferred to be after defining GetMaterialApp so that we can go to any screen without getting any errors)
+
  * - When the app is in the background, there is a function called onMessageOpenedApp which is called when user clicks on the notification.
  *   It returns the remoteMessage.
+
  * - When the app is in the foreground, there is a function flutterLocalNotificationsPlugin, is passes a future function called onSelectNotification which
  *   is called when user clicks on the notification.
  **/
@@ -109,13 +111,6 @@ class PushNotificationService {
             ));
       }
     });
-
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification?.android;
-      // DarwinNotificationDetails? ios = message.notification?.apple as DarwinNotificationDetails?;
-    });
-    // getToken();
   }
 
   chatMessageNotification(notificationToken,restName,fullName,person) async{

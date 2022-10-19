@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
+import 'package:restaurant_booking_management/Admin/Home/design/home_screen_admin.dart';
 import '../../../Services/PushNotificationService.dart';
 import '../../../User/Restaurant Book/provider/restaurant_book_provider.dart';
 import '../../../utils/app_color.dart';
@@ -75,6 +76,14 @@ class _PermissionScreenAdminState extends State<PermissionScreenAdmin> {
           centerTitle: true,
           backgroundColor: AppColor.appColor.withOpacity(0.9),
           title: const Text("Permission Screen"),
+          leading: IconButton(
+            onPressed: () {
+              // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const HomeScreenAdmin()));
+              // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>const HomeScreenAdmin()), (route) => false);
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.arrow_back),
+          ),
         ),
         body: StreamBuilder(
           stream: firebase.collection('Booking').where("shopOwnerEmail",isEqualTo: FirebaseAuth.instance.currentUser!.email).snapshots(),
