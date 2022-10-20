@@ -46,13 +46,48 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
       Navigator.push(context, MaterialPageRoute(builder: (context)=>const PermissionScreenAdmin()));
     });
   }
-
+  getNotification(context) {
+    var initializationSettingsAndroid = const AndroidInitializationSettings('@mipmap/ic_launcher');
+    var initializationSettingsIOS = const DarwinInitializationSettings(
+        requestSoundPermission: false,
+        requestBadgePermission: false, requestAlertPermission: false);
+    var initializationSettings = InitializationSettings(android: initializationSettingsAndroid,iOS: initializationSettingsIOS,);
+    flutterLocalNotificationsPlugin.initialize(initializationSettings);
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      if (notification != null) {
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                color: Colors.blue,
+                icon: "@mipmap/ic_launcher",
+              ),
+              iOS: const DarwinNotificationDetails(),
+            ));
+      }
+      var androidSettings = AndroidInitializationSettings('mipmap/ic_launcher');
+      var iOSSettings = DarwinInitializationSettings(requestSoundPermission: false, requestBadgePermission: false, requestAlertPermission: false,);
+      var initSetttings = InitializationSettings(android: androidSettings, iOS: iOSSettings);
+      flutterLocalNotificationsPlugin.initialize(initSetttings,onDidReceiveNotificationResponse: onSelectLocalNotification);
+    });
+  }
+  onSelectLocalNotification(payload) {
+    print("method for navigation ADMIN");
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const PermissionScreenAdmin()));
+  }
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     check();
     notificationOnTap();
+    getNotification(context);
   }
 
   @override

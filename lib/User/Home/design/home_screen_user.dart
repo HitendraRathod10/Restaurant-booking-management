@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_booking_management/User/All%20Restaurant%20List/design/all_restaurants_screen.dart';
 import 'package:restaurant_booking_management/User/Profile/design/profile_screen_user.dart';
@@ -9,6 +10,7 @@ import 'package:restaurant_booking_management/utils/app_font.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../Login/design/login_screen.dart';
+import '../../../main.dart';
 import '../../../utils/app_color.dart';
 import '../../../utils/app_image.dart';
 import '../../Map/design/map_screen.dart';
@@ -45,13 +47,50 @@ class _HomeScreenUserState extends State<HomeScreenUser> {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const HomeScreenUser()));
     });
   }
-
+  getNotification(context) {
+    var initializationSettingsAndroid = const AndroidInitializationSettings('@mipmap/ic_launcher');
+    var initializationSettingsIOS = const DarwinInitializationSettings(
+        requestSoundPermission: false,
+        requestBadgePermission: false, requestAlertPermission: false);
+    var initializationSettings = InitializationSettings(android: initializationSettingsAndroid,iOS: initializationSettingsIOS,);
+    flutterLocalNotificationsPlugin.initialize(initializationSettings);
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      if (notification != null) {
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                color: Colors.blue,
+                icon: "@mipmap/ic_launcher",
+              ),
+              iOS: const DarwinNotificationDetails(),
+            ));
+      }
+      var androidSettings = AndroidInitializationSettings('mipmap/ic_launcher');
+      var iOSSettings = DarwinInitializationSettings(requestSoundPermission: false, requestBadgePermission: false, requestAlertPermission: false,);
+      var initSetttings = InitializationSettings(android: androidSettings, iOS: iOSSettings);
+      flutterLocalNotificationsPlugin.initialize(initSetttings,onDidReceiveNotificationResponse: onSelectLocalNotification);
+    });
+  }
+  onSelectLocalNotification(payload) {
+    print("method for navigation USER");
+    // Navigator.of(context).push(MaterialPageRoute(builder: (context) => const MyBookingStatusScreen()));
+    Provider.of<HomeProvider>(context,listen: false).onItemTapped(2);
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const HomeScreenUser()));
+  }
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     check();
     notificationOnTap();
+    getNotification(context);
   }
 
   @override
