@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_booking_management/User/Restaurant%20Book/provider/restaurant_book_provider.dart';
 import 'package:restaurant_booking_management/utils/app_font.dart';
+import 'package:restaurant_booking_management/utils/mixin_toast.dart';
 import 'package:time_range/time_range.dart';
 
 
@@ -723,25 +724,36 @@ class _RestaurantBookState extends State<RestaurantBook> {
                     // print("email${FirebaseAuth.instance.currentUser!.email} person $personSend || date $dateSend || time $timeSend || "
                     //     "restName ${widget.doc!.get("name")} || status pending ||"
                     //     " userName $fullName");
-                    Provider.of<RestaurantBookProvider>(context,listen: false).
-                    bookTable(
-                        context,
-                        FirebaseAuth.instance.currentUser!.email,
-                        personSend.toString(),
-                        dateSend,
-                        timeSend,
-                        "${widget.doc!.get("name")}",
-                        "Pending",
-                        fullName,
-                        "${widget.doc!.get("shopOwnerEmail")}"
-                    );
-                    PushNotificationService().
-                    chatMessageNotification(
-                        token,
-                        "${widget.doc!.get("name")} for",
-                        "$fullName",
-                        "${personSend.toString()} person on $dateSend $timeSend"
-                    );
+                    print("validation ${personSend.toString()},$dateSend,$timeSend");
+                    if(personSend.toString().isEmpty || personSend.toString() == "" || personSend.toString() == "null" ||
+                        dateSend.toString().isEmpty || dateSend == "" || dateSend == null ||
+                        timeSend.toString().isEmpty || timeSend == "" || timeSend == null){
+                      showToast(
+                        toastMessage: "Please select required fields."
+                      );
+                    }else{
+                      print("in else book");
+                      Provider.of<RestaurantBookProvider>(context,listen: false).
+                      bookTable(
+                          context,
+                          FirebaseAuth.instance.currentUser!.email,
+                          personSend.toString(),
+                          dateSend,
+                          timeSend,
+                          "${widget.doc!.get("name")}",
+                          "Pending",
+                          fullName,
+                          "${widget.doc!.get("shopOwnerEmail")}"
+                      );
+                      PushNotificationService().
+                      chatMessageNotification(
+                          token,
+                          "${widget.doc!.get("name")} for",
+                          "$fullName",
+                          "${personSend.toString()} person on $dateSend $timeSend"
+                      );
+                    }
+
                   },
                   child: Container(
                     height: 50,

@@ -32,7 +32,8 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
     prefg.setBool("key", true);
   }
 
-  notificationOnTap(){
+  notificationOnTap() async {
+    await flutterLocalNotificationsPlugin.cancelAll();
     // For background || When app is kill
     FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? event) {
       if (event != null) {
@@ -77,7 +78,8 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
       flutterLocalNotificationsPlugin.initialize(initSetttings,onDidReceiveNotificationResponse: onSelectLocalNotification);
     });
   }
-  onSelectLocalNotification(payload) {
+  onSelectLocalNotification(payload) async {
+    await flutterLocalNotificationsPlugin.cancelAll();
     print("method for navigation ADMIN");
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => const PermissionScreenAdmin()));
   }

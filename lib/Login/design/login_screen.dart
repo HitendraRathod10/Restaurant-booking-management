@@ -74,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Padding(
                             padding: const EdgeInsets.fromLTRB(20, 00, 20, 00),
                             child: Container(
-                              height: 112,
+                              height: 115,
                               decoration: BoxDecoration(
                                   boxShadow: [
                                     BoxShadow(

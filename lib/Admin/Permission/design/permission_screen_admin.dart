@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:restaurant_booking_management/Admin/Home/design/home_screen_admin.dart';
 import '../../../Services/PushNotificationService.dart';
 import '../../../User/Restaurant Book/provider/restaurant_book_provider.dart';
+import '../../../main.dart';
 import '../../../utils/app_color.dart';
 import '../../../utils/app_font.dart';
 import '../../../utils/app_image.dart';
@@ -67,7 +68,15 @@ class _PermissionScreenAdminState extends State<PermissionScreenAdmin> {
     //   "userName" : snapshot.data!.docChanges[index].doc.get("userName")
     // });
   }
-  
+  loader() async {
+    await flutterLocalNotificationsPlugin.cancelAll();
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loader();
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -114,56 +123,61 @@ class _PermissionScreenAdminState extends State<PermissionScreenAdmin> {
                           padding: const EdgeInsets.all(10),
                           child: Row(
                             children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("${snapshot.data!.docs[index]["userName"]}",
-                                    style: const TextStyle(
-                                        fontSize: 25,
-                                        fontFamily: AppFont.semiBold
+                              Expanded(
+                                flex: 6,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("${snapshot.data!.docs[index]["userName"]}",
+                                      style: const TextStyle(
+                                          fontSize: 25,
+                                          fontFamily: AppFont.semiBold
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    height: 07,
-                                  ),
-                                  Text("${snapshot.data!.docs[index]['restaurantName']}",
-                                    style: const TextStyle(
-                                        fontSize: 15,
-                                        fontFamily: AppFont.regular
+                                    const SizedBox(
+                                      height: 07,
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    height: 07,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text("${snapshot.data!.docs[index]["date"]}",
-                                        style: const TextStyle(
-                                            fontSize: 15,
-                                            fontFamily: AppFont.regular
+                                    Text("${snapshot.data!.docs[index]['restaurantName']}",
+                                      style: const TextStyle(
+                                          fontSize: 15,
+                                          fontFamily: AppFont.regular
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    const SizedBox(
+                                      height: 07,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text("${snapshot.data!.docs[index]["date"]}",
+                                          style: const TextStyle(
+                                              fontSize: 15,
+                                              fontFamily: AppFont.regular
+                                          ),
                                         ),
-                                      ),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text("${snapshot.data!.docs[index]["time"]}",
-                                        style: const TextStyle(
-                                            fontSize: 15,
-                                            fontFamily: AppFont.regular
+                                        const SizedBox(
+                                          width: 10,
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 07,
-                                  ),
-                                  Text("${snapshot.data!.docs[index]['person']} Persons",
-                                    style: const TextStyle(
-                                        fontSize: 15,
-                                        fontFamily: AppFont.regular
+                                        Text("${snapshot.data!.docs[index]["time"]}",
+                                          style: const TextStyle(
+                                              fontSize: 15,
+                                              fontFamily: AppFont.regular
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  )
-                                ],
+                                    const SizedBox(
+                                      height: 07,
+                                    ),
+                                    Text("${snapshot.data!.docs[index]['person']} Persons",
+                                      style: const TextStyle(
+                                          fontSize: 15,
+                                          fontFamily: AppFont.regular
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                               const Spacer(),
                               snapshot.data!.docs[index]["statusOfBooking"] == "Approved" ?

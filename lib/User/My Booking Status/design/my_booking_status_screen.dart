@@ -5,6 +5,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:restaurant_booking_management/utils/app_color.dart';
 import 'package:restaurant_booking_management/utils/app_font.dart';
 
+import '../../../main.dart';
+
 class MyBookingStatusScreen extends StatefulWidget {
   const MyBookingStatusScreen({Key? key}) : super(key: key);
 
@@ -14,10 +16,17 @@ class MyBookingStatusScreen extends StatefulWidget {
 
 class _MyBookingStatusScreenState extends State<MyBookingStatusScreen> {
 
-  loader(){
-    EasyLoading.show(status: 'loading...');
+  loader() async {
+    await flutterLocalNotificationsPlugin.cancelAll();
   }
   final firebase = FirebaseFirestore.instance;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loader();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,53 +72,56 @@ class _MyBookingStatusScreenState extends State<MyBookingStatusScreen> {
                           padding: const EdgeInsets.all(10),
                           child: Row(
                             children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    width: MediaQuery.of(context).size.width/1.5,
-                                    child: Text("${snapshot.data!.docs[index]["restaurantName"]}",
+                              Expanded(
+                                flex: 7,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width/1.5,
+                                      child: Text("${snapshot.data!.docs[index]["restaurantName"]}",
+                                        style: const TextStyle(
+                                            fontSize: 25,
+                                            fontFamily: AppFont.semiBold
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 07,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text("${snapshot.data!.docs[index]["date"]}",
+                                          style: const TextStyle(
+                                              fontSize: 15,
+                                              fontFamily: AppFont.regular
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text("${snapshot.data!.docs[index]["time"]}",
+                                          style: const TextStyle(
+                                              fontSize: 15,
+                                              fontFamily: AppFont.regular
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 07,
+                                    ),
+                                    Text("Person : ${snapshot.data!.docs[index]["person"]}",
                                       style: const TextStyle(
-                                          fontSize: 25,
-                                          fontFamily: AppFont.semiBold
+                                          fontSize: 15,
+                                          fontFamily: AppFont.regular
                                       ),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 07,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text("${snapshot.data!.docs[index]["date"]}",
-                                        style: const TextStyle(
-                                            fontSize: 15,
-                                            fontFamily: AppFont.regular
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text("${snapshot.data!.docs[index]["time"]}",
-                                        style: const TextStyle(
-                                            fontSize: 15,
-                                            fontFamily: AppFont.regular
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 07,
-                                  ),
-                                  Text("Person : ${snapshot.data!.docs[index]["person"]}",
-                                    style: const TextStyle(
-                                        fontSize: 15,
-                                        fontFamily: AppFont.regular
-                                    ),
-                                  )
-                                ],
+                                    )
+                                  ],
+                                ),
                               ),
-                              const Spacer(),
+                              // const Spacer(),
                               snapshot.data!.docs[index]["statusOfBooking"] == "Pending" ?
                               Container(
                                 padding: const EdgeInsets.all(07),

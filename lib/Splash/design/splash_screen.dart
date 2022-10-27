@@ -10,6 +10,8 @@ import 'package:restaurant_booking_management/utils/app_image.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 
+import '../../main.dart';
+
 class SplashSceen extends StatefulWidget {
   const SplashSceen({Key? key}) : super(key: key);
 
@@ -20,6 +22,7 @@ class SplashSceen extends StatefulWidget {
 class _SplashSceenState extends State<SplashSceen> {
 
   checkLogin() async {
+    await flutterLocalNotificationsPlugin.cancelAll();
     SharedPreferences prefg = await SharedPreferences.getInstance();
     Future.delayed(const Duration(seconds: 3), ()
     async{

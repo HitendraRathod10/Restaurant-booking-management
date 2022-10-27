@@ -31,7 +31,8 @@ class _HomeScreenUserState extends State<HomeScreenUser> {
     prefg.setBool("key", true);
   }
 
-  notificationOnTap(){
+  notificationOnTap() async {
+    await flutterLocalNotificationsPlugin.cancelAll();
     FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? event) {
       if (event != null) {
         Provider.of<HomeProvider>(context,listen: false).onItemTapped(2);
@@ -78,7 +79,8 @@ class _HomeScreenUserState extends State<HomeScreenUser> {
       flutterLocalNotificationsPlugin.initialize(initSetttings,onDidReceiveNotificationResponse: onSelectLocalNotification);
     });
   }
-  onSelectLocalNotification(payload) {
+  onSelectLocalNotification(payload) async {
+    await flutterLocalNotificationsPlugin.cancelAll();
     print("method for navigation USER");
     // Navigator.of(context).push(MaterialPageRoute(builder: (context) => const MyBookingStatusScreen()));
     Provider.of<HomeProvider>(context,listen: false).onItemTapped(2);
