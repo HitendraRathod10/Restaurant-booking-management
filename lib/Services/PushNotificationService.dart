@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -83,7 +84,10 @@ class PushNotificationService {
     'High Importance Notifications', // title
     importance: Importance.max,
   );*/
-  getNotification(context) {
+  getNotification() async {
+    print("getNotification PushNotificationService start");
+    await Firebase.initializeApp();
+    enableIOSNotifications();
     var initializationSettingsAndroid = const AndroidInitializationSettings('@mipmap/ic_launcher');
     var initializationSettingsIOS = const DarwinInitializationSettings(
         requestSoundPermission: false,
@@ -109,11 +113,21 @@ class PushNotificationService {
               ),
               iOS: const DarwinNotificationDetails(),
             ));
+        print("getNotification PushNotificationService notification != null");
       }
     });
   }
-
-  chatMessageNotification(notificationToken,restName,fullName,person) async{
+  Future<void> enableIOSNotifications() async {
+    print("enableIOSNotifications PushNotificationService");
+    await FirebaseMessaging.instance
+        .setForegroundNotificationPresentationOptions(
+      alert: true, // Required to display a heads up notification
+      badge: true,
+      sound: true,
+    );
+  }
+  chatMessageNotification(notificationToken,restName,fullName,person,screenType) async{
+    print("chatMessageNotification PushNotificationService");
     final msg = jsonEncode({
       "registration_ids": <String>[
         "$notificationToken"
@@ -124,10 +138,9 @@ class PushNotificationService {
         "android_channel_id": "restaurant-booking-management",
         "sound": true,
       },
-      // "data":{
-        // "opponentUserEmail":"$opponentUserEmail",
-        // "chatUserEmail":"$currentEmail",
-      // }
+      "data": {
+        "screenType":"$screenType",
+      }
     });
 
     try {
@@ -141,7 +154,7 @@ class PushNotificationService {
       );
 
       if(response.statusCode==200){
-        debugPrint("Notification Send");
+        debugPrint("Notification Send chatMessageNotification");
       }
       else{
         debugPrint("Notification Send Error");
@@ -151,7 +164,8 @@ class PushNotificationService {
     }
   }
 
-  notificationToUserForStatus(notificationToken,restName,status,person) async{
+  notificationToUserForStatus(notificationToken,restName,status,person,screenType) async{
+    print("notificationToUserForStatus PushNotificationService");
     final msg = jsonEncode({
       "registration_ids": <String>[
         "$notificationToken"
@@ -162,10 +176,9 @@ class PushNotificationService {
         "android_channel_id": "restaurant-booking-management",
         "sound": true,
       },
-      // "data":{
-      // "opponentUserEmail":"$opponentUserEmail",
-      // "chatUserEmail":"$currentEmail",
-      // }
+      "data": {
+        "screenType":"$screenType",
+      }
     });
     try {
       var response = await http.post(
@@ -177,7 +190,7 @@ class PushNotificationService {
         body: msg,
       );
       if(response.statusCode==200){
-        debugPrint("Notification Send");
+        debugPrint("Notification Send notificationToUserForStatus");
       }
       else{
         debugPrint("Notification Send Error");
@@ -186,4 +199,79 @@ class PushNotificationService {
       debugPrint("Debug print Catch $e");
     }
   }
+
+  //New Code working proper demo
+/*  Future<void> setupInteractedMessage() async {
+    await Firebase.initializeApp();
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      // Get.toNamed(NOTIFICATIONS_ROUTE);
+      if (message.data['type'] == 'chat') {
+        // Navigator.pushNamed(context, '/chat',
+        //     arguments: ChatArguments(message));
+      }
+    });
+    enableIOSNotifications();
+    await registerNotificationListeners();
+  }
+  Future<void> registerNotificationListeners() async {
+    final AndroidNotificationChannel channel = androidNotificationChannel();
+    final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+        AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(channel);
+    const AndroidInitializationSettings androidSettings = AndroidInitializationSettings('@drawable/ic_launcher');
+    const DarwinInitializationSettings iOSSettings = DarwinInitializationSettings(
+      requestSoundPermission: false,
+      requestBadgePermission: false,
+      requestAlertPermission: false,
+    );
+    const InitializationSettings initSettings = InitializationSettings(android: androidSettings, iOS: iOSSettings);
+    flutterLocalNotificationsPlugin.initialize(
+      initSettings,
+      onDidReceiveNotificationResponse: (NotificationResponse details) {},
+    );
+// onMessage is called when the app is in foreground and a notification is received
+    FirebaseMessaging.onMessage.listen((RemoteMessage? message) {
+      // homeController.getHomeData(
+      //   withLoading: false,
+      // );
+      // consoleLog(message, key: 'firebase_message');
+      final RemoteNotification? notification = message!.notification;
+      final AndroidNotification? android = message.notification?.android;
+// If `onMessage` is triggered with a notification, construct our own
+      // local notification to show to users using the created channel.
+      if (notification != null && android != null) {
+        flutterLocalNotificationsPlugin.show(
+          notification.hashCode,
+          notification.title,
+          notification.body,
+          NotificationDetails(
+            android: AndroidNotificationDetails(
+              channel.id,
+              channel.name,
+              channelDescription: channel.description,
+              icon: android.smallIcon,
+            ),
+          ),
+        );
+      }
+    });
+  }
+  Future<void> enableIOSNotifications() async {
+    await FirebaseMessaging.instance
+        .setForegroundNotificationPresentationOptions(
+      alert: true, // Required to display a heads up notification
+      badge: true,
+      sound: true,
+    );
+  }
+  AndroidNotificationChannel androidNotificationChannel() =>
+      const AndroidNotificationChannel(
+        'high_importance_channel', // id
+        'High Importance Notifications', // title
+        description:
+        'This channel is used for important notifications.', // description
+        importance: Importance.max,
+      );*/
 }

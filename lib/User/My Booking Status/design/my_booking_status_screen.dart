@@ -17,7 +17,7 @@ class MyBookingStatusScreen extends StatefulWidget {
 class _MyBookingStatusScreenState extends State<MyBookingStatusScreen> {
 
   loader() async {
-    await flutterLocalNotificationsPlugin.cancelAll();
+    // await flutterLocalNotificationsPlugin.cancelAll();
   }
   final firebase = FirebaseFirestore.instance;
 

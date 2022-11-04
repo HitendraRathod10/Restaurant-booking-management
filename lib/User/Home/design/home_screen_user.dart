@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -31,10 +32,11 @@ class _HomeScreenUserState extends State<HomeScreenUser> {
     prefg.setBool("key", true);
   }
 
-  notificationOnTap() async {
-    await flutterLocalNotificationsPlugin.cancelAll();
-    FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? event) {
+  /*notificationOnTap() async {
+    // await flutterLocalNotificationsPlugin.cancelAll();
+    FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? event) async {
       if (event != null) {
+        print("notificationOnTap HomeScreenUser getInitialMessage");
         Provider.of<HomeProvider>(context,listen: false).onItemTapped(2);
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const HomeScreenUser()));
         // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreenUser()), (route) => false);
@@ -43,12 +45,16 @@ class _HomeScreenUserState extends State<HomeScreenUser> {
       }
     });
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print("notificationOnTap HomeScreenUser onMessageOpenedApp");
       // Navigator.push(context, MaterialPageRoute(builder: (context)=>const MyBookingStatusScreen()));
       Provider.of<HomeProvider>(context,listen: false).onItemTapped(2);
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const HomeScreenUser()));
     });
-  }
-  getNotification(context) {
+  }*/
+  getNotification(context) async {
+    print("getNotification HomeScreenUser start");
+    await Firebase.initializeApp();
+    enableIOSNotifications();
     var initializationSettingsAndroid = const AndroidInitializationSettings('@mipmap/ic_launcher');
     var initializationSettingsIOS = const DarwinInitializationSettings(
         requestSoundPermission: false,
@@ -72,6 +78,7 @@ class _HomeScreenUserState extends State<HomeScreenUser> {
               ),
               iOS: const DarwinNotificationDetails(),
             ));
+        print("getNotification HomeScreenUser notification != null");
       }
       var androidSettings = AndroidInitializationSettings('mipmap/ic_launcher');
       var iOSSettings = DarwinInitializationSettings(requestSoundPermission: false, requestBadgePermission: false, requestAlertPermission: false,);
@@ -80,8 +87,8 @@ class _HomeScreenUserState extends State<HomeScreenUser> {
     });
   }
   onSelectLocalNotification(payload) async {
-    await flutterLocalNotificationsPlugin.cancelAll();
-    print("method for navigation USER");
+    // await flutterLocalNotificationsPlugin.cancelAll();
+    print("onSelectLocalNotification HomeScreenUser");
     // Navigator.of(context).push(MaterialPageRoute(builder: (context) => const MyBookingStatusScreen()));
     Provider.of<HomeProvider>(context,listen: false).onItemTapped(2);
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const HomeScreenUser()));
@@ -91,10 +98,18 @@ class _HomeScreenUserState extends State<HomeScreenUser> {
     // TODO: implement initState
     super.initState();
     check();
-    notificationOnTap();
+    // notificationOnTap();
     getNotification(context);
   }
-
+  Future<void> enableIOSNotifications() async {
+    print("enableIOSNotifications HomeScreenUser");
+    await FirebaseMessaging.instance
+        .setForegroundNotificationPresentationOptions(
+      alert: true, // Required to display a heads up notification
+      badge: true,
+      sound: true,
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(

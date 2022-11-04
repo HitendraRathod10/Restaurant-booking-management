@@ -22,7 +22,7 @@ class SplashSceen extends StatefulWidget {
 class _SplashSceenState extends State<SplashSceen> {
 
   checkLogin() async {
-    await flutterLocalNotificationsPlugin.cancelAll();
+    // await flutterLocalNotificationsPlugin.cancelAll();
     SharedPreferences prefg = await SharedPreferences.getInstance();
     Future.delayed(const Duration(seconds: 3), ()
     async{
@@ -64,7 +64,7 @@ class _SplashSceenState extends State<SplashSceen> {
     // TODO: implement initState
     super.initState();
     checkLogin();
-    PushNotificationService().getNotification(context);
+    // PushNotificationService().getNotification(context);
   }
 
   @override

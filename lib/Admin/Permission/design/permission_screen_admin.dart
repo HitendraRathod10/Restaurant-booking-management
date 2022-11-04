@@ -69,7 +69,7 @@ class _PermissionScreenAdminState extends State<PermissionScreenAdmin> {
     // });
   }
   loader() async {
-    await flutterLocalNotificationsPlugin.cancelAll();
+    // await flutterLocalNotificationsPlugin.cancelAll();
   }
   @override
   void initState() {
@@ -88,8 +88,8 @@ class _PermissionScreenAdminState extends State<PermissionScreenAdmin> {
           leading: IconButton(
             onPressed: () {
               // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const HomeScreenAdmin()));
-              // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>const HomeScreenAdmin()), (route) => false);
-              Navigator.pop(context);
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>const HomeScreenAdmin()), (route) => false);
+              // Navigator.pop(context);
             },
             icon: const Icon(Icons.arrow_back),
           ),
@@ -216,7 +216,8 @@ class _PermissionScreenAdminState extends State<PermissionScreenAdmin> {
                                           token,
                                           snapshot.data!.docs[index]["restaurantName"],
                                           "Approved for ${snapshot.data!.docs[index]["person"]} person",
-                                          "on ${snapshot.data!.docs[index]["date"]} ${snapshot.data!.docs[index]["time"]}"
+                                          "on ${snapshot.data!.docs[index]["date"]} ${snapshot.data!.docs[index]["time"]}",
+                                          "OwnerToUser"
                                       );
                                     },
                                     child: Image.asset(
@@ -257,7 +258,8 @@ class _PermissionScreenAdminState extends State<PermissionScreenAdmin> {
                                           token,
                                           snapshot.data!.docs[index]["restaurantName"],
                                           "Rejected for ${snapshot.data!.docs[index]["person"]} person",
-                                          "on ${snapshot.data!.docs[index]["date"]} ${snapshot.data!.docs[index]["time"]}"
+                                          "on ${snapshot.data!.docs[index]["date"]} ${snapshot.data!.docs[index]["time"]}",
+                                          "OwnerToUser"
                                       );
                                     },
                                     child: Image.asset(

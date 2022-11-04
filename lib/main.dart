@@ -5,7 +5,9 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_booking_management/Admin/Add%20Restaurant/provider/add_restaurant_provider.dart';
+import 'package:restaurant_booking_management/Admin/Home/design/home_screen_admin.dart';
 import 'package:restaurant_booking_management/Admin/My%20Restaurants/provider/update_restaurant_details_provider.dart';
+import 'package:restaurant_booking_management/Admin/Permission/design/permission_screen_admin.dart';
 import 'package:restaurant_booking_management/Login/provider/login_provider.dart';
 import 'package:restaurant_booking_management/Login/provider/reset_password_provider.dart';
 import 'package:restaurant_booking_management/Signup/provider/signup_provider.dart';
@@ -15,10 +17,13 @@ import 'package:restaurant_booking_management/User/Restaurant%20Book/provider/re
 import 'package:restaurant_booking_management/User/Restaurant%20Overview/provider/restaurant_overview_provider.dart';
 import 'Login/design/login_screen.dart';
 import 'Services/PushNotificationService.dart';
+import 'User/Home/design/home_screen_user.dart';
+import 'User/My Booking Status/design/my_booking_status_screen.dart';
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
-  print('Handling a background message ${message.messageId}');
+  print('Handling a background message ${message.messageId} main.dart');
 }
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
@@ -33,16 +38,39 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-      AndroidFlutterLocalNotificationsPlugin>()
-      ?.createNotificationChannel(channel);
-
-  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-    alert: true, badge: true, sound: true,
-  );
   // await PushNotificationService().setupInteractedMessage();
+  await PushNotificationService().getNotification();
   runApp(const MyApp());
+  // await flutterLocalNotificationsPlugin
+  //     .resolvePlatformSpecificImplementation<
+  //     AndroidFlutterLocalNotificationsPlugin>()
+  //     ?.createNotificationChannel(channel);
+
+  // await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+  //   alert: true, badge: true, sound: true,
+  // );
+  await FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? event) async {
+    if (event != null) {
+      if(event.data.values.first == "userToOwner"){
+        navigatorKey.currentState!.pushReplacement(MaterialPageRoute(builder: (context)=>const PermissionScreenAdmin()));
+      }
+      if(event.data.values.first == "OwnerToUser"){
+        print("on the way");
+        Provider.of<HomeProvider>(navigatorKey.currentState!.context,listen: false).onItemTapped(2);
+        navigatorKey.currentState!.pushReplacement(MaterialPageRoute(builder: (context)=>const HomeScreenUser()));
+      }
+    }
+  });
+  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+    if(message.data.values.first == "userToOwner"){
+      navigatorKey.currentState!.pushReplacement(MaterialPageRoute(builder: (context)=>const PermissionScreenAdmin()));
+    }
+    if(message.data.values.first == "OwnerToUser"){
+      print("on the way user booking");
+      Provider.of<HomeProvider>(navigatorKey.currentState!.context,listen: false).onItemTapped(2);
+      navigatorKey.currentState!.pushReplacement(MaterialPageRoute(builder: (context)=>const HomeScreenUser()));
+    }
+  });
   /*RemoteMessage? initialMessage =
   await FirebaseMessaging.instance.getInitialMessage();
   if (initialMessage != null) {
@@ -67,6 +95,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => HomeProvider()),
       ],
       child: MaterialApp(
+        navigatorKey: navigatorKey,
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(

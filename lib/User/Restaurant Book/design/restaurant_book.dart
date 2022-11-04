@@ -750,7 +750,8 @@ class _RestaurantBookState extends State<RestaurantBook> {
                           token,
                           "${widget.doc!.get("name")} for",
                           "$fullName",
-                          "${personSend.toString()} person on $dateSend $timeSend"
+                          "${personSend.toString()} person on $dateSend $timeSend",
+                          "userToOwner"
                       );
                     }
 
