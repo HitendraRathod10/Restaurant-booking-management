@@ -51,7 +51,7 @@ class _HomeScreenUserState extends State<HomeScreenUser> {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const HomeScreenUser()));
     });
   }*/
-  getNotification(context) async {
+  /*getNotification(context) async {
     print("getNotification HomeScreenUser start");
     await Firebase.initializeApp();
     enableIOSNotifications();
@@ -92,14 +92,14 @@ class _HomeScreenUserState extends State<HomeScreenUser> {
     // Navigator.of(context).push(MaterialPageRoute(builder: (context) => const MyBookingStatusScreen()));
     Provider.of<HomeProvider>(context,listen: false).onItemTapped(2);
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const HomeScreenUser()));
-  }
+  }*/
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     check();
     // notificationOnTap();
-    getNotification(context);
+    // getNotification(context);
   }
   Future<void> enableIOSNotifications() async {
     print("enableIOSNotifications HomeScreenUser");
@@ -114,10 +114,22 @@ class _HomeScreenUserState extends State<HomeScreenUser> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Consumer<HomeProvider>(
-          builder: (context, snapshot,_) {
-            return snapshot.buildScreen[snapshot.selectedIndex];
+        body: WillPopScope(
+          onWillPop:  () async{
+            if(Provider.of<HomeProvider>(context,listen: false).selectedIndex != 0) {
+              setState(() {
+                Provider.of<HomeProvider>(context,listen: false).selectedIndex = 0;
+              });
+              return false;
+            } else {
+              return true;
+            }
           },
+          child: Consumer<HomeProvider>(
+            builder: (context, snapshot,_) {
+              return snapshot.buildScreen[snapshot.selectedIndex];
+            },
+          ),
         ),
         bottomNavigationBar: Consumer<HomeProvider>(
           builder: (context, snapshot,_) {

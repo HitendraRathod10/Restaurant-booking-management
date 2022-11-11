@@ -115,15 +115,15 @@ class _MyRestaurantsScreenState extends State<MyRestaurantsScreen> {
                                                 width: 02,
                                               ),
                                               SizedBox(
-                                                width: 30,
-                                                child: Text("${snapshot.data!.docChanges[index].doc.get("rating")}",
+                                                // width: 30,
+                                                child: Text("${snapshot.data!.docChanges[index].doc.get("rating").toString().substring(0,3)}",
                                                   style: const TextStyle(
                                                       fontFamily: AppFont.semiBold,
-                                                      fontSize: 20,
+                                                      fontSize: 18,
                                                       color: AppColor.white
                                                   ),
-                                                  maxLines: 1,
-                                                  overflow: TextOverflow.clip,
+                                                  // maxLines: 1,
+                                                  // overflow: TextOverflow.clip,
                                                 ),
                                               )
                                             ],

@@ -230,16 +230,17 @@ class _RestaurantOverviewState extends State<RestaurantOverview> {
                           const SizedBox(
                             width: 02,
                           ),
-                          SizedBox(
-                            width: 30,
-                            child: Text("${widget.doc!.get("rating")}",
+                          Container(
+                            // color: Colors.redAccent,
+                            // width: 35,
+                            child: Text(widget.doc!.get("rating").toString().substring(0,3),
                               style: const TextStyle(
                                   fontFamily: AppFont.semiBold,
                                   fontSize: 20,
                                   color: AppColor.black
                               ),
-                              maxLines: 1,
-                              overflow: TextOverflow.clip,
+                              // maxLines: 1,
+                              // overflow: TextOverflow.clip,
                             ),
                           ),
                         ],

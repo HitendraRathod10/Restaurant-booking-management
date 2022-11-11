@@ -52,14 +52,14 @@ class _AllRestaurantsScreenState extends State<AllRestaurantsScreen> {
               return ListView.builder(
                 controller: _controller,
                 shrinkWrap: true,
-                itemCount: snapshot.data!.docChanges.length,
+                itemCount: snapshot.data!.docs.length,
                 itemBuilder: (BuildContext context, index) {
                   return Column(
                     children: <Widget>[
                       InkWell(
                         onTap: () {
                           Navigator.push(context, MaterialPageRoute(
-                              builder: (context) => RestaurantOverview(doc: snapshot.data!.docChanges[index].doc,)));
+                              builder: (context) => RestaurantOverview(doc: snapshot.data!.docs[index],)));
                         },
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(10, 05, 10, 00),
@@ -77,7 +77,7 @@ class _AllRestaurantsScreenState extends State<AllRestaurantsScreen> {
                                             .vertical(
                                             top: Radius.circular(10)),
                                         child: Image.network(
-                                          '${snapshot.data!.docChanges[index].doc.get("image")}',
+                                          '${snapshot.data!.docs[index]["image"]}',
                                           height: 180,
                                           width: double.infinity,
                                           fit: BoxFit.cover,
@@ -134,7 +134,7 @@ class _AllRestaurantsScreenState extends State<AllRestaurantsScreen> {
                                         left: 08,
                                         right: 80,
                                         child: Text(
-                                          '${snapshot.data!.docChanges[index].doc.get("name")}',
+                                          '${snapshot.data!.docs[index]["name"]}',
                                           style: const TextStyle(
                                             color: Colors.white,
                                             fontSize: 27,
@@ -165,15 +165,15 @@ class _AllRestaurantsScreenState extends State<AllRestaurantsScreen> {
                                                   width: 02,
                                                 ),
                                                 SizedBox(
-                                                  width: 30,
-                                                  child: Text("${snapshot.data!.docChanges[index].doc.get("rating")}",
+                                                  // width: 30,
+                                                  child: Text("${snapshot.data!.docs[index]["rating"].toString().substring(0,3)}",
                                                     style: const TextStyle(
                                                       fontFamily: AppFont.semiBold,
-                                                      fontSize: 20,
+                                                      fontSize: 18,
                                                       color: AppColor.white
                                                     ),
-                                                    maxLines: 1,
-                                                    overflow: TextOverflow.clip,
+                                                    // maxLines: 1,
+                                                    // overflow: TextOverflow.clip,
                                                   ),
                                                 )
                                               ],
@@ -208,9 +208,9 @@ class _AllRestaurantsScreenState extends State<AllRestaurantsScreen> {
                                               .size
                                               .width / 1.3,
                                           child: Text(
-                                                "${snapshot.data!.docChanges[index].doc.get("area")} "
-                                                "${snapshot.data!.docChanges[index].doc.get("city")} "
-                                                "${snapshot.data!.docChanges[index].doc.get("state")}",
+                                                "${snapshot.data!.docs[index]["area"]} "
+                                                "${snapshot.data!.docs[index]["city"]} "
+                                                "${snapshot.data!.docs[index]["state"]}",
                                             style: const TextStyle(
                                               fontFamily: AppFont.regular,
                                               fontSize: 17
@@ -240,7 +240,7 @@ class _AllRestaurantsScreenState extends State<AllRestaurantsScreen> {
                                       ),
                                       SizedBox(
                                         width: 150,
-                                        child: Text("${snapshot.data!.docChanges[index].doc.get("phone")}",
+                                        child: Text("${snapshot.data!.docs[index]["phone"]}",
                                             style: const TextStyle(
                                                 fontFamily: AppFont.regular,
                                                 fontSize: 17
@@ -276,7 +276,7 @@ class _AllRestaurantsScreenState extends State<AllRestaurantsScreen> {
                                             .of(context)
                                             .size
                                             .width / 1.4,
-                                        child: Text("${snapshot.data!.docChanges[index].doc.get("food")}",
+                                        child: Text("${snapshot.data!.docs[index]["food"]}",
                                             style: const TextStyle(
                                                 fontFamily: AppFont.regular,
                                                 fontSize: 17

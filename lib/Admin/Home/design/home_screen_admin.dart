@@ -49,7 +49,7 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
       Navigator.push(context, MaterialPageRoute(builder: (context)=>const PermissionScreenAdmin()));
     });
   }*/
-  getNotification(context) async {
+  /*getNotification(context) async {
     print("getNotification HomeScreenAdmin start");
     await Firebase.initializeApp();
     enableIOSNotifications();
@@ -88,14 +88,14 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
     // await flutterLocalNotificationsPlugin.cancelAll();
     print("onSelectLocalNotification HomeScreenAdmin");
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => const PermissionScreenAdmin()));
-  }
+  }*/
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     check();
     // notificationOnTap();
-    getNotification(context);
+    // getNotification(context);
   }
   Future<void> enableIOSNotifications() async {
     print("enableIOSNotifications HomeScreenAdmin");

@@ -104,7 +104,7 @@ class _PermissionScreenAdminState extends State<PermissionScreenAdmin> {
               return const Center(child: Text("Something went wrong",style: TextStyle(fontFamily: AppFont.medium)));
             }
             else if (!snapshot.hasData || snapshot.requireData.docChanges.isEmpty) {
-              return const Center(child: Text("No Data Found",style: TextStyle(fontFamily: AppFont.medium)));
+              return const Center(child: Text("No Data Found",style: TextStyle(fontFamily: AppFont.medium,fontSize: 25)));
             }
             else if (snapshot.requireData.docChanges.isNotEmpty){
               return ListView.builder(

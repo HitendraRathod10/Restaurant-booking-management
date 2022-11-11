@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -94,8 +95,11 @@ class PushNotificationService {
         requestBadgePermission: false, requestAlertPermission: false);
     var initializationSettings = InitializationSettings(android: initializationSettingsAndroid,iOS: initializationSettingsIOS,);
     flutterLocalNotificationsPlugin.initialize(initializationSettings);
-
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+    if(Platform.isIOS){
+      print("ios device");
+    }else{
+      print("android device");
+      FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
 
@@ -116,6 +120,7 @@ class PushNotificationService {
         print("getNotification PushNotificationService notification != null");
       }
     });
+    }
   }
   Future<void> enableIOSNotifications() async {
     print("enableIOSNotifications PushNotificationService");

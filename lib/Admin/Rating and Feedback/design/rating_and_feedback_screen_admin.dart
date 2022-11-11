@@ -55,7 +55,7 @@ class _RatingAndFeedbackSceenAdminState
             if (snapshot.hasData) {
               EasyLoading.dismiss();
               return ListView.builder(
-                  itemCount: snapshot.data!.docChanges.length,
+                  itemCount: snapshot.data!.docs.length,
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.fromLTRB(10, 10, 10, 20),
@@ -72,7 +72,7 @@ class _RatingAndFeedbackSceenAdminState
                                 CircleAvatar(
                                   backgroundColor: AppColor.appColor,
                                   child: Text(
-                                    "${snapshot.data!.docChanges[index].doc.get("userName").substring(0, 1).toUpperCase()}",
+                                    "${snapshot.data!.docs[index]["userName"].substring(0, 1).toUpperCase()}",
                                     style: const TextStyle(
                                         color: AppColor.white,
                                         fontFamily: AppFont.regular),
@@ -82,7 +82,7 @@ class _RatingAndFeedbackSceenAdminState
                                   width: 10,
                                 ),
                                 Text(
-                                    '${snapshot.data!.docChanges[index].doc.get("userName")}',
+                                    '${snapshot.data!.docs[index]["userName"]}',
                                 style: const TextStyle(
                                   fontFamily: AppFont.medium,
                                   fontSize: 18),
@@ -93,9 +93,7 @@ class _RatingAndFeedbackSceenAdminState
                               height: 10,
                             ),
                             RatingBar.builder(
-                              initialRating: snapshot
-                                  .data!.docChanges[index].doc
-                                  .get("rating"),
+                              initialRating: snapshot.data!.docs[index]["rating"],
                               minRating: 1,
                               direction: Axis.horizontal,
                               allowHalfRating: false,
@@ -115,7 +113,7 @@ class _RatingAndFeedbackSceenAdminState
                               height: 04,
                             ),
                             Text(
-                                "${snapshot.data!.docChanges[index].doc.get("feedback")}",
+                                "${snapshot.data!.docs[index]["feedback"]}",
                               style: const TextStyle(
                                   fontSize: 15, fontFamily: AppFont.regular),
                             ),
@@ -125,7 +123,8 @@ class _RatingAndFeedbackSceenAdminState
                       ),
                     );
                   });
-            } else {
+            }
+            else {
               return loader();
             }
           }),

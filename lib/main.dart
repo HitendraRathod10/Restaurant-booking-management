@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -71,11 +73,29 @@ void main() async {
       navigatorKey.currentState!.pushReplacement(MaterialPageRoute(builder: (context)=>const HomeScreenUser()));
     }
   });
+  var androidSettings = AndroidInitializationSettings('mipmap/ic_launcher');
+  var iOSSettings = DarwinInitializationSettings(requestSoundPermission: false, requestBadgePermission: false, requestAlertPermission: false);
+  var initSetttings = InitializationSettings(android: androidSettings, iOS: iOSSettings);
+  flutterLocalNotificationsPlugin.initialize(initSetttings,onDidReceiveNotificationResponse: onSelectLocalNotification);
   /*RemoteMessage? initialMessage =
   await FirebaseMessaging.instance.getInitialMessage();
   if (initialMessage != null) {
     // App received a notification when it was killed
   }*/
+}
+onSelectLocalNotification(payload) async {
+  // await flutterLocalNotificationsPlugin.cancelAll();
+  print("onSelectLocalNotification main.dart");
+  var queryUserRatingSnapshots = await FirebaseFirestore.instance.collection("User").
+  where('email',isEqualTo: FirebaseAuth.instance.currentUser!.email).get();
+  for(var i in queryUserRatingSnapshots.docChanges){
+    if(i.doc.get("userType") == "User"){
+      Provider.of<HomeProvider>(navigatorKey.currentState!.context,listen: false).onItemTapped(2);
+      navigatorKey.currentState!.pushReplacement(MaterialPageRoute(builder: (context)=>const HomeScreenUser()));
+    }else{
+      navigatorKey.currentState!.pushReplacement(MaterialPageRoute(builder: (context)=>const PermissionScreenAdmin()));
+    }
+  }
 }
 
 class MyApp extends StatelessWidget {
