@@ -3,6 +3,7 @@ class AppImage{
 
   static const logOutLogo="assets/images/logout.png";
   static const splashImage="assets/images/reserveThree.png";
+  static const splashImageFinal="assets/images/splashImageFinal.jpg";
   static const restaurant="assets/images/restaurant.png";
   static const restaurantTwo="assets/images/restaurantIcon.png";
   static const restaurantThree="assets/images/restaurantThree.png";

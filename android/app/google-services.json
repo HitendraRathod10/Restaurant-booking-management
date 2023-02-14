@@ -7,6 +7,42 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:485538210352:android:075abecd7197e2782b43f5",
+        "android_client_info": {
+          "package_name": "com.elsner.restaurant_booking_management"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "485538210352-vcoid0b31qn7j50m12prnki5njmodqcs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoyqHIlFw9aVGknwjnhQk9Eg9jZRtFOgM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "485538210352-vcoid0b31qn7j50m12prnki5njmodqcs.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "485538210352-k3313ftvorbrqbug7eheb8evp0cdtner.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.restaurantBookingManagement"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:485538210352:android:64449c5dd6b847202b43f5",
         "android_client_info": {
           "package_name": "com.example.restaurant_booking_management"
@@ -29,6 +65,13 @@
             {
               "client_id": "485538210352-vcoid0b31qn7j50m12prnki5njmodqcs.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "485538210352-k3313ftvorbrqbug7eheb8evp0cdtner.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.restaurantBookingManagement"
+              }
             }
           ]
         }

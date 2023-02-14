@@ -71,8 +71,9 @@ class _SplashSceenState extends State<SplashSceen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Color(0xff518e4f),
         body: Center(
-          child: Image.asset(AppImage.splashImage,),
+          child: Image.asset(AppImage.splashImageFinal,),
         ),
       ),
     );
