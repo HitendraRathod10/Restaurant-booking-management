@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,8 +6,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:restaurant_booking_management/Admin/My%20Restaurants/design/my_restaurants_screen.dart';
-
 import '../../../utils/mixin_toast.dart';
 import '../../Home/design/home_screen_admin.dart';
 
@@ -27,23 +24,24 @@ class UpdateRestaurantDetailsProvider extends ChangeNotifier{
   String? image;
   String? latitude;
   String? longitude;
-  var querySnapshots;
+  DocumentSnapshot? querySnapshots;
   String? urlDownloads;
 
   getData(String id)async{
     CollectionReference  collection = firebase.collection('User').doc(FirebaseAuth.instance.currentUser!.email).collection("My Restaurants");
     querySnapshots = await collection.doc(id).get();
-    restaurantNameController.text = querySnapshots.get("name");
-    foodController.text = querySnapshots.get("food");
-    phoneController.text = querySnapshots.get("phone");
-    emailController.text = querySnapshots.get("email");
-    areaController.text = querySnapshots.get("area");
-    cityController.text = querySnapshots.get("city");
-    stateController.text = querySnapshots.get("state");
-    websiteController.text = querySnapshots.get("website");
-    image = querySnapshots.get("image");
-    latitude = querySnapshots.get("latitude");
-    longitude = querySnapshots.get("longitude");
+    debugPrint("querySnapshots $querySnapshots");
+    restaurantNameController.text = querySnapshots!.get("name");
+    foodController.text = querySnapshots!.get("food");
+    phoneController.text = querySnapshots!.get("phone");
+    emailController.text = querySnapshots!.get("email");
+    areaController.text = querySnapshots!.get("area");
+    cityController.text = querySnapshots!.get("city");
+    stateController.text = querySnapshots!.get("state");
+    websiteController.text = querySnapshots!.get("website");
+    image = querySnapshots!.get("image");
+    latitude = querySnapshots!.get("latitude");
+    longitude = querySnapshots!.get("longitude");
     notifyListeners();
   }
 
@@ -71,7 +69,7 @@ class UpdateRestaurantDetailsProvider extends ChangeNotifier{
     restaurantImageFile = compressImage;
     restaurantImageName = result.files.first.name;
     final destination = 'images/$restaurantImageName';
-    print("restaurantImageName :- $restaurantImageName");
+    debugPrint("restaurantImageName :- $restaurantImageName");
     final ref = FirebaseStorage.instance.ref().child(destination).putFile(restaurantImageFile!);
     final snapshot = await ref.whenComplete(() {});
     urlDownloads = await snapshot.ref.getDownloadURL().whenComplete(() {});
@@ -155,11 +153,11 @@ class UpdateRestaurantDetailsProvider extends ChangeNotifier{
 
   deleteInMyRestaurant(String id,context){
     firebase.collection('User').doc(FirebaseAuth.instance.currentUser!.email).collection("My Restaurants").doc(id).delete();
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreenAdmin()), (route) => false);
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>const HomeScreenAdmin()), (route) => false);
   }
 
   deleteInAllRestaurant(String id,context){
     firebase.collection('All Restaurants').doc(id).delete();
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreenAdmin()), (route) => false);
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>const HomeScreenAdmin()), (route) => false);
   }
 }

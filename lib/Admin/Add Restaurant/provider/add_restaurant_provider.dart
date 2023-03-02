@@ -7,15 +7,12 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:restaurant_booking_management/Admin/Home/design/home_screen_admin.dart';
-import 'package:restaurant_booking_management/utils/mixin_toast.dart';
 
 class AddRestaurantProvider extends ChangeNotifier{
   File? restaurantImageFile;
   String? restaurantImageName;
   String latitude="";
   String longitude="";
-  final _auth = FirebaseAuth.instance;
   final firebase = FirebaseFirestore.instance;
   String? urlDownloads;
 
@@ -44,7 +41,7 @@ class AddRestaurantProvider extends ChangeNotifier{
     restaurantImageFile = compressImage;
     restaurantImageName = result.files.first.name;
     final destination = 'images/$restaurantImageName';
-    print("restaurantImageName :- $restaurantImageName");
+    debugPrint("restaurantImageName :- $restaurantImageName");
     final ref = FirebaseStorage.instance.ref().child(destination).putFile(restaurantImageFile!);
     final snapshot = await ref.whenComplete(() {});
     urlDownloads = await snapshot.ref.getDownloadURL().whenComplete(() {});

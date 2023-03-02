@@ -2,13 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-
 import '../../../utils/app_color.dart';
 import '../../../utils/app_font.dart';
-
+//ignore: must_be_immutable
 class RatingAndFeedbackSceenAdmin extends StatefulWidget {
   String? name;
-  RatingAndFeedbackSceenAdmin({required this.name});
+  RatingAndFeedbackSceenAdmin({super.key, required this.name});
   // const RatingAndFeedbackSceenAdmin({Key? key}) : super(key: key);
 
   @override

@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_booking_management/Admin/Add%20Restaurant/design/add_restaurant_screen.dart';
 import 'package:restaurant_booking_management/Admin/My%20Restaurants/design/my_restaurants_screen.dart';
@@ -12,9 +10,7 @@ import 'package:restaurant_booking_management/Login/design/login_screen.dart';
 import 'package:restaurant_booking_management/utils/app_image.dart';
 import 'package:restaurant_booking_management/utils/dashboard_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../../Signup/provider/signup_provider.dart';
-import '../../../main.dart';
 import '../../../utils/app_color.dart';
 import '../../../utils/app_font.dart';
 import '../../Profile/design/profile_screen_admin.dart';
@@ -38,19 +34,19 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
     // For background || When app is kill
     FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? event) async {
       if (event != null) {
-        print("notificationOnTap HomeScreenAdmin getInitialMessage");
+        debugPrint("notificationOnTap HomeScreenAdmin getInitialMessage");
         // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>PermissionScreenAdmin()), (route) => false);
         Navigator.push(context, MaterialPageRoute(builder: (context)=>const PermissionScreenAdmin()));
       }
     });
     // For background || When app is not kill but in background
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      print("notificationOnTap HomeScreenAdmin onMessageOpenedApp ${message.data.values.first}");
+      debugPrint("notificationOnTap HomeScreenAdmin onMessageOpenedApp ${message.data.values.first}");
       Navigator.push(context, MaterialPageRoute(builder: (context)=>const PermissionScreenAdmin()));
     });
   }*/
   /*getNotification(context) async {
-    print("getNotification HomeScreenAdmin start");
+    debugPrint("getNotification HomeScreenAdmin start");
     await Firebase.initializeApp();
     enableIOSNotifications();
     var initializationSettingsAndroid = const AndroidInitializationSettings('@mipmap/ic_launcher');
@@ -76,7 +72,7 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
               ),
               iOS: const DarwinNotificationDetails(),
             ));
-        print("getNotification HomeScreenAdmin notification != null");
+        debugPrint("getNotification HomeScreenAdmin notification != null");
       }
       var androidSettings = AndroidInitializationSettings('mipmap/ic_launcher');
       var iOSSettings = DarwinInitializationSettings(requestSoundPermission: false, requestBadgePermission: false, requestAlertPermission: false,);
@@ -86,7 +82,7 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
   }
   onSelectLocalNotification(payload) async {
     // await flutterLocalNotificationsPlugin.cancelAll();
-    print("onSelectLocalNotification HomeScreenAdmin");
+    debugPrint("onSelectLocalNotification HomeScreenAdmin");
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => const PermissionScreenAdmin()));
   }*/
   @override
@@ -98,7 +94,7 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
     // getNotification(context);
   }
   Future<void> enableIOSNotifications() async {
-    print("enableIOSNotifications HomeScreenAdmin");
+    debugPrint("enableIOSNotifications HomeScreenAdmin");
     await FirebaseMessaging.instance
         .setForegroundNotificationPresentationOptions(
       alert: true, // Required to display a heads up notification
@@ -199,6 +195,7 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                         final firebase = FirebaseFirestore.instance;
                         var dataNameFcmToken = await firebase.collection('User').where("email",isEqualTo: FirebaseAuth.instance.currentUser!.email).get();
                         for(var i in dataNameFcmToken.docChanges){
+                          if (!mounted) return;
                           Provider.of<SignupProvider>(context,listen: false).
                           insertDataUser(
                               "${i.doc.get("fullName")}",
@@ -208,7 +205,8 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                               ""
                           );
                         }
-                        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>LoginScreen()), (route) => false);
+                        if (!mounted) return;
+                        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>const LoginScreen()), (route) => false);
                       },
                     ),
                   ],
@@ -224,7 +222,7 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                 padding: const EdgeInsets.fromLTRB(100, 20, 10, 00),
                 child: InkWell(
                   onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>MyRestaurantsScreen()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>const MyRestaurantsScreen()));
                   },
                     child: dashboardDetailsWidget(
                         AppImage.r1,
@@ -238,7 +236,7 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                 padding: const EdgeInsets.fromLTRB(10, 20, 100, 00),
                 child: InkWell(
                     onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>AddRestaurantScreen()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>const AddRestaurantScreen()));
                     },
                     child: dashboardDetailsWidget(
                         AppImage.addRestaurant,
@@ -252,7 +250,7 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
                 padding: const EdgeInsets.fromLTRB(100, 20, 10, 20),
                 child: InkWell(
                     onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>PermissionScreenAdmin()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>const PermissionScreenAdmin()));
                     },
                     child: dashboardDetailsWidget(
                         AppImage.yesnoThree,

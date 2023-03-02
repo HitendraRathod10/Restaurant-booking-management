@@ -1,15 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-
 import '../../../utils/app_color.dart';
 import '../../../utils/app_font.dart';
-
+//ignore: must_be_immutable
 class RatingAndFeedbackScreen extends StatefulWidget {
   String? name;
-  RatingAndFeedbackScreen({required this.name});
+  RatingAndFeedbackScreen({super.key, required this.name});
   // const RatingAndFeedbackScreen({Key? key}) : super(key: key);
 
   @override

@@ -15,7 +15,7 @@ class AllRestaurantsScreen extends StatefulWidget {
 
 class _AllRestaurantsScreenState extends State<AllRestaurantsScreen> {
 
-  ScrollController _controller = ScrollController();
+  final ScrollController _controller = ScrollController();
   final firebase = FirebaseFirestore.instance;
 
   loader(){
@@ -166,7 +166,7 @@ class _AllRestaurantsScreenState extends State<AllRestaurantsScreen> {
                                                 ),
                                                 SizedBox(
                                                   // width: 30,
-                                                  child: Text("${snapshot.data!.docs[index]["rating"].toString().substring(0,3)}",
+                                                  child: Text(snapshot.data!.docs[index]["rating"].toString().substring(0,3),
                                                     style: const TextStyle(
                                                       fontFamily: AppFont.semiBold,
                                                       fontSize: 18,

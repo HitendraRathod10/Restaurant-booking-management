@@ -1,21 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
-import 'package:restaurant_booking_management/User/All%20Restaurant%20List/design/all_restaurants_screen.dart';
-import 'package:restaurant_booking_management/User/Profile/design/profile_screen_user.dart';
 import 'package:restaurant_booking_management/utils/app_font.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../../Login/design/login_screen.dart';
-import '../../../main.dart';
 import '../../../utils/app_color.dart';
 import '../../../utils/app_image.dart';
-import '../../Map/design/map_screen.dart';
-import '../../My Booking Status/design/my_booking_status_screen.dart';
 import '../provider/home_provider.dart';
 
 class HomeScreenUser extends StatefulWidget {
@@ -36,7 +25,7 @@ class _HomeScreenUserState extends State<HomeScreenUser> {
     // await flutterLocalNotificationsPlugin.cancelAll();
     FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? event) async {
       if (event != null) {
-        print("notificationOnTap HomeScreenUser getInitialMessage");
+        debugPrint("notificationOnTap HomeScreenUser getInitialMessage");
         Provider.of<HomeProvider>(context,listen: false).onItemTapped(2);
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const HomeScreenUser()));
         // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreenUser()), (route) => false);
@@ -45,14 +34,14 @@ class _HomeScreenUserState extends State<HomeScreenUser> {
       }
     });
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      print("notificationOnTap HomeScreenUser onMessageOpenedApp");
+      debugPrint("notificationOnTap HomeScreenUser onMessageOpenedApp");
       // Navigator.push(context, MaterialPageRoute(builder: (context)=>const MyBookingStatusScreen()));
       Provider.of<HomeProvider>(context,listen: false).onItemTapped(2);
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const HomeScreenUser()));
     });
   }*/
   /*getNotification(context) async {
-    print("getNotification HomeScreenUser start");
+    debugPrint("getNotification HomeScreenUser start");
     await Firebase.initializeApp();
     enableIOSNotifications();
     var initializationSettingsAndroid = const AndroidInitializationSettings('@mipmap/ic_launcher');
@@ -78,7 +67,7 @@ class _HomeScreenUserState extends State<HomeScreenUser> {
               ),
               iOS: const DarwinNotificationDetails(),
             ));
-        print("getNotification HomeScreenUser notification != null");
+        debugPrint("getNotification HomeScreenUser notification != null");
       }
       var androidSettings = AndroidInitializationSettings('mipmap/ic_launcher');
       var iOSSettings = DarwinInitializationSettings(requestSoundPermission: false, requestBadgePermission: false, requestAlertPermission: false,);
@@ -88,7 +77,7 @@ class _HomeScreenUserState extends State<HomeScreenUser> {
   }
   onSelectLocalNotification(payload) async {
     // await flutterLocalNotificationsPlugin.cancelAll();
-    print("onSelectLocalNotification HomeScreenUser");
+    debugPrint("onSelectLocalNotification HomeScreenUser");
     // Navigator.of(context).push(MaterialPageRoute(builder: (context) => const MyBookingStatusScreen()));
     Provider.of<HomeProvider>(context,listen: false).onItemTapped(2);
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const HomeScreenUser()));
@@ -102,7 +91,7 @@ class _HomeScreenUserState extends State<HomeScreenUser> {
     // getNotification(context);
   }
   Future<void> enableIOSNotifications() async {
-    print("enableIOSNotifications HomeScreenUser");
+    debugPrint("enableIOSNotifications HomeScreenUser");
     await FirebaseMessaging.instance
         .setForegroundNotificationPresentationOptions(
       alert: true, // Required to display a heads up notification

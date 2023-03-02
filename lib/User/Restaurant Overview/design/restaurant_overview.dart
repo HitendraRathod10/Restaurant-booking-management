@@ -4,22 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_booking_management/Admin/Add%20Restaurant/provider/add_restaurant_provider.dart';
-import 'package:restaurant_booking_management/User/All%20Restaurant%20List/design/all_restaurants_screen.dart';
 import 'package:restaurant_booking_management/User/Rating%20and%20Feedback/design/rating_and_feedback_screen_user.dart';
 import 'package:restaurant_booking_management/User/Restaurant%20Overview/provider/restaurant_overview_provider.dart';
 import 'package:restaurant_booking_management/utils/app_font.dart';
 import 'package:restaurant_booking_management/utils/app_image.dart';
 import 'package:restaurant_booking_management/utils/mixin_toast.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../../../utils/app_color.dart';
-import '../../../utils/mixin_textformfield.dart';
 import '../../Home/design/home_screen_user.dart';
 import '../../Restaurant Book/design/restaurant_book.dart';
-
+//ignore: must_be_immutable
 class RestaurantOverview extends StatefulWidget {
   DocumentSnapshot? doc;
-  RestaurantOverview({required this.doc});
+  RestaurantOverview({super.key, required this.doc});
   // const RestaurantOverview({Key? key}) : super(key: key);
 
   @override
@@ -37,7 +34,6 @@ class _RestaurantOverviewState extends State<RestaurantOverview> {
   bool rating = false;
   double? ratingStar;
   String? fullName;
-  var count;
   double userRating = 0;
   double ratingCount = 0;
   int userLength = 0;
@@ -91,11 +87,11 @@ class _RestaurantOverviewState extends State<RestaurantOverview> {
     final String googleMapsUrl = "comgooglemaps://?center=$lat,$lng";
     final String appleMapsUrl = "https://maps.apple.com/?q=$lat,$lng";
 
-    if (await canLaunch(googleMapsUrl)) {
-      await launch(googleMapsUrl);
+    if (await canLaunchUrl(Uri.parse(googleMapsUrl))) {
+      await launchUrl(Uri.parse(googleMapsUrl));
     }
-    if (await canLaunch(appleMapsUrl)) {
-      await launch(appleMapsUrl, forceSafariVC: false);
+    if (await canLaunchUrl(Uri.parse(appleMapsUrl))) {
+      await launchUrl(Uri.parse(appleMapsUrl));
     } else {
       throw "Couldn't launch URL";
     }
@@ -160,7 +156,7 @@ class _RestaurantOverviewState extends State<RestaurantOverview> {
                           child: InkWell(
                             onTap: (){
                               // Navigator.pop(context);
-                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomeScreenUser()));
+                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const HomeScreenUser()));
                             },
                             child: Container(
                               decoration: const BoxDecoration(
@@ -230,18 +226,14 @@ class _RestaurantOverviewState extends State<RestaurantOverview> {
                           const SizedBox(
                             width: 02,
                           ),
-                          Container(
-                            // color: Colors.redAccent,
-                            // width: 35,
-                            child: Text(widget.doc!.get("rating").toString().substring(0,3),
-                              style: const TextStyle(
-                                  fontFamily: AppFont.semiBold,
-                                  fontSize: 20,
-                                  color: AppColor.black
-                              ),
-                              // maxLines: 1,
-                              // overflow: TextOverflow.clip,
+                          Text(widget.doc!.get("rating").toString().substring(0,3),
+                            style: const TextStyle(
+                                fontFamily: AppFont.semiBold,
+                                fontSize: 20,
+                                color: AppColor.black
                             ),
+                            // maxLines: 1,
+                            // overflow: TextOverflow.clip,
                           ),
                         ],
                       ),
@@ -508,7 +500,7 @@ class _RestaurantOverviewState extends State<RestaurantOverview> {
                     // buttonVisible = true;
                     // ratingList.clear();
                     // userRating = rating;
-                    // debugPrint('I am user Rating => $userRating');
+                    // debugdebugPrint('I am user Rating => $userRating');
                   });
                 },
               ),
@@ -566,7 +558,7 @@ class _RestaurantOverviewState extends State<RestaurantOverview> {
                           sum = ratingList.reduce((a, b) => a + b);
                           userLength = queryUserRatingSnapshots.docs.length;
                           rating = sum/userLength;
-                          debugPrint('User Rating => $sum = $userLength = $rating = $userRating');
+                          debugdebugPrint('User Rating => $sum = $userLength = $rating = $userRating');
                           break;
                         }
                       }
@@ -620,6 +612,7 @@ class _RestaurantOverviewState extends State<RestaurantOverview> {
                       break;
                     }
                   }
+                  if (!mounted) return;
                   Provider.of<RestaurantOverviewProvider>(context,listen: false).
                   addRating(
                       "${FirebaseAuth.instance.currentUser!.email}",
@@ -631,7 +624,7 @@ class _RestaurantOverviewState extends State<RestaurantOverview> {
                   var queryUserRatingSnapshots = await FirebaseFirestore.instance.collection("Rating").
                   where('restaurantName',isEqualTo: widget.doc!.get("name")).get();
                   for (var snapshot in queryUserRatingSnapshots.docChanges) {
-                    for (int i = 0; i < 1; i++) {
+                    // for (int i = 0; i < 1; i++) {
                       userRating = snapshot.doc.get('rating');
                       ratingList.add(snapshot.doc.get('rating'));
                       sum = ratingList.reduce((a, b) => a + b);
@@ -639,9 +632,10 @@ class _RestaurantOverviewState extends State<RestaurantOverview> {
                       ratingCount = sum / userLength;
                       debugPrint('User Rating => $sum = $userLength = $ratingCount = $userRating');
                       break;
-                    }
+                    // }
                   }
                   //all restaurant
+                  if (!mounted) return;
                   Provider.of<AddRestaurantProvider>(context,listen: false).
                   insertALLRestaurant(
                     context,

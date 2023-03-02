@@ -2,19 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
-import 'package:restaurant_booking_management/Admin/Add%20Restaurant/provider/add_restaurant_provider.dart';
 import 'package:restaurant_booking_management/Admin/My%20Restaurants/provider/update_restaurant_details_provider.dart';
-
 import '../../../utils/app_color.dart';
 import '../../../utils/app_font.dart';
 import '../../../utils/mixin_textformfield.dart';
-import '../../../utils/mixin_toast.dart';
 import '../../Add Restaurant/design/add_location_to_map_screen.dart';
 import '../../Add Restaurant/provider/current_location.dart';
 
+//ignore: must_be_immutable
 class UpdateRestaurantDetails extends StatefulWidget {
   String? id;
-  UpdateRestaurantDetails({required this.id});
+  UpdateRestaurantDetails({super.key, required this.id});
   // const UpdateRestaurantDetails({Key? key}) : super(key: key);
 
   @override
@@ -39,7 +37,7 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
     Provider.of<UpdateRestaurantDetailsProvider>(context, listen: false).getData(widget.id!);
     latitudeDouble = Provider.of<UpdateRestaurantDetailsProvider>(context, listen: false).latitude;
     longitudeDouble = Provider.of<UpdateRestaurantDetailsProvider>(context, listen: false).longitude;
-    // print("init lat long ${double.parse(latitudeDouble!)} ${double.parse(longitudeDouble!)}");
+    // debugPrint("init lat long ${double.parse(latitudeDouble!)} ${double.parse(longitudeDouble!)}");
   }
 
   @override
@@ -347,8 +345,7 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
                                 data.cityController.text,
                                 data.stateController.text,
                                 data.websiteController.text,
-                                Provider.of<UpdateRestaurantDetailsProvider>(context,listen: false).restaurantImageFile == "" ||
-                                    Provider.of<UpdateRestaurantDetailsProvider>(context,listen: false).restaurantImageFile == null ?
+                                Provider.of<UpdateRestaurantDetailsProvider>(context,listen: false).restaurantImageFile == null ?
                                 Provider.of<UpdateRestaurantDetailsProvider>(context,listen: false).image.toString() :
                                 Provider.of<UpdateRestaurantDetailsProvider>(context,listen: false).urlDownloads.toString() ,
                                 data.latitude.toString(),
@@ -356,7 +353,7 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
                                 widget.id!
                             );
                           }else{
-                            print("validation in update restaurant details screen");
+                            debugPrint("validation in update restaurant details screen");
                           }
                         },
                         child: Container(

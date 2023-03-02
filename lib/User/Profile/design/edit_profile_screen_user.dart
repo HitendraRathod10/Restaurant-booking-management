@@ -3,8 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../../Admin/Home/design/home_screen_admin.dart';
 import '../../../Login/design/reset_password.dart';
 import '../../../Signup/provider/signup_provider.dart';
 import '../../../utils/app_color.dart';
@@ -40,11 +38,11 @@ class _EditProfileScreenUserState extends State<EditProfileScreenUser> {
             stream: FirebaseFirestore.instance.collection('User').doc(FirebaseAuth.instance.currentUser?.email).snapshots(),
             builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot<Object?>> snapshot) {
               if (snapshot.hasError) {
-                print('Something went wrong');
+                debugPrint('Something went wrong');
                 return const Text("Something went wrong");
               }
               else if (!snapshot.hasData || !snapshot.data!.exists) {
-                print('Document does not exist');
+                debugPrint('Document does not exist');
                 return const Center(child: CircularProgressIndicator());
               } else if(snapshot.requireData.exists){
                 Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
@@ -91,6 +89,7 @@ class _EditProfileScreenUserState extends State<EditProfileScreenUser> {
                                   );
                                 }else{
                                   var token = (await FirebaseMessaging.instance.getToken())!;
+                                  if (!mounted) return;
                                   Provider.of<SignupProvider>(context,listen: false).
                                   insertDataUser(fullNameController.text, emailController.text, phoneController.text, "User",token);
                                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const HomeScreenUser()));

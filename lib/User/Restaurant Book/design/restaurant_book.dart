@@ -7,15 +7,13 @@ import 'package:restaurant_booking_management/User/Restaurant%20Book/provider/re
 import 'package:restaurant_booking_management/utils/app_font.dart';
 import 'package:restaurant_booking_management/utils/mixin_toast.dart';
 import 'package:time_range/time_range.dart';
-
-
-import '../../../Services/PushNotificationService.dart';
+import '../../../Services/push_notification_service.dart';
 import '../../../utils/app_color.dart';
 import '../../../utils/app_image.dart';
-
+//ignore: must_be_immutable
 class RestaurantBook extends StatefulWidget {
   DocumentSnapshot? doc;
-  RestaurantBook({required this.doc});
+  RestaurantBook({super.key, required this.doc});
   // const RestaurantBook({Key? key}) : super(key: key);
 
   @override
@@ -40,11 +38,11 @@ class _RestaurantBookState extends State<RestaurantBook> {
   methodForDate(){
     for (int i = 0; i < 5; i++) {
       date = currentDate.add(Duration(days: i));
-      // print("date ${date}");
+      // debugPrint("date ${date}");
       setState(() {
         dates.add(date);
       });
-      // print("datee ${dayFormatter.format(date!)}");
+      // debugPrint("datee ${dayFormatter.format(date!)}");
       // dates.add(Column(
       //   children: [
       //     Text(dayFormatter.format(date)),
@@ -52,7 +50,7 @@ class _RestaurantBookState extends State<RestaurantBook> {
       //   ],
       // ));
     }
-    // print(dates);
+    // debugPrint(dates);
   }
 
   @override
@@ -150,7 +148,7 @@ class _RestaurantBookState extends State<RestaurantBook> {
                                   setState(() {
                                     selectedIndex=index;
                                   });
-                                  print("Person : ${index+1} Person");
+                                  debugPrint("Person : ${index+1} Person");
                                   personSend = index+1;
                                 },
                                 child: Container(
@@ -223,8 +221,8 @@ class _RestaurantBookState extends State<RestaurantBook> {
                                       selectedIndexDate=index;
                                     });
                                     dateSend = "${dayFormatter.format(dates[index])} ${monthFormatter.format(dates[index])}";
-                                    print("dateSend in ontap of date ${dateSend}");
-                                    print("Date : ${dayFormatter.format(dates[index])} ${monthFormatter.format(dates[index])}");
+                                    debugPrint("dateSend in on tap of date $dateSend");
+                                    debugPrint("Date : ${dayFormatter.format(dates[index])} ${monthFormatter.format(dates[index])}");
                                   },
                                   child: Container(
                                     height: 40,
@@ -289,7 +287,7 @@ class _RestaurantBookState extends State<RestaurantBook> {
                 onRangeCompleted: (range) {
                   timeSend = "${range!.start.hour.toString()}:${range.start.minute.toString()} to ${range.end.hour.toString()}:${range.end.minute.toString()}";
                     setState(() {
-                      print("Time :  ${range.start.hour.toString()}:${range.start.minute.toString()} "
+                      debugPrint("Time :  ${range.start.hour.toString()}:${range.start.minute.toString()} "
                           "${range.end.hour.toString()}:${range.end.minute.toString()}"
                       );
                     });},
@@ -721,10 +719,10 @@ class _RestaurantBookState extends State<RestaurantBook> {
                     for(var i in dataNameFcmToken.docChanges){
                       token = i.doc.get("fcmToken");
                     }
-                    // print("email${FirebaseAuth.instance.currentUser!.email} person $personSend || date $dateSend || time $timeSend || "
+                    // debugPrint("email${FirebaseAuth.instance.currentUser!.email} person $personSend || date $dateSend || time $timeSend || "
                     //     "restName ${widget.doc!.get("name")} || status pending ||"
                     //     " userName $fullName");
-                    print("validation ${personSend.toString()},$dateSend,$timeSend");
+                    debugPrint("validation ${personSend.toString()},$dateSend,$timeSend");
                     if(personSend.toString().isEmpty || personSend.toString() == "" || personSend.toString() == "null" ||
                         dateSend.toString().isEmpty || dateSend == "" || dateSend == null ||
                         timeSend.toString().isEmpty || timeSend == "" || timeSend == null){
@@ -732,7 +730,8 @@ class _RestaurantBookState extends State<RestaurantBook> {
                         toastMessage: "Please select required fields."
                       );
                     }else{
-                      print("in else book");
+                      debugPrint("in else book");
+                      if (!mounted) return;
                       Provider.of<RestaurantBookProvider>(context,listen: false).
                       bookTable(
                           context,

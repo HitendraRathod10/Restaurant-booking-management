@@ -18,7 +18,7 @@ class MyRestaurantsScreen extends StatefulWidget {
 class _MyRestaurantsScreenState extends State<MyRestaurantsScreen> {
 
   final firebase = FirebaseFirestore.instance;
-  ScrollController _controller = ScrollController();
+  final ScrollController _controller = ScrollController();
 
   loader(){
     EasyLoading.show(status: 'loading...');
@@ -116,7 +116,7 @@ class _MyRestaurantsScreenState extends State<MyRestaurantsScreen> {
                                               ),
                                               SizedBox(
                                                 // width: 30,
-                                                child: Text("${snapshot.data!.docChanges[index].doc.get("rating").toString().substring(0,3)}",
+                                                child: Text(snapshot.data!.docChanges[index].doc.get("rating").toString().substring(0,3),
                                                   style: const TextStyle(
                                                       fontFamily: AppFont.semiBold,
                                                       fontSize: 18,

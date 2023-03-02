@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_booking_management/Login/design/reset_password.dart';
@@ -212,7 +210,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                 onTap: (){
                                     Provider.of<LoginProvider>(context,listen: false).loginPswd = false;
-                                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>SignupScreenAdmin()));
+                                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const SignupScreenAdmin()));
                                 },
                               ),
                             ],

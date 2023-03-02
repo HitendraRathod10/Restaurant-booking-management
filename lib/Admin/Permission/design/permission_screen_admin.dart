@@ -2,11 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:provider/provider.dart';
 import 'package:restaurant_booking_management/Admin/Home/design/home_screen_admin.dart';
-import '../../../Services/PushNotificationService.dart';
-import '../../../User/Restaurant Book/provider/restaurant_book_provider.dart';
-import '../../../main.dart';
+import '../../../Services/push_notification_service.dart';
 import '../../../utils/app_color.dart';
 import '../../../utils/app_font.dart';
 import '../../../utils/app_image.dart';
@@ -24,12 +21,12 @@ class _PermissionScreenAdminState extends State<PermissionScreenAdmin> {
   //   EasyLoading.show(status: 'loading...');
   // }
   final firebase = FirebaseFirestore.instance;
-  forApprove(index) async {
+  /*forApprove(index) async {
     var restaurantName,date,time,email,person,shopOwnerEmail,userName;
     var collection = FirebaseFirestore.instance.collection('Booking').where("shopOwnerEmail",isEqualTo: FirebaseAuth.instance.currentUser!.email);
     var querySnapshot = await collection.get();
 
-    print("index ${index} ${querySnapshot.docs[index].get("restaurantName")} "
+    debugPrint("index $index ${querySnapshot.docs[index].get("restaurantName")} "
         "${querySnapshot.docs[index].get("date")} "
         "${querySnapshot.docs[index].get("time")} "
         "${querySnapshot.docs[index].get("person")}");
@@ -67,7 +64,7 @@ class _PermissionScreenAdminState extends State<PermissionScreenAdmin> {
     //   "statusOfBooking" : "Approved",
     //   "userName" : snapshot.data!.docChanges[index].doc.get("userName")
     // });
-  }
+  }*/
   loader() async {
     // await flutterLocalNotificationsPlugin.cancelAll();
   }

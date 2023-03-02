@@ -5,8 +5,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:restaurant_booking_management/utils/app_color.dart';
 import 'package:restaurant_booking_management/utils/app_font.dart';
 
-import '../../../main.dart';
-
 class MyBookingStatusScreen extends StatefulWidget {
   const MyBookingStatusScreen({Key? key}) : super(key: key);
 

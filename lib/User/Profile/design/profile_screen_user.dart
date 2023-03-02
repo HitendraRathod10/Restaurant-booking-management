@@ -6,11 +6,9 @@ import 'package:restaurant_booking_management/Signup/provider/signup_provider.da
 import 'package:restaurant_booking_management/User/Home/provider/home_provider.dart';
 import 'package:restaurant_booking_management/User/Profile/design/edit_profile_screen_user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../Admin/Home/design/home_screen_admin.dart';
 import '../../../Login/design/login_screen.dart';
 import '../../../utils/app_color.dart';
 import '../../../utils/app_font.dart';
-import '../../Home/design/home_screen_user.dart';
 
 class ProfileScreenUser extends StatefulWidget {
   const ProfileScreenUser({Key? key}) : super(key: key);
@@ -115,7 +113,7 @@ class _ProfileScreenUserState extends State<ProfileScreenUser> {
                                 top: 20,
                                 child: GestureDetector(
                                   onTap: (){
-                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>EditProfileScreenUser()));
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>const EditProfileScreenUser()));
                                     // Get.to(const EmployeeProfileScreenUser());
                                   },
                                   child: Container(
@@ -183,14 +181,16 @@ class _ProfileScreenUserState extends State<ProfileScreenUser> {
                                   margin: const EdgeInsets.only(left: 10,right: 00),
                                   child: const Icon(Icons.email,color: AppColor.appColor,)),
                               const SizedBox(height: 5,),
-                              Container(
-                                  // width: MediaQuery.of(context).size.width/1.5,
-                                  padding: const EdgeInsets.only(top: 10,bottom: 10),
-                                  margin: const EdgeInsets.only(left: 10,right: 10),
-                                  child: Text(data['email'],
-                                    // maxLines: 2,
-                                    // overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(fontFamily: AppFont.regular,fontSize: 17),)),
+                              Expanded(
+                                child: Container(
+                                    // width: MediaQuery.of(context).size.width/1.5,
+                                    padding: const EdgeInsets.only(top: 10,bottom: 10),
+                                    margin: const EdgeInsets.only(left: 10,right: 10),
+                                    child: Text(data['email'],
+                                      // maxLines: 2,
+                                      // overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(fontFamily: AppFont.regular,fontSize: 17),)),
+                              ),
                             ],
                           ),
                         ),
@@ -270,7 +270,8 @@ class _ProfileScreenUserState extends State<ProfileScreenUser> {
                             final firebase = FirebaseFirestore.instance;
                             var dataNameFcmToken = await firebase.collection('User').where("email",isEqualTo: FirebaseAuth.instance.currentUser!.email).get();
                             for(var i in dataNameFcmToken.docChanges){
-                            Provider.of<SignupProvider>(context,listen: false).
+                              if (!mounted) return;
+                              Provider.of<SignupProvider>(context,listen: false).
                             insertDataUser(
                                 "${i.doc.get("fullName")}",
                                 "${i.doc.get("email")}",
@@ -279,7 +280,8 @@ class _ProfileScreenUserState extends State<ProfileScreenUser> {
                                 ""
                             );
                             }
-                            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>LoginScreen()), (route) => false);
+                            if (!mounted) return;
+                            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>const LoginScreen()), (route) => false);
                             Provider.of<HomeProvider>(context,listen: false).onItemTapped(0);
                           },
                           child: Container(

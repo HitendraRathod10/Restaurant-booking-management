@@ -233,7 +233,7 @@ class _SignupScreenAdminState extends State<SignupScreenAdmin> {
                               padding: const EdgeInsets.fromLTRB(40, 00, 40, 00),
                               child: InkWell(
                                 onTap: (){
-                                  print("userType is ${Provider.of<SignupProvider>(context,listen: false).selectUserType.toString()}");
+                                  debugPrint("userType is ${Provider.of<SignupProvider>(context,listen: false).selectUserType.toString()}");
                                  if(fullNameController.text.isEmpty || emailController.text.isEmpty ||
                                       phoneController.text.isEmpty || passwordController.text.isEmpty ||
                                      Provider.of<SignupProvider>(context,listen: false).selectUserType == null){

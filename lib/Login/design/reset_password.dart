@@ -5,11 +5,11 @@ import 'package:provider/provider.dart';
 import 'package:restaurant_booking_management/utils/app_font.dart';
 import '../../Signup/design/signup_screen_admin.dart';
 import '../../utils/mixin_textformfield.dart';
-
+//ignore: must_be_immutable
 class ResetPassword extends StatefulWidget {
   // const ResetPassword({Key? key}) : super(key: key);
   String? check;
-  ResetPassword({this.check});
+  ResetPassword({super.key, this.check});
 
   @override
   State<ResetPassword> createState() => _ResetPasswordState();
@@ -70,7 +70,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                     textInputAction: TextInputAction.next,
                     keyboardType: TextInputType.emailAddress,
                     hintText: "Enter email",
-                    hintStyle: TextStyle(fontFamily: AppFont.regular),
+                    hintStyle: const TextStyle(fontFamily: AppFont.regular),
                     prefixIcon: const Icon(Icons.email_outlined,
                         color: AppColor.appColor),
                     validator: (value) {

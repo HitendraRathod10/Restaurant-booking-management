@@ -146,11 +146,11 @@ class _MapScreenState extends State<MapScreen> {
                 if(!snapshot.hasData){
                   return const Center(child: CircularProgressIndicator());
                 }else{
-                  Set<Circle> circles = Set.from([Circle(
-                    circleId: CircleId("1"),
+                  Set<Circle> circles = {Circle(
+                    circleId: const CircleId("1"),
                     center: LatLng(snapshot.data!.latitude!,snapshot.data!.longitude!),
                     radius: 2000,fillColor: Colors.blue.withOpacity(0.3),strokeWidth: 1,strokeColor: Colors.blue.withOpacity(0.5)
-                  )]);
+                  )};
                   markers.add(Marker(
                     markerId: const MarkerId("1"),
                     onTap: (){},

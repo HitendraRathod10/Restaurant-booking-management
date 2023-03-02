@@ -32,7 +32,7 @@ class LoginProvider extends ChangeNotifier{
       showToast(toastMessage: "Login successfully",backgroundColor: AppColor.appColor,textColor: AppColor.white);
       final firebase = FirebaseFirestore.instance;
       token = (await FirebaseMessaging.instance.getToken())!;
-      print('Token => $token');
+      debugPrint('Token => $token');
 
       var dataName = await firebase.collection('User').get();
       for(var i in dataName.docChanges){
@@ -73,7 +73,7 @@ class LoginProvider extends ChangeNotifier{
       }
 
 
-    } on Exception catch (e) {
+    } on Exception {
       EasyLoading.showToast("Your email or password is invalid !!",
         toastPosition: EasyLoadingToastPosition.bottom,
       );

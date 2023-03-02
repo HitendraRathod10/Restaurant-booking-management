@@ -6,6 +6,6 @@ class AppFont{
   static const String  light = "Outfit_Light";
   static const String  black = "Outfit_Black";
   static const String  extraBold = "Outfit_ExtraBold";
-  static const String  ExtraLight = "Outfit_ExtraLight";
+  static const String  extraLight = "Outfit_ExtraLight";
   static const String  thin = "Outfit_Thin";
 }

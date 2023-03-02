@@ -5,21 +5,20 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:http/http.dart' as http;
-
 import '../main.dart';
 
-/**
- * Handle notification click:
- * - When the app is killed, there is a function called getInitialMessage which
- *   returns the remoteMessage in case we receive a notification otherwise returns null.
- *   It can be called at any point of the application (Preferred to be after defining GetMaterialApp so that we can go to any screen without getting any errors)
-
- * - When the app is in the background, there is a function called onMessageOpenedApp which is called when user clicks on the notification.
- *   It returns the remoteMessage.
-
- * - When the app is in the foreground, there is a function flutterLocalNotificationsPlugin, is passes a future function called onSelectNotification which
- *   is called when user clicks on the notification.
- **/
+// *
+//  * Handle notification click:
+//  * - When the app is killed, there is a function called getInitialMessage which
+//  *   returns the remoteMessage in case we receive a notification otherwise returns null.
+//  *   It can be called at any point of the application (Preferred to be after defining GetMaterialApp so that we can go to any screen without getting any errors)
+//
+//  * - When the app is in the background, there is a function called onMessageOpenedApp which is called when user clicks on the notification.
+//  *   It returns the remoteMessage.
+//
+//  * - When the app is in the foreground, there is a function flutterLocalNotificationsPlugin, is passes a future function called onSelectNotification which
+//  *   is called when user clicks on the notification.
+//  *
 class PushNotificationService {
 /*  Future<void> setupInteractedMessage() async {
     await Firebase.initializeApp();
@@ -52,7 +51,7 @@ class PushNotificationService {
         });
 // onMessage is called when the app is in foreground and a notification is received
     FirebaseMessaging.onMessage.listen((RemoteMessage? message) {
-      print(message);
+      debugPrint(message);
       RemoteNotification? notification = message!.notification;
       AndroidNotification? android = message.notification?.android;
       if (notification != null && android != null) {
@@ -86,7 +85,7 @@ class PushNotificationService {
     importance: Importance.max,
   );*/
   getNotification() async {
-    print("getNotification PushNotificationService start");
+    debugPrint("getNotification PushNotificationService start");
     await Firebase.initializeApp();
     enableIOSNotifications();
     var initializationSettingsAndroid = const AndroidInitializationSettings('@mipmap/ic_launcher');
@@ -96,12 +95,12 @@ class PushNotificationService {
     var initializationSettings = InitializationSettings(android: initializationSettingsAndroid,iOS: initializationSettingsIOS,);
     flutterLocalNotificationsPlugin.initialize(initializationSettings);
     if(Platform.isIOS){
-      print("ios device");
+      debugPrint("ios device");
     }else{
-      print("android device");
+      debugPrint("android device");
       FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification?.android;
+      // AndroidNotification? android = message.notification?.android;
 
       if (notification != null) {
         flutterLocalNotificationsPlugin.show(
@@ -117,13 +116,13 @@ class PushNotificationService {
               ),
               iOS: const DarwinNotificationDetails(),
             ));
-        print("getNotification PushNotificationService notification != null");
+        debugPrint("getNotification PushNotificationService notification != null");
       }
     });
     }
   }
   Future<void> enableIOSNotifications() async {
-    print("enableIOSNotifications PushNotificationService");
+    debugPrint("enableIOSNotifications PushNotificationService");
     await FirebaseMessaging.instance
         .setForegroundNotificationPresentationOptions(
       alert: true, // Required to display a heads up notification
@@ -132,7 +131,7 @@ class PushNotificationService {
     );
   }
   chatMessageNotification(notificationToken,restName,fullName,person,screenType) async{
-    print("chatMessageNotification PushNotificationService");
+    debugPrint("chatMessageNotification PushNotificationService");
     final msg = jsonEncode({
       "registration_ids": <String>[
         "$notificationToken"
@@ -165,12 +164,12 @@ class PushNotificationService {
         debugPrint("Notification Send Error");
       }
     }catch(e){
-      debugPrint("Debug print Catch $e");
+      debugPrint("Debug debugPrint Catch $e");
     }
   }
 
   notificationToUserForStatus(notificationToken,restName,status,person,screenType) async{
-    print("notificationToUserForStatus PushNotificationService");
+    debugPrint("notificationToUserForStatus PushNotificationService");
     final msg = jsonEncode({
       "registration_ids": <String>[
         "$notificationToken"
@@ -201,7 +200,7 @@ class PushNotificationService {
         debugPrint("Notification Send Error");
       }
     }catch(e){
-      debugPrint("Debug print Catch $e");
+      debugPrint("Debug debugPrint Catch $e");
     }
   }
 

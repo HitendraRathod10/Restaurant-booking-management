@@ -8,7 +8,6 @@ import '../../../Login/design/login_screen.dart';
 import '../../../Signup/provider/signup_provider.dart';
 import '../../../utils/app_color.dart';
 import '../../../utils/app_font.dart';
-import '../../Home/design/home_screen_admin.dart';
 
 class ProfileScreenAdmin extends StatefulWidget {
   const ProfileScreenAdmin({Key? key}) : super(key: key);
@@ -107,7 +106,7 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
                                 top: 17,
                                 child: GestureDetector(
                                   onTap: (){
-                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>EditProfileScreenAdmin()));
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>const EditProfileScreenAdmin()));
                                     // Get.to(const EmployeeProfileScreen());
                                   },
                                   child: Container(
@@ -266,6 +265,7 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
                             final firebase = FirebaseFirestore.instance;
                             var dataNameFcmToken = await firebase.collection('User').where("email",isEqualTo: FirebaseAuth.instance.currentUser!.email).get();
                             for(var i in dataNameFcmToken.docChanges){
+                              if (!mounted) return;
                               Provider.of<SignupProvider>(context,listen: false).
                               insertDataUser(
                                   "${i.doc.get("fullName")}",
@@ -275,7 +275,8 @@ class _ProfileScreenAdminState extends State<ProfileScreenAdmin> {
                                   ""
                               );
                             }
-                            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>LoginScreen()), (route) => false);
+                            if (!mounted) return;
+                            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>const LoginScreen()), (route) => false);
                           },
                           child: Container(
                             height: 50,

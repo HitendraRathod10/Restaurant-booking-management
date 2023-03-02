@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../Login/design/login_screen.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-
 import '../../utils/mixin_toast.dart';
 
 class SignupProvider extends ChangeNotifier{
@@ -49,22 +48,22 @@ class SignupProvider extends ChangeNotifier{
     EasyLoading.show(status: 'loading...');
     email = email.trim();
     try {
-      final newUser = await _auth.createUserWithEmailAndPassword(
+      await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
-      if(newUser != null){
+      // if(newUser != null){
         insertDataUser(fullName, email, phone, userType,fcmToken);
        /* if(userType == "User"){
-          print("UserType $userType");
+          debugPrint("UserType $userType");
           insertDataUser(fullName, email, phone);
         }else{
-          print("UserType $userType");
+          debugPrint("UserType $userType");
           insertDataAdmin(fullName, email, phone);
         }*/
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const LoginScreen()));
         EasyLoading.dismiss();
-      }else{
-        print("newUser null (createNewUser)");
-      }
+      // }else{
+      //   debugPrint("newUser null (createNewUser)");
+      // }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         EasyLoading.dismiss();

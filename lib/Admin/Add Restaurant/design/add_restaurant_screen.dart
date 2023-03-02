@@ -5,8 +5,6 @@ import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_booking_management/Admin/Add%20Restaurant/provider/add_restaurant_provider.dart';
 import 'package:restaurant_booking_management/utils/app_color.dart';
-import 'package:restaurant_booking_management/utils/mixin_textformfield.dart';
-
 import '../../../utils/app_font.dart';
 import '../../../utils/mixin_toast.dart';
 import '../../Home/design/home_screen_admin.dart';
@@ -362,8 +360,8 @@ class _AddRestaurantScreenState extends State<AddRestaurantScreen> {
                   ),
                   InkWell(
                     onTap: (){
-                      // print("url ${Provider.of<AddRestaurantProvider>(context,listen: false).urlDownloads.toString()}");
-                      // print("location ${Provider.of<AddRestaurantProvider>(context,listen: false).latitude}");
+                      // debugPrint("url ${Provider.of<AddRestaurantProvider>(context,listen: false).urlDownloads.toString()}");
+                      // debugPrint("location ${Provider.of<AddRestaurantProvider>(context,listen: false).latitude}");
                       if(_formKey.currentState!.validate()){
                         if(Provider.of<AddRestaurantProvider>(context,listen: false).urlDownloads == null ||
                             Provider.of<AddRestaurantProvider>(context,listen: false).urlDownloads.toString().isEmpty){
@@ -371,8 +369,8 @@ class _AddRestaurantScreenState extends State<AddRestaurantScreen> {
                             toastMessage: "Please select image"
                           );
                         }else{
-                          if(Provider.of<AddRestaurantProvider>(context,listen: false).latitude == null ||
-                              Provider.of<AddRestaurantProvider>(context,listen: false).longitude == null ||
+                          if(Provider.of<AddRestaurantProvider>(context,listen: false).latitude == '' ||
+                              Provider.of<AddRestaurantProvider>(context,listen: false).longitude == '' ||
                               Provider.of<AddRestaurantProvider>(context,listen: false).latitude.isEmpty ||
                               Provider.of<AddRestaurantProvider>(context,listen: false).longitude.isEmpty){
                             showToast(
@@ -428,7 +426,7 @@ class _AddRestaurantScreenState extends State<AddRestaurantScreen> {
                           }
                         }
                       }else{
-                        print('else validation login screen');
+                        debugPrint('else validation login screen');
                       }
                     },
                     child: Container(

@@ -7,10 +7,10 @@ import 'package:restaurant_booking_management/Admin/My%20Restaurants/provider/up
 import 'package:restaurant_booking_management/utils/app_font.dart';
 
 import '../../../utils/app_color.dart';
-
+//ignore: must_be_immutable
 class MyRestaurantOverview extends StatefulWidget {
   DocumentSnapshot? doc;
-  MyRestaurantOverview({required this.doc});
+  MyRestaurantOverview({super.key, required this.doc});
   // const MyRestaurantOverview({Key? key}) : super(key: key);
 
   @override
@@ -84,8 +84,8 @@ class _MyRestaurantOverviewState extends State<MyRestaurantOverview> {
 
   final Set<Marker> markers = {};
   late GoogleMapController mapController;
-  var latitudeDouble;
-  var longitudeDouble;
+  double? latitudeDouble;
+  double? longitudeDouble;
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
   }
@@ -416,7 +416,7 @@ class _MyRestaurantOverviewState extends State<MyRestaurantOverview> {
                         // zoomControlsEnabled: false,
                         onMapCreated: _onMapCreated,
                         initialCameraPosition: CameraPosition(
-                          target: LatLng(latitudeDouble,longitudeDouble),
+                          target: LatLng(latitudeDouble!,longitudeDouble!),
                           zoom: 10.0,
                         ),
                         markers: markers,
