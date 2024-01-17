@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_booking_management/Login/design/login_screen.dart';
 import 'package:restaurant_booking_management/Signup/provider/signup_provider.dart';
@@ -128,7 +129,9 @@ class _SignupScreenAdminState extends State<SignupScreenAdmin> {
                                       child: TextFormField(
                                         cursorHeight: 17,
                                         controller: phoneController,
+                                        keyboardType: TextInputType.number,
                                         style: const TextStyle(fontSize: 17,fontFamily: AppFont.regular),
+                                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
                                         decoration: const InputDecoration(
                                             hintText: "Phone",
                                             hintStyle: TextStyle(fontFamily: AppFont.regular),

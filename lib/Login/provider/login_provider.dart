@@ -13,6 +13,7 @@ class LoginProvider extends ChangeNotifier{
   bool loginPswd =  false;
   final firebase = FirebaseFirestore.instance;
   String? token;
+  FocusNode focusNode = FocusNode();
 
   getToken() async {
 
@@ -25,6 +26,7 @@ class LoginProvider extends ChangeNotifier{
 
   loginWithEmail(String email,String password,context) async{
     // loginPswd = false;
+    FocusScope.of(context).unfocus();
     EasyLoading.show(status: 'loading...');
     try {
       email = email.trim();
@@ -76,7 +78,9 @@ class LoginProvider extends ChangeNotifier{
     } on Exception {
       EasyLoading.showToast("Your email or password is invalid !!",
         toastPosition: EasyLoadingToastPosition.bottom,
-      );
+      ).then((_){
+        Future.delayed(Duration(milliseconds: 1000),() =>  FocusScope.of(context).requestFocus(focusNode),);
+      } );
     }
     EasyLoading.dismiss();
   }

@@ -86,7 +86,6 @@ class _RestaurantOverviewState extends State<RestaurantOverview> {
     // }
     final String googleMapsUrl = "comgooglemaps://?center=$lat,$lng";
     final String appleMapsUrl = "https://maps.apple.com/?q=$lat,$lng";
-
     if (await canLaunchUrl(Uri.parse(googleMapsUrl))) {
       await launchUrl(Uri.parse(googleMapsUrl));
     }

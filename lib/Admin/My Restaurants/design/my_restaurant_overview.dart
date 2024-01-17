@@ -103,7 +103,7 @@ class _MyRestaurantOverviewState extends State<MyRestaurantOverview> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text(""),
+          title:  Text("${widget.doc!.get("name")}"),
           backgroundColor: AppColor.appColor.withOpacity(0.9),
           centerTitle: true,
           actions: [

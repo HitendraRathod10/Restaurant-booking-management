@@ -4,6 +4,8 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:restaurant_booking_management/utils/app_font.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:location/location.dart' as loc;
 
 import '../../../Admin/Add Restaurant/provider/current_location.dart';
 import '../../../utils/app_color.dart';
@@ -20,6 +22,8 @@ class _MapScreenState extends State<MapScreen> {
   late GoogleMapController mapController;
   final Set<Marker> markers = {};
   final firebase = FirebaseFirestore.instance;
+  Location location = Location();
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -39,6 +43,46 @@ class _MapScreenState extends State<MapScreen> {
     // });
   }
 
+
+
+
+  void navigateToLocation({
+    required LatLng destination,
+  }) async {
+
+    final loc.LocationData currentLocation = await location.getLocation();
+    setState(() {
+      isLoading =true;
+    });
+    print("latitude ::>> ${currentLocation.latitude}");
+    print("longitude ::>> ${currentLocation.longitude}");
+
+    final String googleMapsUrl =
+        "comgooglemaps://?saddr=${currentLocation.latitude},${currentLocation.longitude}&daddr=${destination.latitude},${destination.longitude}&directionsmode=driving";
+    final String appleMapsUrl =
+        "https://maps.apple.com/?saddr=${currentLocation.latitude},${currentLocation.longitude}&daddr=${destination.latitude},${destination.longitude}";
+
+    if (await canLaunch(googleMapsUrl)) {
+      await launch(googleMapsUrl).then((_){
+        setState(() {
+          isLoading = false;
+        });
+      });
+    } else if (await canLaunch(appleMapsUrl)) {
+      await launch(appleMapsUrl).then((_) {
+        setState(() {
+          isLoading = false;
+        });
+      });
+    } else {
+      throw "Couldn't launch URL";
+    }
+    setState(() {});
+    print("isLoading $isLoading");
+  }
+
+
+
   Future markerLocation() async{
     var shopQuerySnapshot = await FirebaseFirestore.instance.collection("All Restaurants").get();
     for(var snapShot in shopQuerySnapshot.docChanges){
@@ -49,72 +93,77 @@ class _MapScreenState extends State<MapScreen> {
               context: context,
               backgroundColor: Colors.transparent,
               builder: (context) {
-                return Wrap(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.fromLTRB(10,10,10,20),
-                      padding: const EdgeInsets.all(10),
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: AppColor.white
-                      ),
-                      child:  Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          ClipRRect(
+                return GestureDetector(
+                  onTap: () {
+                    navigateToLocation(destination: LatLng(double.parse(snapShot.doc.get('latitude')) ,double.parse(snapShot.doc.get('longitude'))));
+                  },
+                  child: Wrap(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.fromLTRB(10,10,10,20),
+                        padding: const EdgeInsets.all(10),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            child: Image.network(snapShot.doc.get('image'),
-                                height: 90,width: 90,fit: BoxFit.fill),
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children:  [
-                                  const SizedBox(height: 2),
-                                  Text(snapShot.doc.get('name'),
-                                      style : const TextStyle(color: AppColor.appColor,fontWeight: FontWeight.bold,fontSize: 20,fontFamily: AppFont.semiBold),maxLines: 1,overflow: TextOverflow.ellipsis,),
-                                  const SizedBox(height: 2),
-                                  Text("${snapShot.doc.get('area')} ${snapShot.doc.get('city')}",
-                                      style : const TextStyle(fontSize: 16,fontFamily: AppFont.semiBold),maxLines: 1,overflow: TextOverflow.ellipsis),
-                                  const SizedBox(height: 4),
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      RatingBar.builder(
-                                        initialRating: 5,
-                                        minRating: 1,
-                                        direction: Axis.horizontal,
-                                        allowHalfRating: true,
-                                        itemCount: 5,
-                                        ignoreGestures : true,
-                                        itemSize: 18,
-                                        itemBuilder: (context, _) => const Icon(
-                                          Icons.star,
-                                          color: Colors.amber,
-                                        ),
-                                        onRatingUpdate: (rating) {
-                                          debugPrint('$rating');
-                                        },
-                                      ),
-                                      const SizedBox(width: 5,),
-                                      Text('(${snapShot.doc.get('rating').toString().substring(0,3)} review)',
-                                          style:  const TextStyle(fontWeight: FontWeight.w500,fontSize: 16,fontFamily: AppFont.semiBold),
-                                          maxLines: 1,overflow: TextOverflow.ellipsis,textAlign: TextAlign.start),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                            color: AppColor.white
+                        ),
+                        child:  Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.network(snapShot.doc.get('image'),
+                                  height: 90,width: 90,fit: BoxFit.fill),
                             ),
-                          )
-                        ],
-                      ),
-                    )
-                  ],
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children:  [
+                                    const SizedBox(height: 2),
+                                    Text(snapShot.doc.get('name'),
+                                        style : const TextStyle(color: AppColor.appColor,fontWeight: FontWeight.bold,fontSize: 20,fontFamily: AppFont.semiBold),maxLines: 1,overflow: TextOverflow.ellipsis,),
+                                    const SizedBox(height: 2),
+                                    Text("${snapShot.doc.get('area')} ${snapShot.doc.get('city')}",
+                                        style : const TextStyle(fontSize: 16,fontFamily: AppFont.semiBold),maxLines: 1,overflow: TextOverflow.ellipsis),
+                                    const SizedBox(height: 4),
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        RatingBar.builder(
+                                          initialRating: 5,
+                                          minRating: 1,
+                                          direction: Axis.horizontal,
+                                          allowHalfRating: true,
+                                          itemCount: 5,
+                                          ignoreGestures : true,
+                                          itemSize: 18,
+                                          itemBuilder: (context, _) => const Icon(
+                                            Icons.star,
+                                            color: Colors.amber,
+                                          ),
+                                          onRatingUpdate: (rating) {
+                                            debugPrint('$rating');
+                                          },
+                                        ),
+                                        const SizedBox(width: 5,),
+                                        Text('(${snapShot.doc.get('rating').toString().substring(0,3)} review)',
+                                            style:  const TextStyle(fontWeight: FontWeight.w500,fontSize: 16,fontFamily: AppFont.semiBold),
+                                            maxLines: 1,overflow: TextOverflow.ellipsis,textAlign: TextAlign.start),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 );
               },
             );
@@ -160,24 +209,30 @@ class _MapScreenState extends State<MapScreen> {
                       BitmapDescriptor.hueAzure,
                     ),
                   ));
-                  return GoogleMap(
-                    zoomGesturesEnabled: true,
-                    myLocationEnabled : true,
-                    compassEnabled: true,
-                    onCameraMove: null,
-                    circles: circles,
-                    mapToolbarEnabled: true,
-                    tiltGesturesEnabled: true,
-                    myLocationButtonEnabled: true,
-                    indoorViewEnabled: true,
-                    // trafficEnabled: true,
-                    onMapCreated: _onMapCreated,
-                    initialCameraPosition: CameraPosition(
-                      target: LatLng(snapshot.data!.latitude!,snapshot.data!.longitude!),
-                      zoom: 11.0,
-                    ),
-                    markers: markers,
-                    onTap: (latLng){},
+                  return Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      GoogleMap(
+                        zoomGesturesEnabled: true,
+                        myLocationEnabled : true,
+                        compassEnabled: true,
+                        onCameraMove: null,
+                        circles: circles,
+                        // mapToolbarEnabled: true,
+                        tiltGesturesEnabled: true,
+                        myLocationButtonEnabled: true,
+                        indoorViewEnabled: true,
+                        // trafficEnabled: true,
+                        onMapCreated: _onMapCreated,
+                        initialCameraPosition: CameraPosition(
+                          target: LatLng(snapshot.data!.latitude!,snapshot.data!.longitude!),
+                          zoom: 11.0,
+                        ),
+                        markers: markers,
+                        onTap: (latLng){},
+                      ),
+                      isLoading?const CircularProgressIndicator():SizedBox()
+                    ],
                   );
                 }
               }

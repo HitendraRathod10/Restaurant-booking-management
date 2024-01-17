@@ -110,6 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         return TextFormField(
                                           cursorHeight: 17,
                                           controller: passwordController,
+                                          focusNode: Provider.of<LoginProvider>(context,listen: false).focusNode,
                                           style: const TextStyle(fontSize: 17,fontFamily: AppFont.regular),
                                           obscureText: snapshot.loginPswd ? false : true,
                                           decoration: InputDecoration(

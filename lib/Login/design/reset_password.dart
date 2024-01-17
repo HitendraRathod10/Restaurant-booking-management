@@ -92,7 +92,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                         if (_formKey.currentState!.validate()) {
                           Provider.of<ResetPasswordProvider>(context,
                                   listen: false)
-                              .resetPassword(email: emailController.text);
+                              .resetPassword(email: emailController.text,context: context);
                         }
                       },
                       child: Container(

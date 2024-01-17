@@ -136,19 +136,19 @@ class _HomeScreenUserState extends State<HomeScreenUser> {
               items:  [
                 BottomNavigationBarItem(
                     label: "Home",
-                    icon:  Image.asset(AppImage.home,height: 25,width: 25),
+                    icon:  Image.asset(AppImage.home,height: 25,width: 25,color: snapshot.selectedIndex == 0  ? AppColor.appColor : AppColor.black,),
                 ),
                 BottomNavigationBarItem(
                     label: "Near By",
-                    icon: Image.asset(AppImage.map,height: 25,width: 25)
+                    icon: Image.asset(AppImage.map,height: 25,width: 25,color: snapshot.selectedIndex == 1  ? AppColor.appColor : AppColor.black)
                 ),
                 BottomNavigationBarItem(
                     label: "My Booking",
-                    icon: Image.asset(AppImage.histroyTwo,height: 25,width: 25)
+                    icon: Image.asset(AppImage.histroyTwo,height: 25,width: 25,color: snapshot.selectedIndex == 2  ? AppColor.appColor : AppColor.black)
                 ),
                 BottomNavigationBarItem(
                     label: "Profile",
-                    icon: Image.asset(AppImage.profile,height: 25,width: 25)
+                    icon: Image.asset(AppImage.profile,height: 25,width: 25,color: snapshot.selectedIndex == 3  ? AppColor.appColor : AppColor.black)
                 ),
               ],
             );
