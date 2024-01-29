@@ -27,28 +27,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  provider: ^6.0.3
-  firebase_auth: ^3.8.0
-  firebase_core: ^1.22.0
-  cloud_firestore: ^3.4.7
-  shared_preferences: ^2.0.15
-  firebase_storage: ^10.3.8
-  path_provider: ^2.0.11
-  permission_handler: ^10.0.0
-  fluttertoast: ^8.0.9
-  flutter_easyloading: ^3.0.5
-  flutter_rating_bar: ^4.0.1
-  intl: ^0.17.0
-  google_maps_flutter: ^2.2.0
-  location: ^4.4.0
-  flutter_native_image: ^0.0.6+1
-  file_picker: ^5.0.1
-  url_launcher: ^6.1.5
-  time_range: ^1.0.3
-  firebase_messaging: ^13.1.0
-  flutter_local_notifications: ^12.0.2
-  http: ^0.13.5
-  firebase_core_platform_interface: 4.5.1
+
   flutter:
     sdk: flutter
 
@@ -56,6 +35,28 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  provider: ^6.0.3
+  firebase_auth: ^3.8.0
+  firebase_core: ^1.22.0
+  cloud_firestore: ^3.4.7
+  shared_preferences: ^2.0.15
+  firebase_storage: ^10.3.8
+  path_provider: ^2.0.11
+  permission_handler:
+  fluttertoast: ^8.0.9
+  flutter_easyloading: ^3.0.5
+  flutter_rating_bar: ^4.0.1
+  intl: ^0.17.0
+  google_maps_flutter: ^2.2.0
+  location: ^4.4.0
+  flutter_native_image: ^0.0.6+1
+  file_picker:
+  url_launcher: ^6.1.5
+  time_range: ^1.0.3
+  firebase_messaging: ^13.1.0
+  flutter_local_notifications: ^12.0.2
+  http: ^0.13.5
+  firebase_core_platform_interface: 4.5.1
 
 dev_dependencies:
   flutter_test:

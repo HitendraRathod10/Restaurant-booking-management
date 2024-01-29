@@ -97,7 +97,7 @@ class _RatingAndFeedbackScreenState extends State<RatingAndFeedbackScreen> {
                                 initialRating: snapshot.data!.docs[index]["rating"],
                                 minRating: 1,
                                 direction: Axis.horizontal,
-                                allowHalfRating: false,
+                                allowHalfRating: true,
                                 itemCount: 5,
                                 itemSize: 20,
                                 itemBuilder: (context, _) => const Icon(

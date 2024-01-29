@@ -27,7 +27,8 @@ class RestaurantBookProvider extends ChangeNotifier{
       "shopOwnerEmail" : shopOwnerEmail,
       "restaurantName" : restaurantName,
       "statusOfBooking" : statusOfBooking,
-      "userName" : userName
+      "userName" : userName,
+      "timestamp" : DateTime.now().toString()
     });
     showToast(
         toastMessage: "Your request for table booking added successfully."

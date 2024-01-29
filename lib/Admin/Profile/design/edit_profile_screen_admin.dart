@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_booking_management/Admin/Home/design/home_screen_admin.dart';
 import 'package:restaurant_booking_management/Login/design/reset_password.dart';
@@ -75,24 +76,39 @@ class _EditProfileScreenAdminState extends State<EditProfileScreenAdmin> {
                           TextFieldMixin().textFieldWidget(
                             textStyle: const TextStyle(fontFamily: AppFont.regular),
                             labelText: 'Phone',
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                                LengthLimitingTextInputFormatter(10)],
                             labelStyle: const TextStyle(color: AppColor.appColor),
                             controller: phoneController..text = data['phone'],
                             keyboardType: TextInputType.phone,
-                              maxLines: 5
                           ),
                           const SizedBox(height: 35,),
                           GestureDetector(
                               onTap: () async {
-                                if(fullNameController.text.isEmpty || emailController.text.isEmpty || phoneController.text.isEmpty){
+                                if(fullNameController.text.isEmpty || emailController.text.isEmpty || phoneController.text.isEmpty || phoneController.text.trim().length != 10){
                                   showToast(
-                                      toastMessage: "Please fill all required details"
+                                      toastMessage: phoneController.text.trim().length != 10?"Please fill 10 digits phone number":"Please fill all required details"
                                   );
                                 }else{
+                                  FocusScope.of(context).unfocus();
                                   var token = (await FirebaseMessaging.instance.getToken())!;
                                   if (!mounted) return;
                                   Provider.of<SignupProvider>(context,listen: false).
-                                  insertDataUser(fullNameController.text, emailController.text, phoneController.text, "Restaurant Owner",token);
-                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const HomeScreenAdmin()));
+                                  insertDataUser(fullNameController.text, emailController.text.toLowerCase(), phoneController.text, "Restaurant Owner",token).then((value) async {
+                                    if(value == true){
+                                      Navigator.pop(context);
+                                      await Future.delayed(const Duration(milliseconds: 500));
+                                      showToast(
+                                          toastMessage: "Updated Successfully"
+                                      );
+                                    }else{
+                                      showToast(
+                                          toastMessage: "Update Failure"
+                                      );
+                                    }
+                                  });
+                                  // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const HomeScreenAdmin()));
                                 }
                                 },
                               child: Container(

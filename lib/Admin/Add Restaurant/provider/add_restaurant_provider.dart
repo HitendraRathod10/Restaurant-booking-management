@@ -15,6 +15,7 @@ class AddRestaurantProvider extends ChangeNotifier{
   String longitude="";
   final firebase = FirebaseFirestore.instance;
   String? urlDownloads;
+  bool isLoading = false;
 
   //Compress Image File
   Future<File> imageSizeCompress(
@@ -23,7 +24,7 @@ class AddRestaurantProvider extends ChangeNotifier{
     return path;
   }
 
-  //Pick Image File
+  // Pick Image File
   void selectBarberImage(BuildContext context) async{
     final status = await Permission.storage.status;
     if (status.isPermanentlyDenied) {
@@ -36,15 +37,32 @@ class AddRestaurantProvider extends ChangeNotifier{
         type: FileType.image
     );
     if(result == null) return;
+    if(urlDownloads!="" && restaurantImageFile!=null){
+      urlDownloads = "";
+      restaurantImageFile = null;
+      notifyListeners();
+    }
+    isLoading = true;
+    notifyListeners();
     final filePath = result.files.single.path;
     File compressImage = await imageSizeCompress(image: File(filePath!));
     restaurantImageFile = compressImage;
     restaurantImageName = result.files.first.name;
     final destination = 'images/$restaurantImageName';
     debugPrint("restaurantImageName :- $restaurantImageName");
-    final ref = FirebaseStorage.instance.ref().child(destination).putFile(restaurantImageFile!);
-    final snapshot = await ref.whenComplete(() {});
-    urlDownloads = await snapshot.ref.getDownloadURL().whenComplete(() {});
+ try{
+   final ref = FirebaseStorage.instance.ref().child(destination).putFile(restaurantImageFile!);
+   final snapshot = await ref.whenComplete(() {});
+   urlDownloads = await snapshot.ref.getDownloadURL().whenComplete(() {});
+   isLoading = false;
+ }catch (e){
+isLoading = false;
+ }
+    // if(urlDownloads!.isNotEmpty){
+    //   isLoading = false;
+    //   notifyListeners();
+    // }
+    print("isLoading :$isLoading");
     notifyListeners();
   }
 

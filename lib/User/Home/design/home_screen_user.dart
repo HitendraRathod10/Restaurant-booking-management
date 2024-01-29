@@ -123,15 +123,15 @@ class _HomeScreenUserState extends State<HomeScreenUser> {
         bottomNavigationBar: Consumer<HomeProvider>(
           builder: (context, snapshot,_) {
             return BottomNavigationBar(
-              // type: BottomNavigationBarType.shifting,
+              type: BottomNavigationBarType.fixed,
               currentIndex: snapshot.selectedIndex,
               backgroundColor: AppColor.white,
-              selectedFontSize: 14,
+              // selectedFontSize: 14,
               selectedLabelStyle: const TextStyle(color: AppColor.appColor,fontFamily: AppFont.semiBold),
               unselectedLabelStyle: const TextStyle(color: AppColor.blackColor,fontFamily: AppFont.regular),
               selectedItemColor: AppColor.appColor,
               unselectedItemColor: AppColor.blackColor,
-              showSelectedLabels: false,
+              showSelectedLabels: true,
               onTap: snapshot.onItemTapped,
               items:  [
                 BottomNavigationBarItem(
@@ -140,7 +140,7 @@ class _HomeScreenUserState extends State<HomeScreenUser> {
                 ),
                 BottomNavigationBarItem(
                     label: "Near By",
-                    icon: Image.asset(AppImage.map,height: 25,width: 25,color: snapshot.selectedIndex == 1  ? AppColor.appColor : AppColor.black)
+                    icon: Image.asset(AppImage.restaurantLight,height: 25,width: 25,filterQuality: FilterQuality.high,color: snapshot.selectedIndex == 1  ? AppColor.appColor : AppColor.black)
                 ),
                 BottomNavigationBarItem(
                     label: "My Booking",

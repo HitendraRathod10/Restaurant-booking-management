@@ -172,7 +172,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   );
                                 }else{
                                   Provider.of<LoginProvider>(context,listen: false).
-                                  loginWithEmail(emailController.text, passwordController.text,context);
+                                  loginWithEmail(emailController.text.toLowerCase(), passwordController.text,context);
                                   Provider.of<LoginProvider>(context,listen: false).loginPswd = false;
                                 }
                               },

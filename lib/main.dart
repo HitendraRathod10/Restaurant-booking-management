@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -40,14 +41,6 @@ void main() async {
   // await PushNotificationService().setupInteractedMessage();
   await PushNotificationService().getNotification();
   runApp(const MyApp());
-  // await flutterLocalNotificationsPlugin
-  //     .resolvePlatformSpecificImplementation<
-  //     AndroidFlutterLocalNotificationsPlugin>()
-  //     ?.createNotificationChannel(channel);
-
-  // await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-  //   alert: true, badge: true, sound: true,
-  // );
   await FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? event) async {
     if (event != null) {
       if(event.data.values.first == "userToOwner"){
@@ -74,14 +67,8 @@ void main() async {
   var iOSSettings = const DarwinInitializationSettings(requestSoundPermission: false, requestBadgePermission: false, requestAlertPermission: false);
   var initSetttings = InitializationSettings(android: androidSettings, iOS: iOSSettings);
   flutterLocalNotificationsPlugin.initialize(initSetttings,onDidReceiveNotificationResponse: onSelectLocalNotification);
-  /*RemoteMessage? initialMessage =
-  await FirebaseMessaging.instance.getInitialMessage();
-  if (initialMessage != null) {
-    // App received a notification when it was killed
-  }*/
 }
 onSelectLocalNotification(payload) async {
-  // await flutterLocalNotificationsPlugin.cancelAll();
   debugPrint("onSelectLocalNotification main.dart");
   var queryUserRatingSnapshots = await FirebaseFirestore.instance.collection("User").
   where('email',isEqualTo: FirebaseAuth.instance.currentUser!.email).get();

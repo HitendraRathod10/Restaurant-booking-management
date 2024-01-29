@@ -42,7 +42,7 @@ class LoginProvider extends ChangeNotifier{
           await FirebaseFirestore.instance.
           collection("User").
           doc(FirebaseAuth.instance.currentUser!.email).set(({
-            "email" : FirebaseAuth.instance.currentUser!.email,
+            "email" : FirebaseAuth.instance.currentUser!.email!,
             "fcmToken" : token,
             "fullName" : i.doc.get('fullName'),
             "phone" : i.doc.get('phone'),
@@ -62,6 +62,7 @@ class LoginProvider extends ChangeNotifier{
 
       for(var i in queryUserRatingSnapshotsOne.docChanges){
         if(i.doc.get("userType") == "User"){
+          print("userType 0 :- ${i.doc.get("userType")}");
           Navigator.pushAndRemoveUntil(
               context, MaterialPageRoute(builder: (context) => const HomeScreenUser()),(route) => false);
         }
@@ -69,6 +70,8 @@ class LoginProvider extends ChangeNotifier{
 
       for(var i in queryUserRatingSnapshots.docChanges){
         if(i.doc.get("userType") == "Restaurant Owner"){
+          print("userType 1 :- ${i.doc.get("userType")}");
+
           Navigator.pushAndRemoveUntil(
               context, MaterialPageRoute(builder: (context) => const HomeScreenAdmin()),(route) => false);
         }

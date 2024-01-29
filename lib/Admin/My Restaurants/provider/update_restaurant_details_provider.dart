@@ -26,6 +26,7 @@ class UpdateRestaurantDetailsProvider extends ChangeNotifier{
   String? longitude;
   DocumentSnapshot? querySnapshots;
   String? urlDownloads;
+  bool isLoading = false;
 
   getData(String id)async{
     CollectionReference  collection = firebase.collection('User').doc(FirebaseAuth.instance.currentUser!.email).collection("My Restaurants");
@@ -64,15 +65,28 @@ class UpdateRestaurantDetailsProvider extends ChangeNotifier{
         type: FileType.image
     );
     if(result == null) return;
+    if(urlDownloads!="" && restaurantImageFile!=null){
+      urlDownloads = "";
+      restaurantImageFile = null;
+      notifyListeners();
+    }
+    isLoading =true;
+    notifyListeners();
     final filePath = result.files.single.path;
     File compressImage = await imageSizeCompress(image: File(filePath!));
     restaurantImageFile = compressImage;
     restaurantImageName = result.files.first.name;
     final destination = 'images/$restaurantImageName';
     debugPrint("restaurantImageName :- $restaurantImageName");
-    final ref = FirebaseStorage.instance.ref().child(destination).putFile(restaurantImageFile!);
-    final snapshot = await ref.whenComplete(() {});
-    urlDownloads = await snapshot.ref.getDownloadURL().whenComplete(() {});
+    try{
+      final ref = FirebaseStorage.instance.ref().child(destination).putFile(restaurantImageFile!);
+      final snapshot = await ref.whenComplete(() {});
+      urlDownloads = await snapshot.ref.getDownloadURL().whenComplete(() {});
+      isLoading = false;
+    }catch(e){
+      isLoading = false;
+    }
+    print("ISLOADING :- $isLoading");
     notifyListeners();
   }
 

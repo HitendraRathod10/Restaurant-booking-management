@@ -11,6 +11,7 @@ class AppImage{
   static const addRestaurant="assets/images/addRestaurant.png";
   static const home="assets/images/home.png";
   static const map="assets/images/map.png";
+  static const restaurantLight="assets/images/restaurant_light.png";
   static const mapTwo="assets/images/mapTwo.png";
   static const appointment="assets/images/appointment.png";
   // static const booking="assets/images/booking.png";

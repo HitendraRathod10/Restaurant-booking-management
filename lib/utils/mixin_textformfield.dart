@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../utils/app_color.dart';
 
@@ -27,9 +28,12 @@ class TextFieldMixin {
     InputBorder? focusedBorder,
     String? labelText,
     TextStyle? labelStyle,
-    TextStyle? textStyle
+    TextStyle? textStyle,
+    Function? onChanged,
+    List<TextInputFormatter>? inputFormatters,
   }) {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
           isDense: false,
           filled: true,
@@ -60,6 +64,9 @@ class TextFieldMixin {
           prefixIcon: prefixIcon,
           suffixIcon: suffixIcon
       ),
+      onChanged: (value) {
+        onChanged?.call(value);
+      },
       readOnly: readOnly,
       validator: validator,
       keyboardType: keyboardType,
@@ -69,6 +76,7 @@ class TextFieldMixin {
       obscureText: obscureText,
       maxLength: maxLength,
       style: textStyle,
+      inputFormatters: inputFormatters,
     );
   }
 }

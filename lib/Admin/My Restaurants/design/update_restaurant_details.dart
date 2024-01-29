@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
@@ -6,6 +7,7 @@ import 'package:restaurant_booking_management/Admin/My%20Restaurants/provider/up
 import '../../../utils/app_color.dart';
 import '../../../utils/app_font.dart';
 import '../../../utils/mixin_textformfield.dart';
+import '../../../utils/mixin_toast.dart';
 import '../../Add Restaurant/design/add_location_to_map_screen.dart';
 import '../../Add Restaurant/provider/current_location.dart';
 
@@ -29,6 +31,7 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
   }
+  RegExp emailRegex = RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$');
   final _formKey = GlobalKey<FormState>();
   @override
   void initState() {
@@ -75,12 +78,15 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
                         labelStyle: const TextStyle(color: AppColor.appColor),
                         // controller: restaurantNameController..text = data['fullName'],
                         controller: snapshot.restaurantNameController,
-                        maxLines: 5,
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(50)],
+                        onChanged: (value){
+                          _formKey.currentState!.validate();
+                        },
                         validator: (value) {
-                          if (value == null ||
-                              value.isEmpty ||
+                          if (value == null || value.isEmpty ||
                               value.trim().isEmpty) {
-                            return '* required';
+                            return 'Please enter a restaurant name';
                           }
                           return null;
                         },
@@ -94,12 +100,17 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
                         labelStyle: const TextStyle(color: AppColor.appColor),
                         // controller: restaurantNameController..text = data['fullName'],
                         controller: snapshot.foodController,
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(50)],
+                        onChanged: (value){
+                          _formKey.currentState!.validate();
+                        },
                         maxLines: 5,
                         validator: (value) {
                           if (value == null ||
                               value.isEmpty ||
                               value.trim().isEmpty) {
-                            return '* required';
+                            return 'Please enter a food';
                           }
                           return null;
                         },
@@ -113,12 +124,17 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
                         labelStyle: const TextStyle(color: AppColor.appColor),
                         // controller: restaurantNameController..text = data['fullName'],
                         controller: snapshot.phoneController,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          LengthLimitingTextInputFormatter(10)],
+                        keyboardType: TextInputType.number,
                         maxLines: 5,
+                        onChanged: (value){
+                          _formKey.currentState!.validate();
+                        },
                         validator: (value) {
-                          if (value == null ||
-                              value.isEmpty ||
-                              value.trim().isEmpty) {
-                            return '* required';
+                          if (value!.trim().isEmpty || value.length != 10 ) {
+                            return 'Please enter a 10-digit phone number';
                           }
                           return null;
                         },
@@ -132,12 +148,16 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
                         labelStyle: const TextStyle(color: AppColor.appColor),
                         // controller: restaurantNameController..text = data['fullName'],
                         controller: snapshot.emailController,
-                        maxLines: 5,
+                        onChanged: (value) {
+                          _formKey.currentState!.validate();
+                        },
                         validator: (value) {
-                          if (value == null ||
-                              value.isEmpty ||
-                              value.trim().isEmpty) {
-                            return '* required';
+                          if (value == null || value.isEmpty || value.trim().isEmpty) {
+                            return 'Please enter email address';
+                          } else if (value.contains(RegExp(r'[A-Z]'))) {
+                            return 'Please enter email in small letters';
+                          } else if (!emailRegex.hasMatch(value)) {
+                            return 'Enter a valid email address';
                           }
                           return null;
                         },
@@ -151,12 +171,14 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
                         labelStyle: const TextStyle(color: AppColor.appColor),
                         // controller: restaurantNameController..text = data['fullName'],
                         controller: snapshot.areaController,
-                        maxLines: 5,
+                        onChanged: (value) {
+                          _formKey.currentState!.validate();
+                        },
                         validator: (value) {
                           if (value == null ||
                               value.isEmpty ||
                               value.trim().isEmpty) {
-                            return '* required';
+                            return 'Please enter an area';
                           }
                           return null;
                         },
@@ -169,13 +191,17 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
                         labelText: 'City',
                         labelStyle: const TextStyle(color: AppColor.appColor),
                         // controller: restaurantNameController..text = data['fullName'],
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(25)],
                         controller: snapshot.cityController,
-                        maxLines: 5,
+                        onChanged: (value) {
+                          _formKey.currentState!.validate();
+                        },
                         validator: (value) {
                           if (value == null ||
                               value.isEmpty ||
                               value.trim().isEmpty) {
-                            return '* required';
+                            return 'Please enter a city';
                           }
                           return null;
                         },
@@ -189,12 +215,16 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
                         labelStyle: const TextStyle(color: AppColor.appColor),
                         // controller: restaurantNameController..text = data['fullName'],
                         controller: snapshot.stateController,
-                        maxLines: 5,
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(25)],
+                        onChanged: (value) {
+                          _formKey.currentState!.validate();
+                        },
                         validator: (value) {
                           if (value == null ||
                               value.isEmpty ||
                               value.trim().isEmpty) {
-                            return '* required';
+                            return 'Please enter the state';
                           }
                           return null;
                         },
@@ -228,7 +258,11 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
                                     ),
                                     width: MediaQuery.of(context).size.width/2.2,
                                     height: 120,
-                                    child: Image.network("${snapshot.image}",fit: BoxFit.fill),
+                                    child: snapshot.isLoading?Center(
+                                      child: const CircularProgressIndicator(
+                                        color: AppColor.appColor,
+                                      ),
+                                    ):Image.network("${snapshot.image}",fit: BoxFit.fill),
                                   ),
                                 ) :
                                 InkWell(
@@ -249,7 +283,9 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
                                     future: CurrentLocation.instance.currentLocation(),
                                     builder: (context, locationSnapshot) {
                                       if(!locationSnapshot.hasData){
-                                        return const CircularProgressIndicator();
+                                        return const CircularProgressIndicator(
+                                          color: AppColor.appColor,
+                                        );
                                       }else {
                                         markers.add(Marker(
                                           markerId: const MarkerId("1"),
@@ -332,11 +368,20 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
                         height: 30,
                       ),
                       InkWell(
-                        onTap: (){
-                          if(_formKey.currentState!.validate()){
-                            var data = Provider.of<UpdateRestaurantDetailsProvider>(context,listen: false);
-                            Provider.of<UpdateRestaurantDetailsProvider>(context,listen: false).
-                            updateInALLRestaurant(context,
+                        onTap: () {
+                          var data = Provider.of<UpdateRestaurantDetailsProvider>(context, listen: false);
+                          if (_formKey.currentState!.validate()) {
+                            // Check phone number length
+                            if (data.phoneController.text.length != 10) {
+                              // Handle the case where the phone number length is not equal to 10
+                              showToast(
+                                  toastMessage: "Phone number must be 10 digits"
+                              );
+                            } else {
+                              // Proceed with updating restaurant details
+                              Provider.of<UpdateRestaurantDetailsProvider>(context, listen: false)
+                                  .updateInALLRestaurant(
+                                context,
                                 data.restaurantNameController.text,
                                 data.foodController.text,
                                 data.phoneController.text,
@@ -345,17 +390,25 @@ class _UpdateRestaurantDetailsState extends State<UpdateRestaurantDetails> {
                                 data.cityController.text,
                                 data.stateController.text,
                                 data.websiteController.text,
-                                Provider.of<UpdateRestaurantDetailsProvider>(context,listen: false).restaurantImageFile == null ?
-                                Provider.of<UpdateRestaurantDetailsProvider>(context,listen: false).image.toString() :
-                                Provider.of<UpdateRestaurantDetailsProvider>(context,listen: false).urlDownloads.toString() ,
+                                Provider.of<UpdateRestaurantDetailsProvider>(context, listen: false)
+                                    .restaurantImageFile ==
+                                    null
+                                    ? Provider.of<UpdateRestaurantDetailsProvider>(context, listen: false)
+                                    .image
+                                    .toString()
+                                    : Provider.of<UpdateRestaurantDetailsProvider>(context, listen: false)
+                                    .urlDownloads
+                                    .toString(),
                                 data.latitude.toString(),
                                 data.longitude.toString(),
-                                widget.id!
-                            );
-                          }else{
-                            debugPrint("validation in update restaurant details screen");
+                                widget.id!,
+                              );
+                            }
+                          } else {
+                            debugPrint("Validation in update restaurant details screen");
                           }
                         },
+
                         child: Container(
                           // height: 50,
                           // width: 220,

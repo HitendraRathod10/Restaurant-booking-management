@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../../Login/design/reset_password.dart';
 import '../../../Signup/provider/signup_provider.dart';
@@ -75,7 +76,10 @@ class _EditProfileScreenUserState extends State<EditProfileScreenUser> {
                           TextFieldMixin().textFieldWidget(
                             textStyle: const TextStyle(fontFamily: AppFont.regular),
                             labelText: 'Phone',
-                            labelStyle: const TextStyle(color: AppColor.appColor),
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                                LengthLimitingTextInputFormatter(10)],
+                              labelStyle: const TextStyle(color: AppColor.appColor),
                             controller: phoneController..text = data['phone'],
                             keyboardType: TextInputType.phone,
                             maxLines: 5
@@ -83,16 +87,25 @@ class _EditProfileScreenUserState extends State<EditProfileScreenUser> {
                           const SizedBox(height: 35),
                           GestureDetector(
                               onTap: () async {
-                                if(fullNameController.text.isEmpty || emailController.text.isEmpty || phoneController.text.isEmpty){
+                                if(fullNameController.text.isEmpty || emailController.text.isEmpty || phoneController.text.isEmpty ||  phoneController.text.trim().length != 10){
                                   showToast(
-                                      toastMessage: "Please fill all required details"
+                                      toastMessage: phoneController.text.trim().length != 10?"Please fill 10 digits phone number":"Please fill all required details"
                                   );
                                 }else{
+                                  FocusScope.of(context).unfocus();
                                   var token = (await FirebaseMessaging.instance.getToken())!;
                                   if (!mounted) return;
                                   Provider.of<SignupProvider>(context,listen: false).
-                                  insertDataUser(fullNameController.text, emailController.text, phoneController.text, "User",token);
-                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const HomeScreenUser()));
+                                  insertDataUser(fullNameController.text, emailController.text.toLowerCase(), phoneController.text, "User",token).then((value) async {
+                                    if(value == true){
+                                      Navigator.pop(context);
+                                      await Future.delayed(const Duration(milliseconds: 500));
+                                      showToast(toastMessage: "Update Successfully");
+                                    }else{
+                                      showToast(toastMessage: "Failure Update");
+                                    }
+                                  });
+                                  // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const HomeScreenUser()));
                                 }
                               },
                               child: Container(
